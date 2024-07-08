@@ -5,6 +5,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from '@/components/ui/accordion'
+import { Link } from 'react-router-dom'
 
 function Navigation() {
     return (
@@ -13,10 +14,12 @@ function Navigation() {
                 <BiHomeAlt fontSize={'1.5rem'} />
                 Dashboard
             </h1>
-            <h1 className="flex items-center gap-2 text-lg font-light">
-                <BiPackage fontSize={'1.5rem'} />
-                Produk
-            </h1>
+            <Link to="/product/new">
+                <h1 className="flex items-center gap-2 text-lg font-light">
+                    <BiPackage fontSize={'1.5rem'} />
+                    Produk
+                </h1>
+            </Link>
             <h1 className="flex items-center gap-2 text-lg font-light">
                 <BiCart fontSize={'1.5rem'} />
                 Pesanan
