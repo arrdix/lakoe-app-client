@@ -6,7 +6,7 @@ interface CardBodyProps {
 
 export default function CardBody({ price, stock, sku }: CardBodyProps) {
     return (
-        <div className=" text-gray-50 flex gap-1">
+        <div className=" text-gray flex gap-1">
             <p className="text-black font-semibold">Rp. {price}</p>
             •
             <p>Stok: {stock}</p>

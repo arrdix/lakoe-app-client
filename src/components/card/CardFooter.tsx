@@ -1,4 +1,4 @@
-import { Button } from "../ui/button"
+import { Button } from "@/components/ui/button"
 import { BiLink } from "react-icons/bi";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 export default function CardFooter() {
