@@ -5,7 +5,7 @@ interface CardImageProps {
 export default function CardImage({ image }: CardImageProps) {
     return (
         <div>
-            <img className="w-24 h-24" src={image} alt="" />
+            <img className="w-full h-full object-contain" src={image} alt="" />
         </div>
     )
 }
