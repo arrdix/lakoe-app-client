@@ -1,8 +1,7 @@
+import Layout from '@/layouts/Layout'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-
-import Layout from './layouts/Layout'
-import HomePage from './pages/HomePage'
+import HomePage from '@/pages/HomePage'
 
 function App() {
     return (
