@@ -1,8 +1,5 @@
 import { Textarea } from "@/components/ui/textarea"
 import { BiImageAdd } from "react-icons/bi";
-import { Button } from "@/components/ui/button"
-import { IoIosAddCircleOutline } from "react-icons/io";
-
 function NewProductPage() {
     return (
         <div className="w-full h-full bg-lightGray p-8">
@@ -74,19 +71,8 @@ function NewProductPage() {
             </div>
 
             {/* Varian Produk */}
-            <div className="w-full bg-white rounded-lg p-8 flex items-center">
-                <div className="flex flex-col">
-                    <h1 className="text-black text-xl font-bold mb-4">Varian Produk</h1>
-                    <p className="text-gray">Tambah varian agar pembelian dapat memilih produk yang sesuai, yuk!</p>
-                </div>
-                <div className="items-center justify-center">
-                    <Button variant="outline">
-                        <IoIosAddCircleOutline className="mr-2 size-5" />
-                        <p>
-                            Tambah Varian
-                        </p>
-                    </Button>
-                </div>
+            <div className="w-full bg-white rounded-lg p-8">
+                <h1 className="text-black text-xl font-bold mb-4">Detail Produk</h1>
             </div>
         </div>
     )

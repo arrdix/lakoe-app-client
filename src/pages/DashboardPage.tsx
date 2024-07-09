@@ -4,7 +4,7 @@ import { BiPlus } from "react-icons/bi";
 import Tabs from "@/components/product/Tabs";
 import { Input } from "@/components/ui/input";
 
-function HomePage() {
+function DashboardPage() {
   return (
     <div className="w-full h-full bg-white p-8">
       <div className="flex justify-between">
@@ -38,4 +38,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default DashboardPage;
