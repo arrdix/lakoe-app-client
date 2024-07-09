@@ -1,27 +1,32 @@
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface TabsProps {
     firstTab: string
     secondTab: string
     thirdTab: string
+    onTabChange: (activeTab: string) => void
 }
 
-export default function Tabs({ firstTab, secondTab, thirdTab }: TabsProps) {
-    const [buttonActive, setButtonActive] = useState<string>(firstTab)
+export default function Tabs({ firstTab, secondTab, thirdTab, onTabChange }: TabsProps) {
+    const [activeTab, setActiveTab] = useState<string>(firstTab)
+
+    useEffect(() => {
+        onTabChange(activeTab)
+    }, [activeTab])
 
     return (
         <div className="flex gap-8 w-full border-b-2 border-gray-100">
             <div className="w-auto flex flex-col">
                 <Button
                     className={`bg-white rounded-none hover:bg-white p-0 ${
-                        buttonActive === firstTab ? 'text-cyan' : 'text-black'
+                        activeTab === firstTab ? 'text-cyan' : 'text-black'
                     }`}
-                    onClick={() => setButtonActive(firstTab)}
+                    onClick={() => setActiveTab(firstTab)}
                 >
                     {firstTab}
                 </Button>
-                {buttonActive === firstTab && (
+                {activeTab === firstTab && (
                     <div className="w-full bg-cyan h-1 rounded-full w-"></div>
                 )}
             </div>
@@ -29,29 +34,25 @@ export default function Tabs({ firstTab, secondTab, thirdTab }: TabsProps) {
             <div className="w-auto flex flex-col">
                 <Button
                     className={`bg-white rounded-none hover:bg-white p-0 ${
-                        buttonActive === secondTab ? 'text-cyan' : 'text-black'
+                        activeTab === secondTab ? 'text-cyan' : 'text-black'
                     }`}
-                    onClick={() => setButtonActive(secondTab)}
+                    onClick={() => setActiveTab(secondTab)}
                 >
                     {secondTab}
                 </Button>
-                {buttonActive === secondTab && (
-                    <div className="w-full bg-cyan h-1 rounded-full"></div>
-                )}
+                {activeTab === secondTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
             </div>
 
             <div className="w-auto flex flex-col">
                 <Button
                     className={`bg-white rounded-none hover:bg-white p-0 ${
-                        buttonActive === thirdTab ? 'text-cyan' : 'text-black'
+                        activeTab === thirdTab ? 'text-cyan' : 'text-black'
                     }`}
-                    onClick={() => setButtonActive(thirdTab)}
+                    onClick={() => setActiveTab(thirdTab)}
                 >
                     {thirdTab}
                 </Button>
-                {buttonActive === thirdTab && (
-                    <div className="w-full bg-cyan h-1 rounded-full"></div>
-                )}
+                {activeTab === thirdTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
             </div>
         </div>
     )

@@ -70,6 +70,7 @@ export const theme = {
             gray: '#909090',
             lightGray: '#F8F8F8',
             cyan: '#0086B4',
+            green: '#008229',
             dev: '#9e0000',
         },
         borderRadius: {
