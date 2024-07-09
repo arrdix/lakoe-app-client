@@ -2,7 +2,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { BiImageAdd } from 'react-icons/bi'
 function NewProductPage() {
     return (
-        <div className="w-full h-full bg-lightGray p-8">
+        <div className="w-full h-full bg-lightgray p-8">
             {/* Informasi Produk */}
             <div className="w-full bg-white rounded-lg p-8">
                 <h1 className="text-black text-xl font-bold mb-4">Informasi Produk</h1>

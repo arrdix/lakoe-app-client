@@ -1,20 +1,46 @@
 import { Button } from "@/components/ui/button";
 
 interface CardOrderProps {
-    status?: string
-    invoice?: string
-    text?: string
-    tshirt?: string
-    stock?: string
-    price?: string
+    status?: string;
+    invoice?: string;
+    text?: string;
+    tshirt?: string;
+    stock?: string;
+    price?: string;
 }
+
 export default function CardOrder({ status, invoice, text, tshirt, stock, price }: CardOrderProps) {
+    let statusColor;
+
+    switch (status) {
+        case "Belum Dibayar":
+            statusColor = "bg-yellow-400";
+            break;
+        case "Pesanan Baru":
+            statusColor = "bg-green-600 text-white";
+            break;
+        case "Siap Dikirim":
+            statusColor = "bg-blue-600 text-white";
+            break;
+        case "Dalam Pengiriman":
+            statusColor = "bg-orange-600 text-white";
+            break;
+        case "Pesanan Selesai":
+            statusColor = "bg-lightgray";
+            break;
+        case "Dibatalkan":
+            statusColor = "bg-red-600 text-white";
+            break;
+        default:
+            statusColor = "bg-gray-200";
+    }
+
     return (
         <div>
-            <div className="border rounded flex flex-col gap-3">
+            <div className="border border-lightgray rounded flex flex-col gap-3">
                 <div className="flex justify-between border-b p-3">
                     <div className="flex flex-col gap-1">
-                        <p className="bg-yellow-400 w-fit font-semibold rounded p-1 text-sm">{status}</p>
+                        <p className={`${statusColor} w-fit font-semibold rounded p-1 text-sm`}>{status}</p>
                         <p className="text-gray text-sm">{invoice}</p>
                     </div>
                     <div>
@@ -36,5 +62,5 @@ export default function CardOrder({ status, invoice, text, tshirt, stock, price 
                 </div>
             </div>
         </div>
-    )
+    );
 }
