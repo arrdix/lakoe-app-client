@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 
 function Navigation() {
     return (
-        <div className="flex flex-col gap-6 w-full h-screen px-10 py-12">
+        <div className="flex flex-col gap-6 w-full h-full px-10 py-12">
             <h1 className="flex items-center gap-2 text-lg font-light">
                 <BiHomeAlt fontSize={'1.5rem'} />
                 Dashboard
