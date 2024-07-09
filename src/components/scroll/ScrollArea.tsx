@@ -1,38 +1,116 @@
-export default function ScrollArea() {
+import { Button } from '@/components/ui/button'
+import { useEffect, useState } from 'react'
+
+interface ScrollAreaProps {
+    allTab: string
+    firstTab: string
+    secondTab: string
+    thirdTab: string
+    fourthTab: string
+    fifthTab: string
+    sixthTab: string
+    onTabChange: (activeTab: string) => void
+}
+
+export default function ScrollArea({ allTab, firstTab, secondTab, thirdTab, fourthTab, fifthTab, sixthTab, onTabChange }: ScrollAreaProps) {
+    const [activeTab, setActiveTab] = useState<string>(firstTab)
+
+    useEffect(() => {
+        onTabChange(activeTab)
+    }, [activeTab])
+
     return (
-        <div className="text-sm font-medium text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-            <div className="w-full overflow-x-auto scrollbar-hide">
-                <ul className="flex flex-nowrap whitespace-nowrap gap-10">
-                    <li className="flex justify-end">
-                        <a href="#" className="inline-block py-3 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" aria-current="page">Semua</a>
-                    </li>
-                    <li className="flex justify-end">
-                        <a href="#" className="items-center gap-2 inline-block py-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-1">1</span>
-                            Belum Bayar
-                        </a>
-                    </li>
-                    <li className="flex justify-end">
-                        <a href="#" className="items-center gap-2 inline-block py-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-1">1</span>
-                            Pesanan Baru
-                        </a>
-                    </li>
-                    <li className="flex justify-end">
-                        <a href="#" className="items-center gap-2 inline-block py-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-1">1</span>
-                            Siap Dikirim
-                        </a>
-                    </li>
-                    <li className="flex justify-end">
-                        <a href="#" className="items-center gap-2 inline-block py-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-1">1</span>
-                            Dalam Pengiriman
-                        </a>
-                    </li>
-                </ul>
+        <div className="flex gap-8 w-full border-b border-gray-100 overflow-x-auto scrollbar-hide">
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${activeTab === allTab ? 'text-cyan' : 'text-black'
+                        }`}
+                    onClick={() => setActiveTab(allTab)}
+                >
+                    {allTab}
+                </Button>
+
+                {activeTab === allTab && (
+                    <div className="w-full bg-cyan h-1 rounded-full w-"></div>
+                )}
+            </div>
+
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${activeTab === firstTab ? 'text-cyan' : 'text-black'
+                        }`}
+                    onClick={() => setActiveTab(firstTab)}
+                >
+                    <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2 text-xs">1</span>
+                    {firstTab}
+                </Button>
+                {activeTab === firstTab && (
+                    <div className="w-full bg-cyan h-1 rounded-full w-"></div>
+                )}
+            </div>
+
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${activeTab === secondTab ? 'text-cyan' : 'text-black'
+                        }`}
+                    onClick={() => setActiveTab(secondTab)}
+                >
+                    <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2 text-xs">1</span>
+                    {secondTab}
+                </Button>
+                {activeTab === secondTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
+            </div>
+
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${activeTab === thirdTab ? 'text-cyan' : 'text-black'
+                        }`}
+                    onClick={() => setActiveTab(thirdTab)}
+                >
+                    <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2 text-xs">1</span>
+                    {thirdTab}
+                </Button>
+                {activeTab === thirdTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
+            </div>
+
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${activeTab === fourthTab ? 'text-cyan' : 'text-black'
+                        }`}
+                    onClick={() => setActiveTab(fourthTab)}
+                >
+                    <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2 text-xs">1</span>
+
+                    {fourthTab}
+                </Button>
+                {activeTab === fourthTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
+            </div>
+
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${activeTab === fifthTab ? 'text-cyan' : 'text-black'
+                        }`}
+                    onClick={() => setActiveTab(fifthTab)}
+                >
+                    <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2 text-xs">1</span>
+
+                    {thirdTab}
+                </Button>
+                {activeTab === fifthTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
+            </div>
+
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${activeTab === sixthTab ? 'text-cyan' : 'text-black'
+                        }`}
+                    onClick={() => setActiveTab(sixthTab)}
+                >
+                    <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2 text-xs">1</span>
+
+                    {sixthTab}
+                </Button>
+                {activeTab === sixthTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
             </div>
         </div>
-
     )
 }
