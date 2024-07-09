@@ -20,7 +20,7 @@ export default function OrderPage() {
             </div>
             <div className="flex flex-row gap-3 w-full">
               <div className="w-2/4">
-                <Input className="pl-10 border-lightGray rounded-md w-full" placeholder="Cari Pesanan" />
+                <Input className="pl-10 rounded-md w-full" placeholder="Cari Pesanan" />
               </div>
               <div className="w-1/4">
                 <FilterOrder text="Kurir" />
@@ -34,8 +34,11 @@ export default function OrderPage() {
 
         {/* Card Item */}
         <CardOrder status="Belum Dibayar" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
-        <CardOrder status="Belum Dibayar" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
-        <CardOrder status="Belum Dibayar" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
+        <CardOrder status="Pesanan Baru" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
+        <CardOrder status="Siap Dikirim" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
+        <CardOrder status="Dalam Pengiriman" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
+        <CardOrder status="Pesanan Selesai" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
+        <CardOrder status="Dibatalkan" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
 
       </div>
     </div>

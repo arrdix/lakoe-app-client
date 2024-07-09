@@ -8,25 +8,25 @@ export default function ScrollArea() {
                     </li>
                     <li className="flex justify-end">
                         <a href="#" className="items-center gap-2 inline-block py-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-1">1</span>
+                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2">1</span>
                             Belum Bayar
                         </a>
                     </li>
                     <li className="flex justify-end">
                         <a href="#" className="items-center gap-2 inline-block py-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-1">1</span>
+                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2">1</span>
                             Pesanan Baru
                         </a>
                     </li>
                     <li className="flex justify-end">
                         <a href="#" className="items-center gap-2 inline-block py-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-1">1</span>
+                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2">1</span>
                             Siap Dikirim
                         </a>
                     </li>
                     <li className="flex justify-end">
                         <a href="#" className="items-center gap-2 inline-block py-3 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
-                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-1">1</span>
+                            <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2">1</span>
                             Dalam Pengiriman
                         </a>
                     </li>
