@@ -94,7 +94,10 @@ export const theme = {
   },
 };
 // eslint-disable-next-line no-undef
-export const plugins = [require("tailwindcss-animate")];
+export const plugins = [
+  require("tailwind-scrollbar-hide"),
+  require("tailwindcss-animate"),
+];
 // theme: {
 //         colors: {
 //             transparent: 'transparent',

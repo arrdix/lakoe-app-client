@@ -9,7 +9,7 @@ function Layout() {
                 <div className="basis-1/5">
                     <Navigation />
                 </div>
-                <div className="basis-3/5">
+                <div className="basis-3/5 overflow-x-hidden">
                     <Outlet />
                 </div>
                 <div className="basis-1/5"></div>
