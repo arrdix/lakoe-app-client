@@ -1,16 +1,33 @@
 import { Input } from "@/components/ui/input"
 import { BiSearchAlt } from "react-icons/bi";
-import ScrollArea from "@/components/scroll/ScrollArea";
 import FilterOrder from "@/components/filter/FilterOrder";
 import CardOrder from "@/components/card/CardOrder";
+import { useState } from "react";
+import ScrollArea from "@/components/scroll/ScrollArea";
 
 export default function OrderPage() {
+  const [activeTab, setActiveTab] = useState<string>("Semua")
+
+  function onTabChange(activeTab: string) {
+    setActiveTab(activeTab)
+  }
+
   return (
     <div className="w-full h-full bg-lightGray p-8">
       <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
         <h1 className="text-xl font-bold">Daftar Pesanan</h1>
+
         {/* Tabs */}
-        <ScrollArea />
+        <ScrollArea
+          allTab="Semua"
+          firstTab="Belum Dibayar"
+          secondTab="Pesanan Baru"
+          thirdTab="Siap Dikirim"
+          fourthTab="Dalam Pengiriman"
+          fifthTab="Pesanan Selesai"
+          sixthTab="Dibatalkan"
+          onTabChange={onTabChange}
+        />
 
         {/* Input and Filter */}
         <div>
