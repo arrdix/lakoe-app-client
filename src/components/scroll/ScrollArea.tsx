@@ -20,7 +20,7 @@ export default function ScrollArea({ allTab, firstTab, secondTab, thirdTab, four
     }, [activeTab])
 
     return (
-        <div className="flex gap-8 w-full border-b-2 border-gray-100 overflow-x-auto scrollbar-hide">
+        <div className="flex gap-8 w-full border-b border-gray-100 overflow-x-auto scrollbar-hide">
             <div className="w-auto flex flex-col">
                 <Button
                     className={`bg-white rounded-none hover:bg-white p-0 ${activeTab === allTab ? 'text-cyan' : 'text-black'
@@ -80,6 +80,7 @@ export default function ScrollArea({ allTab, firstTab, secondTab, thirdTab, four
                     onClick={() => setActiveTab(fourthTab)}
                 >
                     <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2 text-xs">1</span>
+
                     {fourthTab}
                 </Button>
                 {activeTab === fourthTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
@@ -92,6 +93,7 @@ export default function ScrollArea({ allTab, firstTab, secondTab, thirdTab, four
                     onClick={() => setActiveTab(fifthTab)}
                 >
                     <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2 text-xs">1</span>
+
                     {thirdTab}
                 </Button>
                 {activeTab === fifthTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
@@ -104,6 +106,7 @@ export default function ScrollArea({ allTab, firstTab, secondTab, thirdTab, four
                     onClick={() => setActiveTab(sixthTab)}
                 >
                     <span className="bg-cyan text-white py-1 px-2.5 rounded-full mr-2 text-xs">1</span>
+
                     {sixthTab}
                 </Button>
                 {activeTab === sixthTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}

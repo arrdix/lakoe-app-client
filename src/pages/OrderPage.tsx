@@ -13,7 +13,7 @@ export default function OrderPage() {
   }
 
   return (
-    <div className="w-full h-full bg-lightGray p-8">
+    <div className="w-full h-full bg-lightergray p-8">
       <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
         <h1 className="text-xl font-bold">Daftar Pesanan</h1>
 
