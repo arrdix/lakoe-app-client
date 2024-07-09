@@ -16,7 +16,7 @@ export default function Tabs({ firstTab, secondTab, thirdTab, onTabChange }: Tab
     }, [activeTab])
 
     return (
-        <div className="flex gap-8 w-full border-b-2 border-gray-100">
+        <div className="flex gap-8 w-full border-b border-gray-100">
             <div className="w-auto flex flex-col">
                 <Button
                     className={`bg-white rounded-none hover:bg-white p-0 ${

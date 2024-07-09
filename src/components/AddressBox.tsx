@@ -6,7 +6,7 @@ interface AddressBoxProps {
 
 function AddressBox({ isMainAddress }: AddressBoxProps) {
     return (
-        <div className="flex border-2 border-lightgray rounded-md p-4">
+        <div className="flex border border-lightGray rounded-md p-4">
             <div className="flex flex-col gap-2 w-1/5">
                 <p className="text-sm font-light">Nama Lokasi</p>
                 <p className="text-sm font-light">Alamat</p>
@@ -24,10 +24,10 @@ function AddressBox({ isMainAddress }: AddressBoxProps) {
                             </span>
                         )}
                     </p>
-                    <div className="rounded-full border-2 border-gray p-1 ml-auto mr-1 text-xs">
+                    <div className="rounded-full border border-gray p-1 ml-auto mr-1 text-xs">
                         <FaRegTrashCan />
                     </div>
-                    <div className="rounded-full border-2 border-gray p-1 text-xs">
+                    <div className="rounded-full border border-gray p-1 text-xs">
                         <FaPencil />
                     </div>
                 </div>

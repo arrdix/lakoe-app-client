@@ -1,5 +1,5 @@
-import { Textarea } from "@/components/ui/textarea"
-import { BiImageAdd } from "react-icons/bi";
+import { Textarea } from '@/components/ui/textarea'
+import { BiImageAdd } from 'react-icons/bi'
 function NewProductPage() {
     return (
         <div className="w-full h-full bg-lightGray p-8">
@@ -15,7 +15,7 @@ function NewProductPage() {
                             type="text"
                             id="productName"
                             placeholder="Baju Spiderman - Hitam"
-                            className="border-2 border-gray-200 rounded-md h-10 pl-2 text-sm"
+                            className="border border-gray-200 rounded-md h-10 pl-2 text-sm"
                         />
                     </div>
                     <div className="flex flex-col gap-1">
@@ -26,7 +26,7 @@ function NewProductPage() {
                             type="text"
                             id="productName"
                             placeholder="baju-spiderman-hitam"
-                            className="border-2 border-gray-200 rounded-md h-10 pl-2 text-sm"
+                            className="border border-gray-200 rounded-md h-10 pl-2 text-sm"
                         />
                     </div>
                     <div className="flex flex-col gap-1">
