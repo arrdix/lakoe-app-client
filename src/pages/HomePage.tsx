@@ -9,7 +9,7 @@ function HomePage() {
     <div className="w-full h-full bg-white p-8">
       <div className="flex justify-between">
         <h3 className="font-bold text-xl">Daftar Produk</h3>
-        <Button className="p-3 rounded-3xl bg-cyan-600">
+        <Button className="p-3 rounded-3xl bg-cyan">
           {" "}
           <BiPlus className="mr-1" /> Tambahkan Produk
         </Button>

@@ -10,21 +10,21 @@ export default function Tabs() {
       <div className="w-auto flex flex-col">
         <Button
           className={`bg-white rounded-none mx-4 hover:bg-white p-0 ${
-            buttonActive === "semua" ? "text-cyan-600" : "text-black"
+            buttonActive === "semua" ? "text-cyan" : "text-black"
           }`}
           onClick={() => setButtonActive("semua")}
         >
           Semua
         </Button>
         {buttonActive === "semua" && (
-          <div className="mx-auto w-3/5 bg-cyan-600 h-1 rounded-full w-"></div>
+          <div className="mx-auto w-3/5 bg-cyan h-1 rounded-full w-"></div>
         )}
       </div>
 
       <div className="w-auto flex flex-col">
         <Button
           className={`bg-white rounded-none mx-4 hover:bg-white p-0 ${
-            buttonActive === "aktif" ? "text-cyan-600" : "text-black"
+            buttonActive === "aktif" ? "text-cyan" : "text-black"
           }`}
           onClick={() => setButtonActive("aktif")}
         >
