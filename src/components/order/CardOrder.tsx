@@ -26,7 +26,7 @@ export default function CardOrder({ status, invoice, text, tshirt, stock, price 
             statusColor = "bg-orange-600 text-white";
             break;
         case "Pesanan Selesai":
-            statusColor = "bg-lightgray";
+            statusColor = "bg-lightGray";
             break;
         case "Dibatalkan":
             statusColor = "bg-red-600 text-white";
@@ -37,7 +37,7 @@ export default function CardOrder({ status, invoice, text, tshirt, stock, price 
 
     return (
         <div>
-            <div className="border border-lightgray rounded flex flex-col gap-3">
+            <div className="border border-lightGray rounded flex flex-col gap-3">
                 <div className="flex justify-between border-b p-3">
                     <div className="flex flex-col gap-1">
                         <p className={`${statusColor} w-fit font-semibold rounded p-1 text-sm`}>{status}</p>
