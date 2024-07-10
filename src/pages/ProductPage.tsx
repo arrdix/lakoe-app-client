@@ -26,38 +26,41 @@ function ProductPage() {
 
   return (
     <div className="w-full h-full bg-lightergray p-8">
-            <div className="w-full h-full bg-white rounded-lg p-8">
-        <h3 className="font-bold text-xl">Daftar Produk</h3>
-        <Link to="/product/new">
-          <Button className="p-3 rounded-3xl bg-cyan">
-            <BiPlus className="mr-1" /> Tambahkan Produk
-          </Button>
-        </Link>
+      <div className="w-full h-full bg-white rounded-lg p-8">
+        <div className="flex justify-between">
+          <h3 className="font-bold text-xl">Daftar Produk</h3>
+          <Link to="/product/new">
+            <Button className="p-3 rounded-3xl bg-cyan">
+              <BiPlus className="mr-1" /> Tambahkan Produk
+            </Button>
+          </Link>
+        </div>
+
+        <Tabs
+          firstTab="semua"
+          secondTab="aktif"
+          thirdTab="nonaktif"
+          onTabChange={onTabChange}
+        />
+        {activeTab === "semua" ? (
+          <ProductList
+            tabOptions="semua"
+            productList={dummyProduct}
+          ></ProductList>
+        ) : activeTab === "aktif" ? (
+          <ProductList
+            tabOptions="aktif"
+            productList={activeProduct}
+          ></ProductList>
+        ) : (
+          <ProductList
+            tabOptions="nonaktif"
+            productList={nonActiveProduct}
+          ></ProductList>
+        )}
       </div>
-      <Tabs
-        firstTab="semua"
-        secondTab="aktif"
-        thirdTab="nonaktif"
-        onTabChange={onTabChange}
-      />
-      {activeTab === "semua" ? (
-        <ProductList
-          tabOptions="semua"
-          productList={dummyProduct}
-        ></ProductList>
-      ) : activeTab === "aktif" ? (
-        <ProductList
-          tabOptions="aktif"
-          productList={activeProduct}
-        ></ProductList>
-      ) : (
-        <ProductList
-          tabOptions="nonaktif"
-          productList={nonActiveProduct}
-        ></ProductList>
-      )}
     </div>
   );
 }
 
-export default ProductPage
+export default ProductPage;

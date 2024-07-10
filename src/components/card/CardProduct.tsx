@@ -13,7 +13,7 @@ export default function Card({ product }: { product: ProductType }) {
       </div>
       <div className="flex flex-col gap-1 w-full">
         <CardHeader text={product.NameProduct} />
-        <CardBody price={product.price} stock={20} sku={product.SKU}></CardBody>
+        <CardBody price={product.price} stock={product.stock} sku={product.SKU}></CardBody>
         <CardFooter />
       </div>
       <div>

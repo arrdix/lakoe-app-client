@@ -16,7 +16,7 @@ export default function CardSide({
   return (
     <div className="w-full h-full flex flex-col justify-between items-center">
       <div className="pt-1">
-        <Checkbox />
+        <Checkbox checked={true}/>
       </div>
       <div>
         <div className="flex items-center space-x-2">
