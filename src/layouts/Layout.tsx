@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom'
 function Layout() {
     return (
         <div className="h-screen">
-            <Toaster className='bottom-81.5% left-1/2 -translate-x-1/2' />
             <div className="flex items-center py-4 px-8 w-full h-16 border border-gray-100 bg-white z-10 fixed">
                 <h1 className="text-3xl font-extrabold text-cyan">
                     Lakoe
@@ -20,6 +19,7 @@ function Layout() {
                     <Outlet />
                 </div>
             </div>
+            <Toaster className='bottom-81.5% left-1/2 -translate-x-1/2' />
         </div>
     )
 }
