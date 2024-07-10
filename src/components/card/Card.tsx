@@ -2,10 +2,9 @@ import CardHeader from "./CardHeader";
 import CardBody from "./CardBody";
 import CardFooter from "./CardFooter";
 import CardImage from "./CardImage";
-import CardSide from "./CardSide";
-import React from "react";
 
-export default function Card({ isActive }: { isActive: boolean }) {
+
+export default function Card() {
   return (
     <div className="flex flex-row gap-3 rounded-md shadow p-2 w-full">
       <div className="w-32">
@@ -17,7 +16,7 @@ export default function Card({ isActive }: { isActive: boolean }) {
         <CardFooter />
       </div>
       <div>
-        <CardSide isActive={isActive} />
+      
       </div>
     </div>
   );

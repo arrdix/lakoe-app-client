@@ -3,37 +3,40 @@ import { Switch } from "../ui/switch";
 import { useState } from "react";
 import AktifProductModal from "../product/AktifProductModal";
 import NonaktifProductModal from "../product/NonaktifProductModal";
+import { CheckedState } from "@radix-ui/react-checkbox";
 
 export default function CardSide({
   isActive,
+  isChecked,
+  onCheckedChange,
 }: {
   isActive: boolean;
+  isChecked: boolean;
+  onCheckedChange: ((checked: CheckedState) => void) | undefined;
 }) {
-  const [isChecked, setIsChecked] = useState<boolean>(isActive);
+  const [isToggleChecked, setIsToggleChecked] = useState<boolean>(isActive);
   const [isAktifModalView, setIsAktifModalView] = useState<boolean>(false);
   const [isNonaktifModalView, setIsNonaktifModalView] =
     useState<boolean>(false);
+
   return (
     <div className="w-full h-full flex flex-col justify-between items-center">
       <div className="pt-1">
-        <Checkbox checked={true}/>
+        <Checkbox checked={isChecked} onCheckedChange={onCheckedChange} />
       </div>
       <div>
         <div className="flex items-center space-x-2">
           <Switch
-            checked={isChecked}
+            checked={isToggleChecked}
             onCheckedChange={() => {
-              setIsChecked(!isChecked);
-              if (isChecked) {
+              setIsToggleChecked(!isToggleChecked);
+              if (isToggleChecked) {
                 setIsAktifModalView(true);
                 setIsNonaktifModalView(false);
               } else {
                 setIsAktifModalView(false);
                 setIsNonaktifModalView(true);
               }
-              console.log(isChecked);
-              console.log(`aktifmodal= ${isAktifModalView}`);
-              console.log(`nonaktifmodal= ${isNonaktifModalView}`);
             }}
             id="airplane-mode"
           />
