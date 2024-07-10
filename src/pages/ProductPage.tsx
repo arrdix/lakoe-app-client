@@ -9,6 +9,11 @@ import NonaktifProductsModal from "@/components/product/NonaktifProductsModal";
 import { Checkbox } from "@/components/ui/checkbox";
 
 function ProductPage() {
+
+  function onTabChange(activeTab:string) {
+    console.log(activeTab)
+  }
+
   return (
     <div className="w-full h-full bg-white p-8">
       <div className="flex justify-between">
@@ -19,7 +24,7 @@ function ProductPage() {
           </Button>
         </Link>
       </div>
-      <Tabs />
+      <Tabs firstTab="Semua" secondTab="Aktif" thirdTab="Nonaktif" onTabChange={onTabChange} />
       <ProductFilter />
 
       <div className="w-full bg-white rounded-lg flex justify-between pr-6">
