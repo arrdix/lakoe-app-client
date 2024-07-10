@@ -4,8 +4,12 @@ import { useState } from "react";
 import AktifProductModal from "../product/AktifProductModal";
 import NonaktifProductModal from "../product/NonaktifProductModal";
 
-export default function CardSide() {
-  const [isChecked, setIsChecked] = useState<boolean>(true);
+export default function CardSide({
+  isActive,
+}: {
+  isActive: boolean;
+}) {
+  const [isChecked, setIsChecked] = useState<boolean>(isActive);
   const [isAktifModalView, setIsAktifModalView] = useState<boolean>(false);
   const [isNonaktifModalView, setIsNonaktifModalView] =
     useState<boolean>(false);
@@ -17,6 +21,7 @@ export default function CardSide() {
       <div>
         <div className="flex items-center space-x-2">
           <Switch
+            checked={isChecked}
             onCheckedChange={() => {
               setIsChecked(!isChecked);
               if (isChecked) {
