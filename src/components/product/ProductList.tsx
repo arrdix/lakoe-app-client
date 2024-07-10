@@ -1,6 +1,5 @@
 import React from 'react'
-import Card from '../card/Card'
-
+import Card from '../card/CardProduct'
 export default function ProductList () {
   return (
     <div>

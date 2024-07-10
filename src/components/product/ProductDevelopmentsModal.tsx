@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import DeleteProductModal from "./DeleteProductModal";
 import NonaktifProductModal from "./NonaktifProductModal";
 
 export default function ProductDevelopmentsModal() {
