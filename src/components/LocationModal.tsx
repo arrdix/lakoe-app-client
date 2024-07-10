@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Button } from '@/components/ui/button'
-
+import { IoMdClose } from 'react-icons/io'
 interface LocationModalProps {
     isOpen: boolean
     onModalClose: () => void
@@ -44,11 +44,14 @@ export default function LocationModal({ isOpen, onModalClose }: LocationModalPro
                                     <div className="flex flex-col gap-4 w-full mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                         <DialogTitle
                                             as="h3"
-                                            className="text-base font-semibold leading-6 text-gray-900"
+                                            className="flex justify-between text-base font-semibold leading-6 text-gray-900"
                                         >
                                             <h2 className="text-black text-lg font-bold">
                                                 Tambah Lokasi Baru
                                             </h2>
+                                            <Button className="text-xs bg-transparent border border-gray text-black p-4">
+                                                <IoMdClose />
+                                            </Button>
                                         </DialogTitle>
                                         <div className="w-full h-full">
                                             <div className="flex flex-col gap-1">
