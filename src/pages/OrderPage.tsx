@@ -1,9 +1,9 @@
 import { Input } from "@/components/ui/input"
 import { BiSearchAlt } from "react-icons/bi";
-import FilterOrder from "@/components/filter/FilterOrder";
+import FilterOrder from "@/components/order/FilterOrder";
 import CardOrder from "@/components/card/CardOrder";
 import { useState } from "react";
-import ScrollArea from "@/components/scroll/ScrollArea";
+import ScrollArea from "@/components/order/ScrollArea";
 
 export default function OrderPage() {
   const [activeTab, setActiveTab] = useState<string>("Semua")

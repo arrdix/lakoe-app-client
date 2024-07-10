@@ -69,7 +69,7 @@ export const theme = {
       black: "#2e2e2e",
       gray: "#909090",
       lightergray: "#F8F8F8",
-      lightgray: "#E3E3E3",
+      lightGray: "#E3E3E3",
       cyan: "#0086B4",
       dev: "#9e0000",
     },
