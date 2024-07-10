@@ -1,18 +1,28 @@
-import ProductFilter from "@/components/product/ProductFilter";
 import { Button } from "@/components/ui/button";
 import { BiPlus } from "react-icons/bi";
 import Tabs from "@/components/product/Tabs";
 import { Link } from "react-router-dom";
 import ProductList from "@/components/product/ProductList";
-import DeleteProductsModal from "@/components/product/DeleteProductsModal";
-import NonaktifProductsModal from "@/components/product/NonaktifProductsModal";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+import dummyProduct from "@/dummy/productDummy";
+
+const activeProduct = dummyProduct.filter((product) => {
+  return product.status === "aktif";
+});
+
+const nonActiveProduct = dummyProduct.filter((product) => {
+  return product.status === "nonaktif";
+});
 
 function ProductPage() {
+  const [activeTab, setactiveTabOption] = useState<string>("semua");
 
-  function onTabChange(activeTab:string) {
-    console.log(activeTab)
+  function onTabChange(activeTab: string) {
+    console.log(activeTab);
+    setactiveTabOption(activeTab);
   }
+
+  console.log(`optionTab = ${activeTab}`);
 
   return (
     <div className="w-full h-full bg-white p-8">
@@ -24,33 +34,28 @@ function ProductPage() {
           </Button>
         </Link>
       </div>
-      <Tabs firstTab="Semua" secondTab="Aktif" thirdTab="Nonaktif" onTabChange={onTabChange} />
-      <ProductFilter />
-
-      <div className="w-full bg-white rounded-lg flex justify-between pr-6">
-        <h3 className="font-semibold">5 Produk</h3>
-        <div className="flex items-center gap-4 mb-4">
-
-          <div className="flex gap-2 items-center">
-            <NonaktifProductsModal />
-            <DeleteProductsModal />
-          </div>
-
-          <div className="flex gap-2 items-center">
-            <label
-              htmlFor="default-checkbox"
-              className="text-sm font-thin text-gray-600"
-            >
-              Pilih Semua
-            </label>
-            <div className="pt-1">
-              <Checkbox />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ProductList />
+      <Tabs
+        firstTab="semua"
+        secondTab="aktif"
+        thirdTab="nonaktif"
+        onTabChange={onTabChange}
+      />
+      {activeTab === "semua" ? (
+        <ProductList
+          tabOptions="semua"
+          productList={dummyProduct}
+        ></ProductList>
+      ) : activeTab === "aktif" ? (
+        <ProductList
+          tabOptions="aktif"
+          productList={activeProduct}
+        ></ProductList>
+      ) : (
+        <ProductList
+          tabOptions="nonaktif"
+          productList={nonActiveProduct}
+        ></ProductList>
+      )}
     </div>
   );
 }
