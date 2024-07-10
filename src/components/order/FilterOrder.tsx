@@ -13,7 +13,7 @@ export default function FilterOrder({ text }: FilterOrderProps) {
     return (
         <div>
             <Select>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full focus:outline-none border-none">
                     <SelectValue placeholder={text} />
                 </SelectTrigger>
                 <SelectContent>
