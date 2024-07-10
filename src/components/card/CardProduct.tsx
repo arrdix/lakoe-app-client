@@ -17,7 +17,7 @@ export default function Card() {
                 <CardFooter />
             </div>
             <div>
-                <CardSide />
+                <CardSide/>
             </div>
         </div>
     );
