@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { BiSearchAlt } from "react-icons/bi";
 import FilterOrder from "@/components/order/FilterOrder";
-import CardOrder from "@/components/card/CardOrder";
+import CardOrder from "@/components/order/CardOrder";
 import { useState } from "react";
 import ScrollArea from "@/components/order/ScrollArea";
 

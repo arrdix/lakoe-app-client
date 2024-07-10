@@ -1,15 +1,16 @@
-import CardHeader from "./CardHeader";
-import CardBody from "./CardBody";
-import CardFooter from "./CardFooter";
-import CardImage from "./CardImage"
-import CardSide from "./CardSide";
+import CardHeader from './CardHeader'
+import CardBody from './CardBody'
+import CardFooter from './CardFooter'
+import CardImage from './CardImage'
+import CardSide from './CardSide'
+// import CardSide from ''
 
 export default function Card() {
-
     return (
         <div className="flex flex-row gap-3 rounded-md shadow p-2 w-full">
             <div className="w-32">
-                <CardImage image="../../../public/shirt.png" />
+                {/* Edit t-shirt path */}
+                <CardImage image="/tshirt.png" />
             </div>
             <div className="flex flex-col gap-1 w-full">
                 <CardHeader text="KAOS BASIC COTTON KENARI - DUSTY ROSE [ COTTON COMBED 30S ]" />
@@ -20,5 +21,5 @@ export default function Card() {
                 <CardSide />
             </div>
         </div>
-    );
+    )
 }

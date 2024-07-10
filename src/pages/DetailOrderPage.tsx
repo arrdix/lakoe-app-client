@@ -6,8 +6,13 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
 import { CiViewList, CiDeliveryTruck } from "react-icons/ci";
-import { RiArrowDropDownLine } from "react-icons/ri";
 import {
     PiCalendarDotLight,
     PiInvoiceLight,
@@ -18,6 +23,16 @@ import {
     PiCopySimpleLight,
 } from "react-icons/pi";
 import { Button } from "@/components/ui/button";
+import { FaCircleDot } from "react-icons/fa6";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { toast } from "sonner"
 
 export default function DetailOrderPage() {
 
@@ -51,9 +66,25 @@ export default function DetailOrderPage() {
                     <div className="flex flex-col gap-1 text-sm">
                         <p className="bg-yellow-400 w-fit font-semibold rounded p-1 text-sm">Belum Dibayar</p>
                         <p>Pesanan akan dibatalkan bila pembayaran tidak dilakukan sampai <span>10 Agustus 2023 - 00:00 WIB</span>. Silakan tunggu sampai pembayaran terkonfirmasi sebelum mengirimkan barang.</p>
-                        <div className="flex flex-row items-center text-cyan">
-                            <p className="font-semibold">Lihat Riwayat Pesanan</p>
-                            <RiArrowDropDownLine className="size-5" />
+                        <div className="flex flex-row items-center text-cyan gap-1">
+                            <Accordion type="single" collapsible className="hover:bg-transparent">
+                                <AccordionItem value="item-1">
+                                    <AccordionTrigger className="my-2">Lihat Riwayat Pesanan?</AccordionTrigger>
+                                    <AccordionContent>
+                                        <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-full bg-white border">
+                                            <div className="my-auto flex items-center justify-center">
+                                                <div className="flex items-center justify-center bg-cyan rounded-full w-5 h-5 relative">
+                                                    <FaCircleDot className="text-blue-200 border-none w-5 h-5" />
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <p className="font-semibold text-xs">Pesanan Dibuat</p>
+                                                <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                            </div>
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
                         </div>
                     </div>
                 </div>
@@ -78,7 +109,20 @@ export default function DetailOrderPage() {
                         <p className="font-semibold">Invoice</p>
                     </div>
                     <div className="flex flex-row items-center">
-                        <PiCopySimpleLight className="mr-2 size-5" />
+                        <Button
+                            className="border-none hover:bg-transparent p-0"
+                            variant="ghost"
+                            onClick={() =>
+                                toast("Nomor Invoice berhasil disalin", {
+                                    action: {
+                                        label: "OK",
+                                        onClick: () => console.log("Undo"),
+                                    },
+                                })
+                            }
+                        >
+                            <PiCopySimpleLight className="mr-2 size-5" />
+                        </Button>
                         <p>INV/20230809/MPL/00000239</p>
                     </div>
                 </div>
@@ -128,7 +172,105 @@ export default function DetailOrderPage() {
                     <CiDeliveryTruck className="mr-2 size-6 text-cyan" />
                 </div>
                 <div className="w-full flex-col gap-3">
-                    <p className="font-semibold mb-2">Detail Pengiriman</p>
+                    <div className="flex flex-row justify-between">
+                        <p className="font-semibold mb-2">Detail Pengiriman</p>
+                        <Dialog>
+                            <DialogTrigger className="text-cyan font-semibold">Lacak Pengiriman</DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Lacak Pengiriman</DialogTitle>
+                                    <DialogDescription className="text-black flex flex-col gap-1">
+                                        <div className="w-full flex flex-row justify-between p-2">
+                                            <div className="w-96 flex flex-col gap-3">
+                                                <div>
+                                                    <p>Kurir</p>
+                                                    <p className="font-semibold">J&T - Regular</p>
+                                                </div>
+                                                <div>
+                                                    <div className="flex">
+                                                        <p>No.Resi</p>
+                                                        <PiCopySimpleLight className="mr-2 size-5" />
+                                                    </div>
+                                                    <p className="font-semibold">JT6268865922</p>
+                                                </div>
+                                                <div>
+                                                    <p>Pengirim</p>
+                                                    <p className="font-semibold">Bakulan Store</p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p>Penerima</p>
+                                                <p className="font-semibold">Annur Syawila Hasibuan</p>
+                                                <p>Jl. Elang IV, Sawah Lama, Kec. Ciputat, Kota Tangerang Selatan, Banten 15413</p>
+                                            </div>
+                                        </div>
+                                        <p>Status: <span className="font-semibold">Dalam Proses Pengiriman</span></p>
+                                        <div className="flex flex-col border rounded bg-white">
+                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
+                                                <div className="my-auto flex items-center justify-center">
+                                                    <div className="flex items-center justify-center bg-cyan rounded-full w-5 h-5 relative">
+                                                        <FaCircleDot className="text-blue-200 border-none w-5 h-5" />
+                                                        <div className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray"></div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <p className="font-semibold text-xs">RECEIVED AT INBOUND STATION [JAKARTA , HUB VETERAN BINTARO]</p>
+                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                </div>
+                                            </div>
+                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
+                                                <div className="my-auto flex items-center justify-center">
+                                                    <div className="flex items-center justify-center bg-gray rounded-full w-5 h-5 relative">
+                                                        <FaCircleDot className="text-lightGray border-none w-5 h-5" />
+                                                        <div className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray"></div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <p className="font-semibold text-xs">SHIPMENT FORWARDED TO DESTINATION [JAKARTA , HUB VETERAN BINTARO]</p>
+                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                </div>
+                                            </div>
+                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
+                                                <div className="my-auto flex items-center justify-center">
+                                                    <div className="flex items-center justify-center bg-gray rounded-full w-5 h-5 relative">
+                                                        <FaCircleDot className="text-lightGray border-none w-5 h-5" />
+                                                        <div className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray"></div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <p className="font-semibold text-xs">Pesanan Diproses</p>
+                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                </div>
+                                            </div>
+                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
+                                                <div className="my-auto flex items-center justify-center">
+                                                    <div className="flex items-center justify-center bg-gray rounded-full w-5 h-5 relative">
+                                                        <FaCircleDot className="text-lightGray border-none w-5 h-5" />
+                                                        <div className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray"></div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <p className="font-semibold text-xs">RECEIVED AT SORTING CENTER [JAKARTA]</p>
+                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                </div>
+                                            </div>
+                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
+                                                <div className="my-auto flex items-center justify-center">
+                                                    <div className="flex items-center justify-center bg-gray rounded-full w-5 h-5 relative">
+                                                        <FaCircleDot className="text-lightGray border-none w-5 h-5" />
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <p className="font-semibold text-xs">SHIPMENT RECEIVED BY JNE COUNTER OFFICER AT [JAKARTA]</p>
+                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </DialogDescription>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
+                    </div >
                     <div className="flex flex-col gap-3">
                         <div className="flex flex-row">
                             <p className="w-48">Kurir</p>
@@ -153,11 +295,11 @@ export default function DetailOrderPage() {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
 
             {/* Rincian Pembayaran */}
-            <div className="rounded flex flex-row gap-2 py-2.5 px-3 bg-white">
+            < div className="rounded flex flex-row gap-2 py-2.5 px-3 bg-white" >
                 <div>
                     <PiWalletLight className="mr-2 size-5 text-cyan" />
                 </div>
@@ -187,15 +329,15 @@ export default function DetailOrderPage() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </ div>
 
             {/* Button New order */}
-            <div className="rounded flex flex-row gap-2 py-2.5 px-3 bg-white">
+            < div className="rounded flex flex-row gap-2 py-2.5 px-3 bg-white" >
                 <div className="w-full flex flex-row justify-between">
                     <Button variant={"outline"} className="text-red-600 border-red-600 hover:bg-red-600 hover:text-white">Tolak Pesanan</Button>
                     <Button variant={"outline"} className="text-white bg-cyan hover:bg-white hover:text-cyan hover:border-cyan">Proses Pesanan</Button>
                 </div>
-            </div>
-        </div>
+            </ div>
+        </div >
     )
 }
