@@ -68,7 +68,7 @@ export const theme = {
       current: "currentColor",
       black: "#2e2e2e",
       gray: "#909090",
-      lightGray: "#F8F8F8",
+      lightgray: "#F8F8F8",
       cyan: "#0086B4",
       dev: "#9e0000",
     },

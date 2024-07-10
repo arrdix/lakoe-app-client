@@ -1,39 +1,104 @@
-import ProductFilter from "@/components/product/ProductFilter";
-import { Button } from "@/components/ui/button";
-import { BiPlus } from "react-icons/bi";
-import Tabs from "@/components/product/Tabs";
-import { Input } from "@/components/ui/input";
+import { Wallet, Banknote, ShieldAlert, HandCoins, SquareCheckBig } from "lucide-react";
+import { CiCreditCard2, } from "react-icons/ci";
+import { SiContactlesspayment } from "react-icons/si";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaMoneyCheckAlt } from "react-icons/fa";
+import { HiCash } from "react-icons/hi";
+import { HiOutlineDownload } from "react-icons/hi";
+import DashboardBox from "@/components/DashboardBox";
+import { FaMapLocationDot } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 function DashboardPage() {
   return (
-    <div className="w-full h-full bg-white p-8">
-      <div className="flex justify-between">
-        <h3 className="font-bold text-xl">Daftar Produk</h3>
-        <Button className="p-3 rounded-3xl bg-cyan-600">
-          {" "}
-          <BiPlus className="mr-1" /> Tambahkan Produk
-        </Button>
-      </div>
-      <Tabs />
-      <ProductFilter />
+    <div className="w-full h-full p-8 bg-lightgray">
+      <div className=" flex justify-between gap-2.5 ">
+        <div className="w-full h-full bg-white w-72 h-28  ">
+          <div className="p-3 ">
+            <div>Current Balance</div>
+            <div className="text-green-700">Rp0</div>
+            <button className="bg-lime-500 w-full h-8 text-white rounded-md ">
+              Tarik Credit
+            </button>
+          </div>
+        </div>
 
-      <div className="w-full bg-white rounded-lg flex justify-between">
-        <h3 className="font-semibold">5 Produk</h3>
-        <div className="flex items-center mb-4">
-          <label
-            htmlFor="default-checkbox"
-            className="mr-2 text-sm font-thin text-gray-600"
-          >
-            Pilih Semua
-          </label>
-          <Input
-            id="default-checkbox"
-            type="checkbox"
-            value=""
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
+        <div className="w-full h-full bg-white w-64 h-28">
+          <div className="p-3">
+            <div >
+              <Wallet />
+              <div>Penarikan sedang dalam proses</div>
+            </div>
+            <div className="font-bold text-xl">Rp0</div>
+          </div>
+        </div>
+
+        <div className="w-full h-full bg-white w-60 h-28">
+          <div className="p-3">
+            <Banknote />
+            <div className="flex justify-between">
+              Saldo Tertahan
+              <ShieldAlert />
+              <Link className="text-blue-500 " style={{fontSize:"12px"}} to="">Lihat semua</Link>
+            </div>
+            <div className="font-bold text-xl">Rp0</div>
+          </div>
+        </div>
+
+        <div className="w-full h-full bg-white w-60 h-28 ">
+          <div className="p-3">
+            <HandCoins />
+            <div className="flex justify-between">Tagihan Belum Bayar
+              <Link className="text-blue-500 " style={{fontSize:"12px"}} to="">Lihat semua</Link>
+            </div>
+            <div className="font-bold text-xl text-red-700">Rp0</div>
+          </div>
+        </div>
+
+      </div >
+
+      <div className=" w-full  bg-white mt-5 p-4 ">
+
+
+        <div className="text-black text-xl font-bold p-3" >Reporting Period</div>
+
+        <div className="flex">
+          <DashboardBox text="Penarikan Selesai" value={0} icon={<SquareCheckBig size={"2rem"} />} />
+          <DashboardBox text="Pendapatan COD" value={0} icon={<FaMoneyCheckAlt size={"2rem"} />} />
+          <DashboardBox text="CashBack Pengiriman" value={0} icon={<HiCash size={"2rem"} />} />
+          <DashboardBox text="Pendapatan E-Payment" value={0} icon={<SiContactlesspayment size={"2rem"} />} />
+        </div>
+
+        <div className="flex">
+
+          <DashboardBox text="Refund Biaya Pengiriman" value={0} icon={<FaMoneyBillTransfer size={"2rem"} />} />
+          <DashboardBox text="Kredit Lainnya" value={0} icon={<CiCreditCard2 size={"2rem"} />} />
+          <DashboardBox text="Klaim Pengiriman " value={0} icon={<FaMapLocationDot size={"2rem"} />} />
+          <DashboardBox text="Pembayaran Penagihan" value={0} icon={<HandCoins size={"2rem"} />} />
+        </div>
+
+      </div>
+
+      <div className=" w-full  bg-white mt-5 p-4  ">
+        <div className="flex justify-between  ">
+          <div className="flex gap-2 "> <HiOutlineDownload size={"1.5rem"} />Eksport</div>
+          <div>All Type</div>
+          <div>All Status</div>
         </div>
       </div>
+
+
+
+      <div className=" w-full  bg-white mt-5 p-4 flex gap-20 font-bold ">
+        <div >No.</div>
+        <div>Descripsi</div>
+        <div>Nilai</div>
+        <div>Status</div>
+        <div>Tipe</div>
+        <div>Tanggal</div>
+      </div>
+
+
     </div>
   );
 }
