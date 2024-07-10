@@ -1,53 +1,59 @@
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { Button } from '@/components/ui/button'
+import { useEffect, useState } from 'react'
 
-export default function Tabs() {
-  type ButtonType = "semua" | "aktif" | "nonaktif";
-  const [buttonActive, setButtonActive] = useState<ButtonType>("semua");
+interface TabsProps {
+    firstTab: string
+    secondTab: string
+    thirdTab: string
+    onTabChange: (activeTab: string) => void
+}
 
-  return (
-    <div className="flex w-full shadow-md">
-      <div className="w-auto flex flex-col">
-        <Button
-          className={`bg-white rounded-none mx-4 hover:bg-white p-0 ${
-            buttonActive === "semua" ? "text-cyan-600" : "text-black"
-          }`}
-          onClick={() => setButtonActive("semua")}
-        >
-          Semua
-        </Button>
-        {buttonActive === "semua" && (
-          <div className="mx-auto w-3/5 bg-cyan-600 h-1 rounded-full w-"></div>
-        )}
-      </div>
+export default function Tabs({ firstTab, secondTab, thirdTab, onTabChange }: TabsProps) {
+    const [activeTab, setActiveTab] = useState<string>(firstTab)
 
-      <div className="w-auto flex flex-col">
-        <Button
-          className={`bg-white rounded-none mx-4 hover:bg-white p-0 ${
-            buttonActive === "aktif" ? "text-cyan-600" : "text-black"
-          }`}
-          onClick={() => setButtonActive("aktif")}
-        >
-          Aktif
-        </Button>
-        {buttonActive === "aktif" && (
-          <div className="mx-auto w-3/5 bg-cyan-600 h-1 rounded-full"></div>
-        )}
-      </div>
+    useEffect(() => {
+        onTabChange(activeTab)
+    }, [activeTab])
 
-      <div className="w-auto flex flex-col">
-        <Button
-          className={`bg-white rounded-none mx-4 hover:bg-white  p-0 ${
-            buttonActive === "nonaktif" ? "text-cyan-600" : "text-black"
-          }`}
-          onClick={() => setButtonActive("nonaktif")}
-        >
-          Nonaktif
-        </Button>
-        {buttonActive === "nonaktif" && (
-          <div className="mx-auto w-3/5 bg-cyan-600 h-1 rounded-full"></div>
-        )}
-      </div>
-    </div>
-  );
+    return (
+        <div className="flex gap-8 w-full border-b border-gray-100">
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${
+                        activeTab === firstTab ? 'text-cyan' : 'text-black'
+                    }`}
+                    onClick={() => setActiveTab(firstTab)}
+                >
+                    {firstTab}
+                </Button>
+                {activeTab === firstTab && (
+                    <div className="w-full bg-cyan h-1 rounded-full w-"></div>
+                )}
+            </div>
+
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${
+                        activeTab === secondTab ? 'text-cyan' : 'text-black'
+                    }`}
+                    onClick={() => setActiveTab(secondTab)}
+                >
+                    {secondTab}
+                </Button>
+                {activeTab === secondTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
+            </div>
+
+            <div className="w-auto flex flex-col">
+                <Button
+                    className={`bg-white rounded-none hover:bg-white p-0 ${
+                        activeTab === thirdTab ? 'text-cyan' : 'text-black'
+                    }`}
+                    onClick={() => setActiveTab(thirdTab)}
+                >
+                    {thirdTab}
+                </Button>
+                {activeTab === thirdTab && <div className="w-full bg-cyan h-1 rounded-full"></div>}
+            </div>
+        </div>
+    )
 }

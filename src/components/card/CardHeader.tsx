@@ -5,7 +5,7 @@ interface CardHeaderProps {
 export default function CardHeader({ text }: CardHeaderProps) {
     return (
         <div className="w-full flex flex-row">
-            <h1 className="text-lg font-semibold uppercase">{text}</h1>
+            <h1 className="text-sm font-semibold uppercase">{text}</h1>
         </div>
     )
 }

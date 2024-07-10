@@ -1,81 +1,37 @@
-import { Textarea } from "@/components/ui/textarea"
-import { BiImageAdd } from "react-icons/bi";
+import DetilPrduct from "@/components/product/ProductDetil";
+import PreviewCheckout from "@/components/product/PreviewCheckout";
+import Price from "@/components/product/ProductPrice";
+import ProductDevelopment from "@/components/product/ProductDevelopment";
+import ProductInformation from "@/components/product/ProductInformation";
+import VariantProduct from "@/components/product/ProductVariants";
+import WeightAndDelivery from "@/components/product/WeightAndDelivery";
+
 function NewProductPage() {
-    return (
-        <div className="w-full h-full bg-lightGray p-8">
-            {/* Informasi Produk */}
-            <div className="w-full bg-white rounded-lg p-8">
-                <h1 className="text-black text-xl font-bold mb-4">Informasi Produk</h1>
-                <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="productName" className="text-sm">
-                            Nama Produk <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="productName"
-                            placeholder="Baju Spiderman - Hitam"
-                            className="border-2 border-gray-200 rounded-md h-10 pl-2 text-sm"
-                        />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="productName" className="text-sm">
-                            URL Halaman Checkout <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="productName"
-                            placeholder="baju-spiderman-hitam"
-                            className="border-2 border-gray-200 rounded-md h-10 pl-2 text-sm"
-                        />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="productName" className="text-sm">
-                            Kategori <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="productName"
-                            placeholder="Baju Haram"
-                            className="border-2 border-gray-200 rounded-md h-10 pl-2 text-sm"
-                        />
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="w-full h-full bg-lightGray p-2 flex flex-col gap-2 overflow-y-scroll">
+      {/* informasi produk */}
+      <ProductInformation/>
 
-            {/* Detail Produk */}
-            <div className="w-full bg-white rounded-lg p-8">
-                <h1 className="text-black text-xl font-bold mb-4">Detail Produk</h1>
-                <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="productName" className="text-sm">
-                            Deskripsi <span className="text-red-500">*</span>
-                        </label>
-                        <Textarea placeholder="Masukan deskripsi lengkap produk kamu" />
-                        <div className="flex justify-end text-gray">
-                            <p className="text-xs">0/3000</p>
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="productName" className="text-sm">
-                            URL Halaman Checkout <span className="text-red-500">*</span>
-                        </label>
-                        <div className="flex flex-row gap-2 h-24">
-                            <div className="w-full h-full flex flex-col border-dashed border border-gray rounded items-center justify-center">
-                                <BiImageAdd className="size-10 fill-gray" />
-                                <span className="text-gray">Foto Utama</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      {/* Detail Produk */}
+      <DetilPrduct/>
 
-            {/* Varian Produk */}
-            <div className="w-full bg-white rounded-lg p-8">
-                <h1 className="text-black text-xl font-bold mb-4">Detail Produk</h1>
-            </div>
-        </div>
-    )
+      {/* Varian Produk */}
+      <VariantProduct/>
+        
+      {/* Harga */}
+      <Price/>
+
+      {/* Pengelolaan produk */}
+      <ProductDevelopment/>
+
+      {/* Berat dan Pengiriman */}
+      <WeightAndDelivery/>
+
+      {/* Preview halaman checkout */}
+      <PreviewCheckout/>
+
+    </div>
+  );
 }
 
-export default NewProductPage
+export default NewProductPage;
