@@ -31,21 +31,21 @@ export default function Tabs() {
           Aktif
         </Button>
         {buttonActive === "aktif" && (
-          <div className="mx-auto w-3/5 bg-cyan-600 h-1 rounded-full"></div>
+          <div className="mx-auto w-3/5 bg-cyan h-1 rounded-full"></div>
         )}
       </div>
 
       <div className="w-auto flex flex-col">
         <Button
           className={`bg-white rounded-none mx-4 hover:bg-white  p-0 ${
-            buttonActive === "nonaktif" ? "text-cyan-600" : "text-black"
+            buttonActive === "nonaktif" ? "text-cyan" : "text-black"
           }`}
           onClick={() => setButtonActive("nonaktif")}
         >
           Nonaktif
         </Button>
         {buttonActive === "nonaktif" && (
-          <div className="mx-auto w-3/5 bg-cyan-600 h-1 rounded-full"></div>
+          <div className="mx-auto w-3/5 bg-cyan h-1 rounded-full"></div>
         )}
       </div>
     </div>

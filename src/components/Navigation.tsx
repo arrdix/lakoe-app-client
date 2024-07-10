@@ -14,7 +14,7 @@ function Navigation() {
                 <BiHomeAlt fontSize={'1.5rem'} />
                 Dashboard
             </h1>
-            <Link to="/product/new">
+            <Link to="/product">
                 <h1 className="flex items-center gap-2 text-lg font-light">
                     <BiPackage fontSize={'1.5rem'} />
                     Produk
