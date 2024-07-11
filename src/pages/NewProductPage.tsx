@@ -5,6 +5,8 @@ import ProductDevelopment from "@/components/product/ProductDevelopment";
 import ProductInformation from "@/components/product/ProductInformation";
 import VariantProduct from "@/components/product/ProductVariants";
 import WeightAndDelivery from "@/components/product/WeightAndDelivery";
+import MinimumPurchase from "@/components/product/MinimumPurchase";
+import ProductSize from "@/components/product/ProductSize";
 
 function NewProductPage() {
     return (
@@ -15,8 +17,17 @@ function NewProductPage() {
             {/* Detail Produk */}
             <DetilPrduct />
 
-            {/* Varian Produk */}
-            <VariantProduct />
+      {/* Varian Produk */}
+      <VariantProduct/>
+
+      {/* Minimal pembelian */}
+      <MinimumPurchase/>
+
+      {/* Ukuran Produk */}
+      <ProductSize/>
+        
+      {/* Harga */}
+      <Price/>
 
             {/* Harga */}
             <Price />
