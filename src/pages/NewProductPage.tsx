@@ -7,31 +7,31 @@ import VariantProduct from "@/components/product/ProductVariants";
 import WeightAndDelivery from "@/components/product/WeightAndDelivery";
 
 function NewProductPage() {
-  return (
-    <div className="w-full h-full bg-lightGray p-2 flex flex-col gap-2 overflow-y-scroll">
-      {/* informasi produk */}
-      <ProductInformation/>
+    return (
+        <div className="w-full h-full bg-lightGray p-2 flex flex-col gap-2 overflow-y-scroll">
+            {/* informasi produk */}
+            <ProductInformation />
 
-      {/* Detail Produk */}
-      <DetilPrduct/>
+            {/* Detail Produk */}
+            <DetilPrduct />
 
-      {/* Varian Produk */}
-      <VariantProduct/>
-        
-      {/* Harga */}
-      <Price/>
+            {/* Varian Produk */}
+            <VariantProduct />
 
-      {/* Pengelolaan produk */}
-      <ProductDevelopment/>
+            {/* Harga */}
+            <Price />
 
-      {/* Berat dan Pengiriman */}
-      <WeightAndDelivery/>
+            {/* Pengelolaan produk */}
+            <ProductDevelopment />
 
-      {/* Preview halaman checkout */}
-      <PreviewCheckout/>
+            {/* Berat dan Pengiriman */}
+            <WeightAndDelivery />
 
-    </div>
-  );
+            {/* Preview halaman checkout */}
+            <PreviewCheckout />
+
+        </div>
+    );
 }
 
 export default NewProductPage;
