@@ -1,48 +1,44 @@
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
-import { BiDotsHorizontalRounded } from "react-icons/bi";
-import NonaktifProductModal from "./NonaktifProductModal";
+import { BiDotsHorizontalRounded } from 'react-icons/bi'
+import NonaktifProductModal from './NonaktifProductModal'
 
 export default function ProductDevelopmentsModal() {
-  const [isDeleteProductModalView, setIsDeleteProductModalView] =
-    useState<boolean>(false);
+    const [isDeleteProductModalView, setIsDeleteProductModalView] = useState<boolean>(false)
 
-  useEffect(() => {
-    setIsDeleteProductModalView(false);
-    console.log(isDeleteProductModalView);
-  }, []);
+    function onModalClose() {
+        setIsDeleteProductModalView(false)
+    }
 
-  return (
-    <div>
-      <DropdownMenu>
-        <DropdownMenuTrigger>
-          <Button className="px-3" variant={"outline"}>
-            <BiDotsHorizontalRounded />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem>
-            <button
-              onClick={() => {
-                setIsDeleteProductModalView(true);
-              }}
-            >
-              Hapus Produk
-            </button>
-          </DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Team</DropdownMenuItem>
-          <DropdownMenuItem>Subscription</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <div>{isDeleteProductModalView && <NonaktifProductModal />}</div>
-    </div>
-  );
+    return (
+        // Edit fix modal bug
+        <div className="h-full flex items-center">
+            <DropdownMenu>
+                <DropdownMenuTrigger>
+                    <div className="flex items-center h-full rounded-full border border-lightgray hover:bg-lightergray p-2">
+                        <BiDotsHorizontalRounded />
+                    </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem>
+                        <button onClick={() => setIsDeleteProductModalView(true)}>
+                            Hapus Produk
+                        </button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                    <DropdownMenuItem>Team</DropdownMenuItem>
+                    <DropdownMenuItem>Subscription</DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+            <div>
+                {isDeleteProductModalView && <NonaktifProductModal onModalClose={onModalClose} />}
+            </div>
+        </div>
+    )
 }
