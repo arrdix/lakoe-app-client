@@ -6,6 +6,7 @@ import { ProductType } from "@/dummy/productDummy";
 import { useEffect, useState } from "react";
 import { useProductCheckedContext } from "@/context/checkedProductContext";
 
+
 export default function Card({
   product,
   isCheckedDefault,
