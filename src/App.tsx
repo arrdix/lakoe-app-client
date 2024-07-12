@@ -15,7 +15,7 @@ import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from "./pages/ForgotPasswordPage"
 
 function App() {
-    const role = ''
+    const role = 'SELLER'
 
     if (!role) {
         return (
