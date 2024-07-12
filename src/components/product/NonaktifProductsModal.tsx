@@ -7,9 +7,11 @@ import {
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Button } from "../ui/button";
+import { useProductCheckedContext } from "@/context/checkedProductContext";
 
 export default function NonaktifProductsModal() {
   const [open, setOpen] = useState(false);
+  const { id } = useProductCheckedContext();
 
   return (
     <div>
@@ -50,12 +52,12 @@ export default function NonaktifProductsModal() {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Nonaktifkan 5 Produk
+                      Nonaktifkan {id.length} Produk
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Produk yang dinonaktifkan tidak akan bisa dilihat oleh calon pembeli. Pastikan
-                        tindakan kamu benar!
+                        Produk yang dinonaktifkan tidak akan bisa dilihat oleh
+                        calon pembeli. Pastikan tindakan kamu benar!
                       </p>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -6,23 +6,28 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { BiTrash } from "react-icons/bi";
 import { Button } from "../ui/button";
 
-export default function DeleteProductModal() {
-  const [open, setOpen] = useState(false);
+interface DeleteProductModalProps {
+  onModalClose?: () => void;
+  productName: string;
+}
+
+export default function DeleteProductModal({
+  onModalClose,
+  productName,
+}: DeleteProductModalProps) {
+  const [open, setOpen] = useState(true);
+
+  // edit logic
+  useEffect(() => {
+    if (onModalClose && open === false) {
+      onModalClose();
+    }
+  }, [open]);
 
   return (
     <div>
-      {/* Tombol Pemicu */}
-      <Button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="rounded-lg p-1 border border-gray-300 text-black bg-white border-none"
-      >
-        <BiTrash size={13} className="mr-2 text-black"/> Hapus Produk
-      </Button>
-
       {/* Background Overlay */}
       {open && <div className="fixed inset-0 bg-black opacity-50 z-10"></div>}
 
@@ -51,12 +56,12 @@ export default function DeleteProductModal() {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Hapus 5 Produk
+                      Hapus Produk
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Produk yang dihapus tidak akan bisa dibatalkan. Pastikan
-                        produk yang dipilih sudah benar!
+                        Hapus produk{" "}
+                        <span className="font-semibold uppercase">{productName}</span>
                       </p>
                     </div>
                   </div>

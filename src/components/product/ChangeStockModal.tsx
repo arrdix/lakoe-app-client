@@ -7,7 +7,7 @@ import {
 } from "@headlessui/react";
 import { Button } from "../ui/button";
 
-export default function ChangeProductStockModal() {
+export default function ChangeProductStockModal({productName}:{productName:string}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -39,7 +39,7 @@ export default function ChangeProductStockModal() {
             >
               <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
                     <DialogTitle
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
@@ -48,10 +48,9 @@ export default function ChangeProductStockModal() {
                     </DialogTitle>
                     <div className="mt-2 flex flex-col gap-4">
                       <p className="text-sm text-gray-500">
-                        Ubah Stok untuk produk{" "}
-                        <span className="font-semibold">
-                          KAOS BASIC COTTON KENARI - DUSTY ROSE [ COTTON COMBED
-                          30S ]
+                        Ubah Stok untuk produk
+                        <span className="font-semibold uppercase">
+                          {productName}
                         </span>
                       </p>
                       <form className="flex flex-col gap-1">
