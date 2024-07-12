@@ -31,6 +31,20 @@ function App() {
         )
     }
 
+    if (!role) {
+        return (
+            <div className="App">
+                <Routes>
+                    <Route path="/" element={<BuyerLayout />}>
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path='/register' element={<RegisterPage />} />
+                        <Route path='/forgot' element={<ForgotPasswordPage />} />
+                    </Route>
+                </Routes>
+            </div>
+        )
+    }
+
     if (roleChecker.isBuyer(role)) {
         return (
             <div className="App">
