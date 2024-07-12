@@ -1,5 +1,5 @@
-import MessageTemplateBox from '@/components/MessageTemplateBox'
-import MessageTemplateModal from '@/components/MessageTemplateModal'
+import MessageTemplateBox from '@/components/setting/MessageTemplateBox'
+import MessageTemplateModal from '@/components/setting/MessageTemplateModal'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 

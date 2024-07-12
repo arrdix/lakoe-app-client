@@ -1,5 +1,5 @@
-import AddressBox from '@/components/AddressBox'
-import LocationModal from '@/components/LocationModal'
+import AddressBox from '@/components/setting/AddressBox'
+import LocationModal from '@/components/setting/LocationModal'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
