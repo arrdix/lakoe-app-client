@@ -1,10 +1,7 @@
-import React from 'react'
-
 function ProductSize() {
     return (
         <div className="w-full bg-lightgray rounded-lg  ">
             <div className="w-full bg-white rounded-lg p-4">
-
                 <h1 className="text-black text-xl font-bold mb-2 ">Ukuran Produk</h1>
                 <div>
                     <div className="flex gap-2">
@@ -60,8 +57,6 @@ function ProductSize() {
                 </div>
             </div>
         </div>
-
-
     )
 }
 

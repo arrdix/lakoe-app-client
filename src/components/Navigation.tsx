@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 
 function Navigation() {
     return (
-        <div className="flex flex-col gap-2 w-full h-full px-4 py-12">
+        <div className="flex flex-col gap-2 w-full h-full px-4 py-12 bg-white">
             <Link to="/">
                 <h1 className="flex items-center gap-2 px-4 py-2 text-lg font-light rounded-lg hover:text-cyan hover:bg-lightergray cursor-pointer">
                     <BiHomeAlt fontSize={'1.5rem'} />
