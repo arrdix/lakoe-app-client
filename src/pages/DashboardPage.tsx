@@ -20,8 +20,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
-import BuyerDashBoard from "./BuyerDashBoard";
-
 function DashboardPage() {
   return (
     <div >
@@ -148,9 +146,7 @@ function DashboardPage() {
 
 
     </div>
-<div>
-  <BuyerDashBoard/>
-</div>
+
     </div>
   );
 }
