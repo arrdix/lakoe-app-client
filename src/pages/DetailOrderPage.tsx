@@ -5,14 +5,14 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from '@/components/ui/breadcrumb'
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-} from "@/components/ui/accordion"
-import { CiViewList, CiDeliveryTruck } from "react-icons/ci";
+} from '@/components/ui/accordion'
+import { CiViewList, CiDeliveryTruck } from 'react-icons/ci'
 import {
     PiCalendarDotLight,
     PiInvoiceLight,
@@ -21,9 +21,9 @@ import {
     PiWalletLight,
     PiWhatsappLogoLight,
     PiCopySimpleLight,
-} from "react-icons/pi";
-import { Button } from "@/components/ui/button";
-import { FaCircleDot } from "react-icons/fa6";
+} from 'react-icons/pi'
+import { Button } from '@/components/ui/button'
+import { FaCircleDot } from 'react-icons/fa6'
 import {
     Dialog,
     DialogContent,
@@ -31,23 +31,26 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { toast } from "sonner"
+} from '@/components/ui/dialog'
+import { toast } from 'sonner'
 
 export default function DetailOrderPage() {
-
     return (
-        <div className="w-full h-full bg-lightergray p-8 flex flex-col gap-3">
+        <div className="bg-white p-8">
             {/* Breadcrumb */}
             <div>
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink className="text-cyan font-semibold" href="/">Daftar Pesanan</BreadcrumbLink>
+                            <BreadcrumbLink className="text-cyan font-semibold" href="/">
+                                Daftar Pesanan
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink className="text-black w-44 truncate" href="/components">CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S</BreadcrumbLink>
+                            <BreadcrumbLink className="text-black w-44 truncate" href="/components">
+                                CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
@@ -64,12 +67,20 @@ export default function DetailOrderPage() {
                 </div>
                 <div>
                     <div className="flex flex-col gap-1 text-sm">
-                        <p className="bg-yellow-400 w-fit font-semibold rounded p-1 text-sm">Belum Dibayar</p>
-                        <p>Pesanan akan dibatalkan bila pembayaran tidak dilakukan sampai <span>10 Agustus 2023 - 00:00 WIB</span>. Silakan tunggu sampai pembayaran terkonfirmasi sebelum mengirimkan barang.</p>
+                        <p className="bg-yellow-400 w-fit font-semibold rounded p-1 text-sm">
+                            Belum Dibayar
+                        </p>
+                        <p>
+                            Pesanan akan dibatalkan bila pembayaran tidak dilakukan sampai{' '}
+                            <span>10 Agustus 2023 - 00:00 WIB</span>. Silakan tunggu sampai
+                            pembayaran terkonfirmasi sebelum mengirimkan barang.
+                        </p>
                         <div className="flex flex-row items-center text-cyan gap-1">
                             <Accordion type="single" collapsible className="hover:bg-transparent">
                                 <AccordionItem value="item-1">
-                                    <AccordionTrigger className="my-2">Lihat Riwayat Pesanan?</AccordionTrigger>
+                                    <AccordionTrigger className="my-2">
+                                        Lihat Riwayat Pesanan?
+                                    </AccordionTrigger>
                                     <AccordionContent>
                                         <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-full bg-white border">
                                             <div className="my-auto flex items-center justify-center">
@@ -78,8 +89,12 @@ export default function DetailOrderPage() {
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <p className="font-semibold text-xs">Pesanan Dibuat</p>
-                                                <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                <p className="font-semibold text-xs">
+                                                    Pesanan Dibuat
+                                                </p>
+                                                <p className="text-gray text-xs">
+                                                    Sab, 10 Agu 2023 - 14:00 WIB
+                                                </p>
                                             </div>
                                         </div>
                                     </AccordionContent>
@@ -113,10 +128,10 @@ export default function DetailOrderPage() {
                             className="border-none hover:bg-transparent p-0"
                             variant="ghost"
                             onClick={() =>
-                                toast("Nomor Invoice berhasil disalin", {
+                                toast('Nomor Invoice berhasil disalin', {
                                     action: {
-                                        label: "OK",
-                                        onClick: () => console.log("Undo"),
+                                        label: 'OK',
+                                        onClick: () => console.log('Undo'),
                                     },
                                 })
                             }
@@ -153,8 +168,11 @@ export default function DetailOrderPage() {
                                     <img className="w-full" src="../../public/tshirt.png" alt="" />
                                 </div>
                                 <div className="flex flex-col justify-center">
-                                    <h1>CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S</h1>
-                                    <p>1   x   Rp180.000</p>
+                                    <h1>
+                                        CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck
+                                        - S
+                                    </h1>
+                                    <p>1 x Rp180.000</p>
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center items-end">
@@ -175,7 +193,9 @@ export default function DetailOrderPage() {
                     <div className="flex flex-row justify-between">
                         <p className="font-semibold mb-2">Detail Pengiriman</p>
                         <Dialog>
-                            <DialogTrigger className="text-cyan font-semibold">Lacak Pengiriman</DialogTrigger>
+                            <DialogTrigger className="text-cyan font-semibold">
+                                Lacak Pengiriman
+                            </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>
                                     <DialogTitle>Lacak Pengiriman</DialogTitle>
@@ -199,11 +219,21 @@ export default function DetailOrderPage() {
                                             </div>
                                             <div>
                                                 <p>Penerima</p>
-                                                <p className="font-semibold">Annur Syawila Hasibuan</p>
-                                                <p>Jl. Elang IV, Sawah Lama, Kec. Ciputat, Kota Tangerang Selatan, Banten 15413</p>
+                                                <p className="font-semibold">
+                                                    Annur Syawila Hasibuan
+                                                </p>
+                                                <p>
+                                                    Jl. Elang IV, Sawah Lama, Kec. Ciputat, Kota
+                                                    Tangerang Selatan, Banten 15413
+                                                </p>
                                             </div>
                                         </div>
-                                        <p>Status: <span className="font-semibold">Dalam Proses Pengiriman</span></p>
+                                        <p>
+                                            Status:{' '}
+                                            <span className="font-semibold">
+                                                Dalam Proses Pengiriman
+                                            </span>
+                                        </p>
                                         <div className="flex flex-col border rounded bg-white">
                                             <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
                                                 <div className="my-auto flex items-center justify-center">
@@ -213,8 +243,13 @@ export default function DetailOrderPage() {
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">RECEIVED AT INBOUND STATION [JAKARTA , HUB VETERAN BINTARO]</p>
-                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                    <p className="font-semibold text-xs">
+                                                        RECEIVED AT INBOUND STATION [JAKARTA , HUB
+                                                        VETERAN BINTARO]
+                                                    </p>
+                                                    <p className="text-gray text-xs">
+                                                        Sab, 10 Agu 2023 - 14:00 WIB
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
@@ -225,8 +260,13 @@ export default function DetailOrderPage() {
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">SHIPMENT FORWARDED TO DESTINATION [JAKARTA , HUB VETERAN BINTARO]</p>
-                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                    <p className="font-semibold text-xs">
+                                                        SHIPMENT FORWARDED TO DESTINATION [JAKARTA ,
+                                                        HUB VETERAN BINTARO]
+                                                    </p>
+                                                    <p className="text-gray text-xs">
+                                                        Sab, 10 Agu 2023 - 14:00 WIB
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
@@ -237,8 +277,12 @@ export default function DetailOrderPage() {
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">Pesanan Diproses</p>
-                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                    <p className="font-semibold text-xs">
+                                                        Pesanan Diproses
+                                                    </p>
+                                                    <p className="text-gray text-xs">
+                                                        Sab, 10 Agu 2023 - 14:00 WIB
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
@@ -249,8 +293,12 @@ export default function DetailOrderPage() {
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">RECEIVED AT SORTING CENTER [JAKARTA]</p>
-                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                    <p className="font-semibold text-xs">
+                                                        RECEIVED AT SORTING CENTER [JAKARTA]
+                                                    </p>
+                                                    <p className="text-gray text-xs">
+                                                        Sab, 10 Agu 2023 - 14:00 WIB
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
@@ -260,8 +308,13 @@ export default function DetailOrderPage() {
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">SHIPMENT RECEIVED BY JNE COUNTER OFFICER AT [JAKARTA]</p>
-                                                    <p className="text-gray text-xs">Sab, 10 Agu 2023 - 14:00 WIB</p>
+                                                    <p className="font-semibold text-xs">
+                                                        SHIPMENT RECEIVED BY JNE COUNTER OFFICER AT
+                                                        [JAKARTA]
+                                                    </p>
+                                                    <p className="text-gray text-xs">
+                                                        Sab, 10 Agu 2023 - 14:00 WIB
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -269,7 +322,7 @@ export default function DetailOrderPage() {
                                 </DialogHeader>
                             </DialogContent>
                         </Dialog>
-                    </div >
+                    </div>
                     <div className="flex flex-col gap-3">
                         <div className="flex flex-row">
                             <p className="w-48">Kurir</p>
@@ -282,10 +335,10 @@ export default function DetailOrderPage() {
                                     className="border-none hover:bg-transparent p-0"
                                     variant="ghost"
                                     onClick={() =>
-                                        toast("Nomor Invoice berhasil disalin", {
+                                        toast('Nomor Invoice berhasil disalin', {
                                             action: {
-                                                label: "OK",
-                                                onClick: () => console.log("Undo"),
+                                                label: 'OK',
+                                                onClick: () => console.log('Undo'),
                                             },
                                         })
                                     }
@@ -302,10 +355,10 @@ export default function DetailOrderPage() {
                                     className="border-none hover:bg-transparent p-0"
                                     variant="ghost"
                                     onClick={() =>
-                                        toast("Nomor Invoice berhasil disalin", {
+                                        toast('Nomor Invoice berhasil disalin', {
                                             action: {
-                                                label: "OK",
-                                                onClick: () => console.log("Undo"),
+                                                label: 'OK',
+                                                onClick: () => console.log('Undo'),
                                             },
                                         })
                                     }
@@ -314,17 +367,20 @@ export default function DetailOrderPage() {
                                 </Button>
                             </div>
                             <div className="w-full flex flex-col">
-                                <p>Jl. Elang IV, Sawah Lama, Kec. Ciputat, Kota Tangerang Selatan, Banten 15413</p>
+                                <p>
+                                    Jl. Elang IV, Sawah Lama, Kec. Ciputat, Kota Tangerang Selatan,
+                                    Banten 15413
+                                </p>
                                 <p className="text-gray">081234567890</p>
                                 <p className="text-gray">Annur Syawila Hasibuan</p>
                             </div>
                         </div>
                     </div>
-                </div >
-            </div >
+                </div>
+            </div>
 
             {/* Rincian Pembayaran */}
-            < div className="rounded flex flex-row gap-2 py-2.5 px-3 bg-white" >
+            <div className="rounded flex flex-row gap-2 py-2.5 px-3 bg-white">
                 <div>
                     <PiWalletLight className="mr-2 size-5 text-cyan" />
                 </div>
@@ -354,15 +410,25 @@ export default function DetailOrderPage() {
                         </div>
                     </div>
                 </div>
-            </ div>
+            </div>
 
             {/* Button New order */}
-            < div className="rounded flex flex-row gap-2 py-2.5 px-3 bg-white" >
+            <div className="rounded flex flex-row gap-2 py-2.5 px-3 bg-white">
                 <div className="w-full flex flex-row justify-between">
-                    <Button variant={"outline"} className="text-red-600 border-red-600 hover:bg-red-600 hover:text-white">Tolak Pesanan</Button>
-                    <Button variant={"outline"} className="text-white bg-cyan hover:bg-white hover:text-cyan hover:border-cyan">Proses Pesanan</Button>
+                    <Button
+                        variant={'outline'}
+                        className="text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+                    >
+                        Tolak Pesanan
+                    </Button>
+                    <Button
+                        variant={'outline'}
+                        className="text-white bg-cyan hover:bg-white hover:text-cyan hover:border-cyan"
+                    >
+                        Proses Pesanan
+                    </Button>
                 </div>
-            </ div>
-        </div >
+            </div>
+        </div>
     )
 }

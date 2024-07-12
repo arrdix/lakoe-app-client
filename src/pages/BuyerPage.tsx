@@ -1,26 +1,21 @@
-import { TiMinus } from "react-icons/ti";
-import React, { useState } from 'react'
-import { FaPlus } from 'react-icons/fa6';
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { TiMinus } from 'react-icons/ti'
+import { useState } from 'react'
+import { FaPlus } from 'react-icons/fa6'
 
-
-import { Card, CardContent } from "@/components/card";
+import { Card, CardContent } from '@/components/card'
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
-} from "@/components/carousel";
-
+} from '@/components/carousel'
 
 function BuyerPage() {
-    
     const [count, setCount] = useState<number>(0)
 
     const handlePlusCount = () => {
-        if (count < 12)
-            setCount(count + 1)
+        if (count < 12) setCount(count + 1)
     }
 
     const handleMinusCount = () => {
@@ -31,52 +26,47 @@ function BuyerPage() {
 
     const images = [
         {
-            Image: "https://images.pexels.com/photos/167684/pexels-photo-167684.jpeg?auto=compress&cs=tinysrgb&w=600"
+            Image: 'https://images.pexels.com/photos/167684/pexels-photo-167684.jpeg?auto=compress&cs=tinysrgb&w=600',
         },
         {
-            Image: "https://images.pexels.com/photos/87651/earth-blue-planet-globe-planet-87651.jpeg?auto=compress&cs=tinysrgb&w=600"
+            Image: 'https://images.pexels.com/photos/87651/earth-blue-planet-globe-planet-87651.jpeg?auto=compress&cs=tinysrgb&w=600',
         },
         {
-            Image: "https://images.pexels.com/photos/1025469/pexels-photo-1025469.jpeg?auto=compress&cs=tinysrgb&w=600"
+            Image: 'https://images.pexels.com/photos/1025469/pexels-photo-1025469.jpeg?auto=compress&cs=tinysrgb&w=600',
         },
         {
-            Image: "https://images.pexels.com/photos/2156/sky-earth-space-working.jpg?auto=compress&cs=tinysrgb&w=600"
+            Image: 'https://images.pexels.com/photos/2156/sky-earth-space-working.jpg?auto=compress&cs=tinysrgb&w=600',
         },
-    ];
+    ]
 
-    const [selectedImage, setSelectedImage] = useState(images[0].Image);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [selectedImage, setSelectedImage] = useState(images[0].Image)
+    const [currentIndex, setCurrentIndex] = useState(0)
 
     const selectImage = (image: string) => {
-        setSelectedImage(image);
-    };
+        setSelectedImage(image)
+    }
 
     const triggerSelectRight = () => {
-        const nextIndex = (currentIndex + 1) % images.length;
-        setCurrentIndex(nextIndex);
-        selectImage(images[nextIndex].Image);
-    };
+        const nextIndex = (currentIndex + 1) % images.length
+        setCurrentIndex(nextIndex)
+        selectImage(images[nextIndex].Image)
+    }
     const triggerSelectLeft = () => {
-        const prevIndex = (currentIndex - 1 + images.length) % images.length;
-        setCurrentIndex(prevIndex);
-        selectImage(images[prevIndex].Image);
+        const prevIndex = (currentIndex - 1 + images.length) % images.length
+        setCurrentIndex(prevIndex)
+        selectImage(images[prevIndex].Image)
     }
 
     return (
-        <div className="flex border flex-col items-center justify-center p-6 w-full h-full">
-
-            <div className="flex border px-14 gap-6">
-                <div className="flex flex-col ">
-                    <img
-                        src={selectedImage}
-                        alt="Selected"
-                        className="w-96 h-96 mb-4"
-                    />
+        <div className="flex flex-col items-center justify-center p-6 w-full h-full">
+            <div className="flex border px-14 gap-6 w-11/12 px-8 py-12 bg-white">
+                <div className="flex flex-col w-full justify-center items-center">
+                    <img src={selectedImage} alt="Selected" className="w-96 h-96 mb-4" />
 
                     <div className="w-full flex justify-center">
                         <Carousel
                             opts={{
-                                align: "start",
+                                align: 'start',
                             }}
                             className="w-full max-w-sm"
                         >
@@ -91,9 +81,8 @@ function BuyerPage() {
                                                         alt={`Carousel image ${index + 1}`}
                                                         className="cursor-pointer"
                                                         onClick={() => {
-                                                            setCurrentIndex(index);
-                                                            selectImage(item.Image);
-
+                                                            setCurrentIndex(index)
+                                                            selectImage(item.Image)
                                                         }}
                                                     />
                                                 </CardContent>
@@ -102,7 +91,7 @@ function BuyerPage() {
                                     </CarouselItem>
                                 ))}
                             </CarouselContent>
-                            <CarouselPrevious className="bg-red-500" onClick={triggerSelectLeft} />
+                            <CarouselPrevious onClick={triggerSelectLeft} />
                             <CarouselNext onClick={triggerSelectRight} />
                         </Carousel>
                     </div>
@@ -128,8 +117,12 @@ function BuyerPage() {
                         <span className="ml-4">12 tersedia</span>
                     </div>
                     <div className="flex w-80 gap-5 mt-4">
-                        <button className="bg-white text-black w-32 h-10 rounded border">Beli Langsung</button>
-                        <button className="bg-blue-500 text-white w-32 h-10 rounded">+ Keranjang</button>
+                        <button className="bg-white text-black w-32 h-10 rounded border">
+                            Beli Langsung
+                        </button>
+                        <button className="bg-blue-500 text-white w-32 h-10 rounded">
+                            + Keranjang
+                        </button>
                     </div>
                 </div>
             </div>

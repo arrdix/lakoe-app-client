@@ -24,7 +24,7 @@ export default function LocationModal({ isOpen, onModalClose }: LocationModalPro
     }, [isModalOpen])
 
     return (
-        <div>
+        <div className="bg-black">
             {/* Tombol Pemicu */}
 
             <Button variant={'outline'} className="text-xs" onClick={() => setOpen(true)}>
@@ -32,15 +32,15 @@ export default function LocationModal({ isOpen, onModalClose }: LocationModalPro
             </Button>
 
             {/* Background Overlay */}
-            {isModalOpen && <div className="fixed inset-0 bg-black opacity-50 z-10"></div>}
+            {isModalOpen && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
 
-            <Dialog open={isModalOpen} onClose={() => setOpen(false)} className="relative z-10">
+            <Dialog open={isModalOpen} onClose={() => setOpen(false)} className="relative z-50">
                 <DialogBackdrop
                     transition
                     className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
                 />
 
-                <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
                     <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                         <DialogPanel
                             transition

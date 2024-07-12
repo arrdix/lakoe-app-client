@@ -5,7 +5,7 @@ import DashboardPage from '@/pages/DashboardPage'
 import ProductPage from '@/pages/ProductPage'
 import NewProductPage from '@/pages/NewProductPage'
 import OrderPage from '@/pages/OrderPage'
-import DetailOrderPage from "./pages/DetailOrderPage"
+import DetailOrderPage from './pages/DetailOrderPage'
 import SettingPage from '@/pages/SettingPage'
 import roleChecker from '@/utils/roleChecker'
 import BuyerLayout from '@/layouts/BuyerLayout'
