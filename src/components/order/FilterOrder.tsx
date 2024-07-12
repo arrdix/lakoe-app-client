@@ -11,7 +11,7 @@ interface FilterOrderProps {
 }
 export default function FilterOrder({ text }: FilterOrderProps) {
     return (
-        <div>
+        <div className="border rounded-md">
             <Select>
                 <SelectTrigger className="w-full focus:outline-none border-none">
                     <SelectValue placeholder={text} />

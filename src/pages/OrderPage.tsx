@@ -1,16 +1,32 @@
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 import { BiSearchAlt } from "react-icons/bi";
 import FilterOrder from "@/components/order/FilterOrder";
 import CardOrder from "@/components/order/CardOrder";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScrollArea from "@/components/order/ScrollArea";
+import API from "@/networks/api";
+import { Order } from "@/types/OrderType"
 
 export default function OrderPage() {
-  const [activeTab, setActiveTab] = useState<string>("Semua")
+  const [activeTab, setActiveTab] = useState<string>("Semua");
+  const [orders, setOrders] = useState<Order[]>([]);
 
-  function onTabChange(activeTab: string) {
-    setActiveTab(activeTab)
+  function onTabChange(tab: string) {
+    setActiveTab(tab);
   }
+
+  useEffect(() => {
+    async function fetchOrder() {
+      try {
+        const orders: Order[] = await API.ORDER.GET_ALL();
+        setOrders(orders);
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      }
+    }
+
+    fetchOrder();
+  }, []);
 
   return (
     <div className="w-full h-full bg-lightergray p-8">
@@ -29,11 +45,10 @@ export default function OrderPage() {
           onTabChange={onTabChange}
         />
 
-        {/* Input and Filter */}
         <div>
           <div className="relative mb-6">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-              <BiSearchAlt className="size-5" />
+              <BiSearchAlt className="productSize-5" />
             </div>
             <div className="flex flex-row gap-3 w-full">
               <div className="w-2/4">
@@ -50,14 +65,55 @@ export default function OrderPage() {
         </div>
 
         {/* Card Item */}
-        <CardOrder status="Belum Dibayar" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
-        <CardOrder status="Pesanan Baru" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
-        <CardOrder status="Siap Dikirim" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
-        <CardOrder status="Dalam Pengiriman" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
-        <CardOrder status="Pesanan Selesai" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
-        <CardOrder status="Dibatalkan" invoice="INV/20230809/MPL/00000239" text="Hubungi Pembeli" tshirt="CREWNECK BASIC - BLACK | sweter polos hoodie polos crewneck - S" stock="1" price="190.000" />
+        {
+          orders.length ? (
+            orders.map((order) => {
+              let color;
+              let text;
 
+              switch (order.status) {
+                case "Belum Dibayar":
+                  color = "bg-yellow-400";
+                  text = 'Hubungi Pembeli'
+                  break;
+                case "Pesanan Baru":
+                  color = "bg-green-600 text-white";
+                  text = "Proses Pesanan"
+                  break;
+                case "Siap Dikirim":
+                  color = "bg-blue-600 text-white";
+                  text = "Kabari Pembeli"
+                  break;
+                case "Dalam Pengiriman":
+                  color = "bg-orange-600 text-white";
+                  text = "Lihat Rincian Pengiriman"
+                  break;
+                case "Pesanan Selesai":
+                  color = "bg-lightGray";
+                  text = "Hubungi Pembeli"
+                  break;
+                case "Dibatalkan":
+                  color = "bg-red-600 text-white";
+                  text = "Hubungi Pembeli"
+                  break;
+                default:
+                  color = "bg-gray-200";
+                  text = "Hubungi Pembeli"
+              }
+
+              return (
+                <CardOrder
+                  order={order}
+                  color={color}
+                  text={text}
+                />
+              );
+            })
+          ) : (
+            <p>No orders available.</p>
+          )
+        }
       </div>
     </div>
-  )
+  );
 }

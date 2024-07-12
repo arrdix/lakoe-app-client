@@ -189,7 +189,6 @@ export default function DetailOrderPage() {
                                                 <div>
                                                     <div className="flex">
                                                         <p>No.Resi</p>
-                                                        <PiCopySimpleLight className="mr-2 size-5" />
                                                     </div>
                                                     <p className="font-semibold">JT6268865922</p>
                                                 </div>
@@ -279,14 +278,40 @@ export default function DetailOrderPage() {
                         <div className="flex flex-row">
                             <div className="w-48 flex flex-row gap-1 items-center">
                                 <p>No.Resi</p>
-                                <PiCopySimpleLight className="mr-2 size-5" />
+                                <Button
+                                    className="border-none hover:bg-transparent p-0"
+                                    variant="ghost"
+                                    onClick={() =>
+                                        toast("Nomor Invoice berhasil disalin", {
+                                            action: {
+                                                label: "OK",
+                                                onClick: () => console.log("Undo"),
+                                            },
+                                        })
+                                    }
+                                >
+                                    <PiCopySimpleLight className="mr-2 size-5" />
+                                </Button>
                             </div>
                             <p className="w-full">-</p>
                         </div>
                         <div className="flex flex-row">
                             <div className="w-48 flex flex-row gap-1 items-center">
                                 <p>Alamat</p>
-                                <PiCopySimpleLight className="mr-2 size-5" />
+                                <Button
+                                    className="border-none hover:bg-transparent p-0"
+                                    variant="ghost"
+                                    onClick={() =>
+                                        toast("Nomor Invoice berhasil disalin", {
+                                            action: {
+                                                label: "OK",
+                                                onClick: () => console.log("Undo"),
+                                            },
+                                        })
+                                    }
+                                >
+                                    <PiCopySimpleLight className="mr-2 size-5" />
+                                </Button>
                             </div>
                             <div className="w-full flex flex-col">
                                 <p>Jl. Elang IV, Sawah Lama, Kec. Ciputat, Kota Tangerang Selatan, Banten 15413</p>

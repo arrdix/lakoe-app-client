@@ -5,6 +5,7 @@ import DashboardPage from '@/pages/DashboardPage'
 import ProductPage from '@/pages/ProductPage'
 import NewProductPage from '@/pages/NewProductPage'
 import OrderPage from '@/pages/OrderPage'
+import DetailOrderPage from "./pages/DetailOrderPage"
 import SettingPage from '@/pages/SettingPage'
 import roleChecker from '@/utils/roleChecker'
 import BuyerLayout from '@/layouts/BuyerLayout'
@@ -34,6 +35,7 @@ function App() {
                         <Route path="/product" element={<ProductPage />} />
                         <Route path="/product/new" element={<NewProductPage />} />
                         <Route path="/order" element={<OrderPage />} />
+                        <Route path="/order/detail" element={<DetailOrderPage />} />
                         <Route path="/setting" element={<SettingPage />} />
                     </Route>
                 </Routes>

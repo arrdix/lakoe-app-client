@@ -1,154 +1,285 @@
-import { Wallet, Banknote,  HandCoins, SquareCheckBig } from "lucide-react";
-import { CiCreditCard2, } from "react-icons/ci";
-import { SiContactlesspayment } from "react-icons/si";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
-import { FaMoneyCheckAlt } from "react-icons/fa";
-import { HiCash } from "react-icons/hi";
-import { HiOutlineDownload } from "react-icons/hi";
-import { PiExclamationMarkDuotone } from "react-icons/pi";
-import DashboardBox from "@/components/DashboardBox";
-import { FaMapLocationDot } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import { IoMdArrowDropdown } from "react-icons/io";
+"use client";
+import * as React from "react";
+import { TrendingUp } from "lucide-react";
+import { Label, Pie, PieChart } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"
-function DashboardPage() {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+
+const pieData = [
+  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
+  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
+  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
+  { browser: "other", visitors: 190, fill: "var(--color-other)" },
+];
+
+const chartData = [
+  { month: "January", desktop: 186, mobile: 80 },
+  { month: "February", desktop: 305, mobile: 200 },
+  { month: "March", desktop: 237, mobile: 120 },
+  { month: "April", desktop: 73, mobile: 190 },
+  { month: "May", desktop: 209, mobile: 130 },
+  { month: "June", desktop: 214, mobile: 140 },
+]
+
+const chartConfig = {
+  visitors: {
+    label: "Visitors",
+  },
+  chrome: {
+    label: "Pending",
+    color: "#D8D9DA",
+  },
+  safari: {
+    label: "Proccess",
+    color: "#FFC700",
+  },
+  firefox: {
+    label: "Success",
+    color: "#9BEC00",
+  },
+  edge: {
+    label: "Rejected",
+    color: "#FF0000",
+  },
+  desktop: {
+    label: "Success",
+    color: "#9BEC00",
+  },
+  mobile: {
+    label: "Rejected",
+    color: "#FF0000",
+  },
+} satisfies ChartConfig;
+
+export default function TestDashboardPage() {
+  const totalVisitors = React.useMemo(() => {
+    return pieData.reduce((acc, curr) => acc + curr.visitors, 0);
+  }, []);
+
   return (
-    <div >
-    <div className="w-full h-full p-5 0">
-      <div className=" flex justify-between gap-2.5 ">
-        <div className="w-full h-full bg-white w-72 h-28  ">
-          <div className="p-3 ">
-            <div>Current Balance</div>
-            <div className="text-green-700">Rp0</div>
-            <button className="bg-lime-500 w-full h-8 text-white rounded-md ">
-              Tarik Credit
-            </button>
-          </div>
-        </div>
+    <div className="w-full h-full bg-lightergray p-8">
+      <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
+        <h1 className="text-xl font-bold text-black">Dashboard</h1>
 
-        <div className="w-full h-full bg-white w-64 h-28">
-          <div className="p-3">
-            <div >
-              <Wallet />
-              <div>Penarikan sedang dalam proses</div>
+        {/* Card Dashboard */}
+        <div className="flex flex-row gap-5">
+          <div className="relative flex flex-col text-gray-700 bg-pending shadow bg-clip-border rounded-md w-96">
+            <div className="p-6 flex flex-row">
+              <div className="h-full w-1 bg-black mx-2 self-stretch rounded"></div>
+              <div className="flex flex-col items-center justify-center">
+                <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
+                  PENDING
+                </p>
+                <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                  Rp. 123
+                </h5>
+              </div>
             </div>
-            <div className="font-bold text-xl">Rp0</div>
           </div>
-        </div>
 
-        <div className="w-full h-full bg-white w-60 h-28">
-          <div className="p-3">
-            <Banknote />
-            <div className="flex justify-between">
-              Saldo Tertahan
-              <PiExclamationMarkDuotone size={"2rem"} />
-              <Link className="text-blue-500 " style={{fontSize:"12px"}} to="">Lihat semua</Link>
+          <div className="relative flex flex-col text-gray-700 bg-proccess shadow bg-clip-border rounded-md w-96">
+            <div className="p-6 flex flex-row">
+              <div className="h-full w-1 bg-black mx-2 self-stretch rounded"></div>
+              <div className="flex flex-col items-center justify-center">
+                <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
+                  PROCCESS
+                </p>
+                <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                  Rp. 123
+                </h5>
+              </div>
             </div>
-            <div className="font-bold text-xl">Rp0</div>
           </div>
         </div>
 
-        <div className="w-full h-full bg-white w-60 h-28 ">
-          <div className="p-3">
-            <HandCoins />
-            <div className="flex justify-between">Tagihan Belum Bayar
-              <Link className="text-blue-500 " style={{fontSize:"12px"}} to="">Lihat semua</Link>
+        {/* Card Dashboard */}
+        <div className="flex flex-row gap-5">
+          <div className="relative flex flex-col text-gray-700 bg-success shadow bg-clip-border rounded-md w-96">
+            <div className="p-6 flex flex-row">
+              <div className="h-full w-1 bg-black mx-2 self-stretch rounded"></div>
+              <div className="flex flex-col items-center justify-center">
+                <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
+                  SUCCESS
+                </p>
+                <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                  Rp. 123
+                </h5>
+              </div>
             </div>
-            <div className="font-bold text-xl text-red-700">Rp0</div>
+          </div>
+
+          <div className="relative flex flex-col text-gray-700 bg-rejected shadow bg-clip-border rounded-md w-96">
+            <div className="p-6 flex flex-row">
+              <div className="h-full w-1 bg-black mx-2 self-stretch rounded"></div>
+              <div className="flex flex-col items-center justify-center">
+                <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
+                  REJECTED
+                </p>
+                <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                  Rp. 123
+                </h5>
+              </div>
+            </div>
           </div>
         </div>
 
-      </div >
+        <div className="w-full flex flex-row gap-5">
+          {/* Pie Chart */}
+          <Card className="relative flex flex-col text-gray-700 bg-white border-white shadow bg-clip-border rounded-md w-3/6">
+            <CardHeader className="items-center pb-0">
+              <CardTitle>Total Visitor</CardTitle>
+              <CardDescription>January - June 2024</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 pb-0">
+              <ChartContainer
+                config={chartConfig}
+                className="mx-auto aspect-square max-h-[250px]"
+              >
+                <PieChart>
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent hideLabel />}
+                  />
+                  <Pie
+                    data={pieData.slice(0, 4)}
+                    dataKey="visitors"
+                    nameKey="browser"
+                    innerRadius={60}
+                    strokeWidth={5}
+                  >
+                    <Label
+                      content={({ viewBox }) => {
+                        if (
+                          viewBox &&
+                          "cx" in viewBox &&
+                          "cy" in viewBox
+                        ) {
+                          return (
+                            <text
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                              textAnchor="middle"
+                              dominantBaseline="middle"
+                            >
+                              <tspan
+                                x={viewBox.cx}
+                                y={viewBox.cy}
+                                className="fill-foreground text-3xl font-bold"
+                              >
+                                {totalVisitors.toLocaleString()}
+                              </tspan>
+                              <tspan
+                                x={viewBox.cx}
+                                y={(viewBox.cy || 0) + 24}
+                                className="fill-muted-foreground"
+                              >
+                                Visitors
+                              </tspan>
+                            </text>
+                          );
+                        }
+                      }}
+                    />
+                  </Pie>
+                </PieChart>
+              </ChartContainer>
+            </CardContent>
+            <CardFooter className="flex-col gap-2 text-sm">
+              <div className="flex items-center gap-2 font-medium leading-none">
+                Trending up by 5.2% this month{" "}
+                <TrendingUp className="h-4 w-4" />
+              </div>
+              <div className="leading-none text-muted-foreground">
+                Showing total visitors for the last 6 months
+              </div>
+            </CardFooter>
+          </Card>
 
-      <div className=" w-full  bg-white mt-5 p-4 ">
-
-
-        <div className="text-black text-xl font-bold p-3" >Reporting Period</div>
-
-        <div className="flex">
-          <DashboardBox text="Penarikan Selesai" value={0} icon={<SquareCheckBig size={"2rem"} />} />
-          <DashboardBox text="Pendapatan COD" value={0} icon={<FaMoneyCheckAlt size={"2rem"} />} />
-          <DashboardBox text="CashBack Pengiriman" value={0} icon={<HiCash size={"2rem"} />} />
-          <DashboardBox text="Pendapatan E-Payment" value={0} icon={<SiContactlesspayment size={"3rem"} />} />
+          {/* Bar Chart */}
+          <Card className="relative flex flex-col text-gray-700 bg-white border-white shadow bg-clip-border rounded-md w-3/6">
+            <CardHeader>
+              <CardTitle>Total Transaksi</CardTitle>
+              <CardDescription>January - June 2024</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={chartConfig}>
+                <BarChart accessibilityLayer data={chartData}>
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="month"
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                    tickFormatter={(value) => value.slice(0, 3)}
+                  />
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent indicator="dashed" />}
+                  />
+                  <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
+                  <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+                </BarChart>
+              </ChartContainer>
+            </CardContent>
+            <CardFooter className="flex-col items-start gap-2 text-sm">
+              <div className="flex gap-2 font-medium leading-none">
+                Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+              </div>
+              <div className="leading-none text-muted-foreground">
+                Showing total visitors for the last 6 months
+              </div>
+            </CardFooter>
+          </Card>
         </div>
 
-        <div className="flex">
-
-          <DashboardBox text="Refund Biaya Pengiriman" value={0} icon={<FaMoneyBillTransfer size={"2rem"} />} />
-          <DashboardBox text="Kredit Lainnya" value={0} icon={<CiCreditCard2 size={"2rem"} />} />
-          <DashboardBox text="Klaim Pengiriman " value={0} icon={<FaMapLocationDot size={"2rem"} />} />
-          <DashboardBox text="Pembayaran Penagihan" value={0} icon={<HandCoins size={"2rem"} />} />
-        </div>
+        {/* Table Invoice */}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>No.</TableHead>
+              <TableHead>Deskripsi</TableHead>
+              <TableHead>Nilai</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Tipe</TableHead>
+              <TableHead className="text-right">Tanggal</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-medium">1</TableCell>
+              <TableCell>Pinjol</TableCell>
+              <TableCell>123</TableCell>
+              <TableCell>Pending</TableCell>
+              <TableCell>Credit Card</TableCell>
+              <TableCell className="text-right">21 Januari 2024</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
 
       </div>
-
-      <div className=" w-full mt-2 p-4 bg-lightgray ">
-        <div className="flex justify-between  ">
-          <div className=" ">
-          <DropdownMenu>
-              <DropdownMenuTrigger className="flex"> <Button className=" bg-white text-black rounded-none  "> <HiOutlineDownload size={"1.5rem"} /> Eksport  <IoMdArrowDropdown /></Button></DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          </div>
-        
-          <DropdownMenu>
-            <DropdownMenuTrigger> <Button className=" bg-white text-black rounded-none "> All Type <IoMdArrowDropdown /></Button></DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger > <Button className=" bg-white text-black rounded-none "> All Status <IoMdArrowDropdown /></Button></DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Input className="w-40 rounded-none" placeholder="Order Id" type="text"/>
-        </div>
-      </div>
-
-
-
-      <div className=" w-full  bg-white mt-5 p-4 flex gap-20 font-bold ">
-        <div >No.</div>
-        <div>Descripsi</div>
-        <div>Nilai</div>
-        <div>Status</div>
-        <div>Tipe</div>
-        <div>Tanggal</div>
-      </div>
-
-
-    </div>
-
     </div>
   );
 }
-
-export default DashboardPage
