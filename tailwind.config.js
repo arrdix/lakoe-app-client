@@ -75,6 +75,10 @@ export const theme = {
       lightGray: "#E3E3E3",
       cyan: "#0086B4",
       dev: "#9e0000",
+      pending: "#D8D9DA",
+      proccess: "#FFC700",
+      success: "#9BEC00",
+      rejected: "#FF0000",
     },
     borderRadius: {
       lg: "var(--radius)",
