@@ -16,20 +16,20 @@ export default function ProductList({
   tabOptions: string;
 }) {
   const { id } = useProductCheckedContext();
-  const [isAllchecked, setIsAllchecked] = useState<boolean>(false);
-  const [isCheckedChange, setIsChecked] = useState(false);
+  const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+  const [isCheckedChange, setIsCheckedChange] = useState(false);
 
   const onCheckedChange = () => {
-    setIsChecked(!isCheckedChange);
+    setIsCheckedChange(!isCheckedChange);
   };
 
   console.log("ini id", id);
-  console.log("all checked", isAllchecked);
+  console.log("all checked", isAllChecked);
 
   return (
     <div>
       {/* jika produk tersedia */}
-      {productList.length == 0 ? (
+      {productList.length === 0 ? (
         <div>
           <NoResultProduct tabOptions={tabOptions} />
         </div>
@@ -45,20 +45,18 @@ export default function ProductList({
                   <DeleteProductsModal />
                 </div>
               )}
-
               <div className="flex gap-4 items-center">
                 <label
                   htmlFor="default-checkbox"
                   className="text-sm font-thin text-gray-600"
                 >
-                  {!isAllchecked?"Pilih Semua":"Batalkan Semua"}
-                 
+                  {!isAllChecked ? "Pilih Semua" : "Batalkan Semua"}
                 </label>
                 <div className="pt-1">
                   <Checkbox
-                    checked={isAllchecked}
+                    checked={isAllChecked}
                     onCheckedChange={() => {
-                      setIsAllchecked(!isAllchecked);
+                      setIsAllChecked(!isAllChecked);
                     }}
                   />
                 </div>
@@ -66,16 +64,14 @@ export default function ProductList({
             </div>
           </div>
           <div className="flex flex-col gap-3">
-            {productList.map((product) => {
-              return (
-                <Card
-                  key={product.id}
-                  product={product}
-                  isCheckedDefault={isAllchecked}
-                  onCheckedChanges={onCheckedChange}
-                ></Card>
-              );
-            })}
+            {productList.map((product) => (
+              <Card
+                key={product.id}
+                product={product}
+                isCheckedDefault={isAllChecked}
+                onCheckedChanges={onCheckedChange}
+              />
+            ))}
           </div>
         </div>
       )}

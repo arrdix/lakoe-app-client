@@ -2,19 +2,13 @@ import { useEffect, useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Button } from '@/components/ui/button'
 import { IoMdClose } from 'react-icons/io'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
-interface LocationModalProps {
+
+interface MessageTemplateModalProps {
     isOpen: boolean
     onModalClose: () => void
 }
 
-export default function LocationModal({ isOpen, onModalClose }: LocationModalProps) {
+export default function MessageTemplateModal({ isOpen, onModalClose }: MessageTemplateModalProps) {
     const [isModalOpen, setOpen] = useState(isOpen)
 
     useEffect(() => {
@@ -54,7 +48,7 @@ export default function LocationModal({ isOpen, onModalClose }: LocationModalPro
                                             className="flex justify-between text-base font-semibold leading-6 text-gray-900"
                                         >
                                             <p className="text-black text-lg font-bold">
-                                                Tambah Lokasi Baru
+                                                Buat Template Pesan Baru
                                             </p>
                                             <Button
                                                 className="text-xs bg-transparent border border-gray text-black p-2 h-auto hover:bg-black hover:text-white"
@@ -65,90 +59,42 @@ export default function LocationModal({ isOpen, onModalClose }: LocationModalPro
                                         </DialogTitle>
                                         <div className="flex flex-col gap-4 w-full h-full">
                                             <div className="flex flex-col gap-1">
-                                                <label htmlFor="storeLocation" className="text-sm">
-                                                    Nama Lokasi
+                                                <label
+                                                    htmlFor="storeMessageTitle"
+                                                    className="text-sm"
+                                                >
+                                                    Judul Pesan
                                                     <span className="text-red-500"> *</span>
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    id="storeLocation"
-                                                    placeholder="Toko Dumbways"
+                                                    id="storeMessageTitle"
+                                                    placeholder="Judul Pesan"
                                                     className="border border-gray-200 rounded-md h-10 pl-2 text-sm"
                                                 />
                                             </div>
                                             <div className="flex flex-col gap-1">
-                                                <label htmlFor="storeDistrict" className="text-sm">
-                                                    Kota/Kecamatan
-                                                    <span className="text-red-500"> *</span>
-                                                </label>
-                                                <Select>
-                                                    <SelectTrigger className="w-full text-gray">
-                                                        <SelectValue placeholder="Ciputat" />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem
-                                                            value="Ciputat"
-                                                            className="pl-3"
-                                                        >
-                                                            Ciputat
-                                                        </SelectItem>
-                                                        <SelectItem
-                                                            value="Ciputat"
-                                                            className="pl-3"
-                                                        >
-                                                            Ciputat
-                                                        </SelectItem>
-                                                        <SelectItem
-                                                            value="Ciputat"
-                                                            className="pl-3"
-                                                        >
-                                                            Ciputat
-                                                        </SelectItem>
-                                                        <SelectItem
-                                                            value="Ciputat"
-                                                            className="pl-3"
-                                                        >
-                                                            Ciputat
-                                                        </SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
-                                            <div className="flex flex-col gap-1">
                                                 <label
-                                                    htmlFor="storePostalCode"
+                                                    htmlFor="storeMessageBody"
                                                     className="text-sm"
                                                 >
-                                                    Kode Pos
+                                                    Detail Isi Pesan
                                                     <span className="text-red-500"> *</span>
                                                 </label>
-                                                <Select>
-                                                    <SelectTrigger className="w-full text-gray">
-                                                        <SelectValue placeholder="12345" />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="12345" className="pl-3">
-                                                            12345
-                                                        </SelectItem>
-                                                        <SelectItem value="12345" className="pl-3">
-                                                            12345
-                                                        </SelectItem>
-                                                        <SelectItem value="12345" className="pl-3">
-                                                            12345
-                                                        </SelectItem>
-                                                        <SelectItem value="12345" className="pl-3">
-                                                            12345
-                                                        </SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
-                                            <div className="flex flex-col gap-1">
-                                                <label htmlFor="storeAddress" className="text-sm">
-                                                    Alamat Lengkap
-                                                    <span className="text-red-500"> *</span>
-                                                </label>
+                                                <div className="flex gap-1 mb-1">
+                                                    <Button className="bg-transparent border border-lightGray text-black hover:text-white">
+                                                        Nama Pembeli
+                                                    </Button>
+                                                    <Button className="bg-transparent border border-lightGray text-black hover:text-white">
+                                                        Nama Produk
+                                                    </Button>
+                                                    <Button className="bg-transparent border border-lightGray text-black hover:text-white">
+                                                        Nama Toko
+                                                    </Button>
+                                                </div>
                                                 <textarea
-                                                    id="storeAddress"
-                                                    placeholder="Jl. Dumbways no. ID"
+                                                    id="storeMessageBody"
+                                                    placeholder="Isi Pesan"
                                                     className="border border-gray-200 rounded-md h-24 pl-2 py-2 text-sm resize-none"
                                                 />
                                             </div>

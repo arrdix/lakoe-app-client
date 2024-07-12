@@ -1,5 +1,5 @@
-import { SquareCheckBig } from 'lucide-react'
-import React, { ReactNode } from 'react'
+
+import  { ReactNode } from 'react'
 
 interface DashboardBoxProps {
     text: string

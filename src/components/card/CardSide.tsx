@@ -47,7 +47,7 @@ export default function CardSide({
             {isAktifModalView && <NonaktifProductModal productName={productName}/>}
           </div>
         </div>
-      </div>
-    </div>
-  );
+        </div>
+        </div>
+    )
 }

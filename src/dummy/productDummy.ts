@@ -163,4 +163,4 @@ const dummyProduct: ProductType[] = [
   },
 ];
 
-export default dummyProduct;
+export default dummyProduct
