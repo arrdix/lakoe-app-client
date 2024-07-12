@@ -7,7 +7,11 @@ import {
 } from "@headlessui/react";
 import { Button } from "../ui/button";
 
-export default function ChangeProductPriceModal() {
+export default function ChangeProductPriceModal({
+  productName,
+}: {
+  productName: string;
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -38,8 +42,8 @@ export default function ChangeProductPriceModal() {
               className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
             >
               <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                <div className="sm:flex sm:items-start ">
+                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
                     <DialogTitle
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
@@ -49,9 +53,8 @@ export default function ChangeProductPriceModal() {
                     <div className="mt-2 flex flex-col gap-4">
                       <p className="text-sm text-gray-500">
                         Ubah harga untuk produk{" "}
-                        <span className="font-semibold">
-                          KAOS BASIC COTTON KENARI - DUSTY ROSE [ COTTON COMBED
-                          30S ]
+                        <span className="font-semibold uppercase">
+                          {productName}
                         </span>
                       </p>
                       <form className="flex flex-col gap-1">

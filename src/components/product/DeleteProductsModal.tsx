@@ -8,9 +8,11 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { BiTrash } from "react-icons/bi";
 import { Button } from "../ui/button";
+import { useProductCheckedContext } from "@/context/checkedProductContext";
 
 export default function DeleteProductsModal() {
   const [open, setOpen] = useState(false);
+  const { id } = useProductCheckedContext();
 
   return (
     <div>
@@ -51,7 +53,7 @@ export default function DeleteProductsModal() {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Hapus 5 Produk
+                      Hapus {id.length} Produk
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
