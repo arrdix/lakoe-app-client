@@ -1,28 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { Button } from '../ui/button'
 
-interface NonaktifProductModalProps {
-    onModalClose?: () => void
-    productName: string
-}
-
-export default function NonaktifProductModal({
-    onModalClose,
-    productName,
-}: NonaktifProductModalProps) {
-    const [open, setOpen] = useState(true)
-
-    // edit logic
-    useEffect(() => {
-        if (onModalClose && open === false) {
-            onModalClose()
-        }
-    }, [open])
+export default function ChangeProductStockModal({ productName }: { productName: string }) {
+    const [open, setOpen] = useState(false)
 
     return (
         <div>
+            {/* Tombol Pemicu */}
+
+            <Button variant={'outline'} className="text-xs" onClick={() => setOpen(true)}>
+                Ubah Stok
+            </Button>
+
             {/* Background Overlay */}
             {open && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
 
@@ -40,26 +30,33 @@ export default function NonaktifProductModal({
                         >
                             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <div className="sm:flex sm:items-start">
-                                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <ExclamationTriangleIcon
-                                            aria-hidden="true"
-                                            className="h-6 w-6 text-red-600"
-                                        />
-                                    </div>
-                                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
                                         <DialogTitle
                                             as="h3"
                                             className="text-base font-semibold leading-6 text-gray-900"
                                         >
-                                            Nonaktifkan Produk
+                                            Ubah Stok
                                         </DialogTitle>
-                                        <div className="mt-2">
+                                        <div className="mt-2 flex flex-col gap-4">
                                             <p className="text-sm text-gray-500">
-                                                Nonaktifkan produk{' '}
+                                                Ubah Stok untuk produk
                                                 <span className="font-semibold uppercase">
                                                     {productName}
                                                 </span>
                                             </p>
+                                            <form className="flex flex-col gap-1">
+                                                <div className="flex">
+                                                    <div className="relative w-full">
+                                                        <input
+                                                            type="search"
+                                                            id="search-dropdown"
+                                                            className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-s-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                                                            placeholder="Masukan stok barang"
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +69,7 @@ export default function NonaktifProductModal({
                                         setOpen(false)
                                     }}
                                 >
-                                    Ya, Nonaktifkan
+                                    Simpan
                                 </Button>
                                 <Button
                                     variant="outline"

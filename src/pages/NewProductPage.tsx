@@ -1,33 +1,33 @@
-import DetilPrduct from "@/components/product/ProductDetil";
-import PreviewCheckout from "@/components/product/PreviewCheckout";
-import Price from "@/components/product/ProductPrice";
-import ProductDevelopment from "@/components/product/ProductDevelopment";
-import ProductInformation from "@/components/product/ProductInformation";
-import VariantProduct from "@/components/product/ProductVariants";
-import WeightAndDelivery from "@/components/product/WeightAndDelivery";
-import MinimumPurchase from "@/components/product/MinimumPurchase";
-import ProductSize from "@/components/product/ProductSize";
+import DetilPrduct from '@/components/product/ProductDetil'
+import PreviewCheckout from '@/components/product/PreviewCheckout'
+import Price from '@/components/product/ProductPrice'
+import ProductDevelopment from '@/components/product/ProductDevelopment'
+import ProductInformation from '@/components/product/ProductInformation'
+import VariantProduct from '@/components/product/ProductVariants'
+import WeightAndDelivery from '@/components/product/WeightAndDelivery'
+import MinimumPurchase from '@/components/product/MinimumPurchase'
+import ProductSize from '@/components/product/ProductSize'
 
 function NewProductPage() {
     return (
-        <div className="w-full h-full bg-lightGray p-2 flex flex-col gap-2 overflow-y-scroll">
+        <div className="p-8 bg-white">
             {/* informasi produk */}
             <ProductInformation />
 
             {/* Detail Produk */}
             <DetilPrduct />
 
-      {/* Varian Produk */}
-      <VariantProduct/>
+            {/* Varian Produk */}
+            <VariantProduct />
 
-      {/* Minimal pembelian */}
-      <MinimumPurchase/>
+            {/* Minimal pembelian */}
+            <MinimumPurchase />
 
-      {/* Ukuran Produk */}
-      <ProductSize/>
-        
-      {/* Harga */}
-      <Price/>
+            {/* Ukuran Produk */}
+            <ProductSize />
+
+            {/* Harga */}
+            <Price />
 
             {/* Harga */}
             <Price />
@@ -40,9 +40,8 @@ function NewProductPage() {
 
             {/* Preview halaman checkout */}
             <PreviewCheckout />
-
         </div>
-    );
+    )
 }
 
-export default NewProductPage;
+export default NewProductPage
