@@ -9,10 +9,12 @@ export default function CardSide({
   isActive,
   isChecked,
   onCheckedChange,
+  productName,
 }: {
   isActive: boolean;
   isChecked: boolean;
   onCheckedChange: ((checked: CheckedState) => void) | undefined;
+  productName:string
 }) {
   const [isToggleChecked, setIsToggleChecked] = useState<boolean>(isActive);
   const [isAktifModalView, setIsAktifModalView] = useState<boolean>(false);
@@ -41,8 +43,8 @@ export default function CardSide({
             id="airplane-mode"
           />
           <div className="w-0 h-0 overflow-hidden">
-            {isAktifModalView && <AktifProductModal />}
-            {isNonaktifModalView && <NonaktifProductModal />}
+            {isNonaktifModalView && <AktifProductModal />}
+            {isAktifModalView && <NonaktifProductModal productName={productName}/>}
           </div>
         </div>
       </div>
