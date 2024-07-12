@@ -28,7 +28,6 @@ export default function ProductList({
 
     return (
         <div>
-            {/* jika produk tersedia */}
             {productList.length === 0 ? (
                 <div>
                     <NoResultProduct tabOptions={tabOptions} />
