@@ -9,9 +9,10 @@ import SettingPage from '@/pages/SettingPage'
 import roleChecker from '@/utils/roleChecker'
 import BuyerLayout from '@/layouts/BuyerLayout'
 import BuyerPage from '@/pages/BuyerPage'
+import Checkout from './pages/Checkout'
 
 function App() {
-    const role = 'SELLER'
+    const role = 'BUYER'
 
     if (roleChecker.isBuyer(role)) {
         return (
@@ -19,6 +20,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<BuyerLayout />}>
                         <Route index element={<BuyerPage />} />
+                        <Route path='checkout' index element={<Checkout />} />
                     </Route>
                 </Routes>
             </div>
