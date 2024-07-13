@@ -7,9 +7,17 @@ import { VariantOptionValue } from '@/types/VariantOptionValueType'
 import { Variant } from '@/types/VariantType'
 import statusChecker from '@/utils/statusChecker'
 import { useEffect, useState } from 'react'
+import formatRupiah from '../../lib/formatRupiah'
 
 interface CardOrderProps {
     order: Order
+}
+
+function formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
 }
 
 export default function CardOrder({ order }: CardOrderProps) {
@@ -48,40 +56,20 @@ export default function CardOrder({ order }: CardOrderProps) {
         GET_PRODUCT()
     }, [])
 
-    console.log('Product SKU:', productSKU)
-    console.log('Product State:', product)
-    console.log('Variant State:', variant)
-    console.log('Variant Option State:', variantOption)
-    console.log('Variant Option Value State:', variantOptionValue)
-
-    console.log('BUTTON TEXT:', buttonText)
-    console.log('LABEL COLOR:', labelColor)
-
-    console.log('PRODUCT SKU:', productSKU)
-
-    console.log('PRODUCT:', product)
-    console.log('VARIANT:', variant)
-    console.log('VARIANT OPTION', variantOption)
-    console.log('VARIANT OPTION VALUE', variantOptionValue)
-
-    /**
-     *  NOTE:
-     *
-     *  buttonText sebelumnya adalah text
-     *  labelColor sebelumnya adalah color
-     *
-     */
+    const formattedDate = order.updatedAt instanceof Date
+        ? formatDate(order.updatedAt)
+        : formatDate(new Date(order.updatedAt));
 
     if (product) {
         return (
-            <div>
-                <div className="border border-lightGray rounded flex flex-col gap-3">
+            <div className='mb-2'>
+                <div className="border border-lightGray rounded-md flex flex-col gap-3">
                     <div className="flex justify-between border-b p-3">
                         <div className="flex flex-col gap-1">
                             <p className={`${labelColor} w-fit font-semibold rounded p-1 text-sm`}>
                                 {order.status}
                             </p>
-                            <p className="text-gray text-sm">{order.receiverNumber}</p>
+                            <p className="text-gray text-sm">INV/{formattedDate}/MPL/{order.invoiceNumber}</p>
                         </div>
                         <div>
                             <Button variant={'outline'}>{buttonText}</Button>
@@ -93,25 +81,28 @@ export default function CardOrder({ order }: CardOrderProps) {
                             <div>
                                 <h1 className="text-sm font-semibold">
                                     {product.name} -
-                                    {variantOption?.name} |
-                                    {product.description} -
+                                    {variantOption?.name}
+                                    <span className='mx-1'>|</span>
+                                    {product.description}
+                                    <span className='mx-1'>-</span>
                                     {variant?.variantOption?.name}
                                 </h1>
-                                <p className="text-gray text-sm">
-                                    {variantOptionValue?.stock}
-                                    Barang
-                                </p>
+                                <div className='flex items-center text-gray text-sm'>
+                                    <p className='mr-1'>
+                                        {variantOptionValue?.stock}
+                                    </p>
+                                    <span>Barang</span>
+                                </div>
                             </div>
                             <div className="flex flex-col items-end">
                                 <p className="text-gray text-sm font-normal">Total Belanja</p>
-                                <p className="font-medium text-sm">Rp. {order.price}</p>
+                                <p className="font-medium text-sm">{formatRupiah(order.price)}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         )
     }
+    return null;
 }

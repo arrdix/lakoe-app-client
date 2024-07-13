@@ -1,6 +1,7 @@
-import CONFIG from '@/configs/config'
-import { CreateOrderDTO, CreateProductDTO, EditProductDTO, UpdateOrderDTO } from '@/dtos/dto'
 import axios from 'axios'
+import CONFIG from '@/configs/config'
+import { CreateProductDto, EditProductDto } from '@/dtos/ProductDto'
+import { CreateOrderDto, UpdateOrderDto } from '@/dtos/OrderDto'
 
 const API = {
     PRODUCT: {
@@ -32,7 +33,7 @@ const API = {
             }
         },
 
-        CREATE: async (data: CreateProductDTO) => {
+        CREATE: async (data: CreateProductDto) => {
             try {
                 const response = await axios.post(`${CONFIG.BASE_URL}/product`, data)
 
@@ -46,7 +47,7 @@ const API = {
             }
         },
 
-        UPDATE: async (id: number, data: EditProductDTO) => {
+        UPDATE: async (id: number, data: EditProductDto) => {
             try {
                 const response = await axios.patch(`${CONFIG.BASE_URL}/product/${id}`, data)
 
@@ -104,7 +105,7 @@ const API = {
             }
         },
 
-        CREATE: async (data: CreateOrderDTO) => {
+        CREATE: async (data: CreateOrderDto) => {
             try {
                 const response = await axios.post(`${CONFIG.BASE_URL}/order`, data)
 
@@ -118,7 +119,7 @@ const API = {
             }
         },
 
-        UPDATE: async (id: number, data: UpdateOrderDTO) => {
+        UPDATE: async (id: number, data: UpdateOrderDto) => {
             try {
                 const response = await axios.patch(`${CONFIG.BASE_URL}/order/${id}`, data)
 

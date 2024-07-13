@@ -1,11 +1,25 @@
-function ProductSize() {
+import ValidatedInput from '@/components/utils/ValidatedInput'
+import { CreateProductDto } from '@/dtos/ProductDto'
+import { UseFormReturn } from 'react-hook-form'
+
+interface ProductSizeProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    hookForm: UseFormReturn<CreateProductDto, any, undefined>
+}
+
+function ProductSize({ hookForm }: ProductSizeProps) {
+    const {
+        register,
+        formState: { errors },
+    } = hookForm
+
     return (
-        <div className="w-full bg-lightgray rounded-lg  ">
+        <div className="w-full bg-white rounded-lg p-8">
             <div className="w-full bg-white rounded-lg p-4">
                 <h1 className="text-black text-xl font-bold mb-2 ">Ukuran Produk</h1>
                 <div>
                     <div className="flex gap-2">
-                        <form className="flex flex-col gap-1 w-full">
+                        {/* <form className="flex flex-col gap-1 w-full">
                             <div className="flex">
                                 <div className="relative w-full">
                                     <input
@@ -52,7 +66,7 @@ function ProductSize() {
                                     cm
                                 </div>
                             </div>
-                        </form>
+                        </form> */}
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@ export default function CardOrderList({ orders, status }: CardOrderListProps) {
     return (
         <div>
             {orders
-                // .filter(order => order.status === 'Semua' || order.status === status)
+                .filter(order => status === 'Semua' || order.status === status)
                 .map(order => (
                     <CardOrder order={order} key={order.id} />
                 ))}
