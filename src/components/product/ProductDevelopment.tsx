@@ -1,6 +1,6 @@
 export default function ProductDevelopment() {
     return (
-        <div className="w-full bg-white rounded-lg p-4 items-center">
+        <div className="w-full bg-white rounded-lg p-8 items-center">
             <h1 className="text-black text-xl font-bold mb-4">Pengelolaan Produk</h1>
 
             <div className="flex gap-2">
