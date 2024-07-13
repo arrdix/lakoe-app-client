@@ -10,5 +10,5 @@ export type Product = {
     minimunOrder: number
     storeId: string
     carts?: Cart
-    variants?: Variant[]
+    variant?: Variant
 }
