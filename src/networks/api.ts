@@ -18,9 +18,9 @@ const API = {
             }
         },
 
-        GET_ONE: async (id: number) => {
+        GET_ONE: async (sku: string) => {
             try {
-                const response = await axios.get(`${CONFIG.BASE_URL}/product/${id}`)
+                const response = await axios.get(`${CONFIG.BASE_URL}/product/${sku}`)
 
                 return response.data
             } catch (error) {
