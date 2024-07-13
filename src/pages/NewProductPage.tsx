@@ -7,27 +7,29 @@ import VariantProduct from '@/components/product/ProductVariants'
 import WeightAndDelivery from '@/components/product/WeightAndDelivery'
 import MinimumPurchase from '@/components/product/MinimumPurchase'
 import ProductSize from '@/components/product/ProductSize'
+import { useForm } from 'react-hook-form'
+import { CreateProductDto } from '@/dtos/ProductDto'
 
 function NewProductPage() {
+    const hookForm = useForm<CreateProductDto>()
+    const { handleSubmit } = hookForm
+
     return (
-        <div className="p-8 bg-white">
+        <div className="flex flex-col gap-4 bg-transparent">
             {/* informasi produk */}
-            <ProductInformation />
+            <ProductInformation hookForm={hookForm} />
 
             {/* Detail Produk */}
-            <DetilPrduct />
+            <DetilPrduct hookForm={hookForm} />
 
             {/* Varian Produk */}
-            <VariantProduct />
+            <VariantProduct hookForm={hookForm} />
 
             {/* Minimal pembelian */}
             <MinimumPurchase />
 
             {/* Ukuran Produk */}
             <ProductSize />
-
-            {/* Harga */}
-            <Price />
 
             {/* Harga */}
             <Price />
@@ -39,7 +41,7 @@ function NewProductPage() {
             <WeightAndDelivery />
 
             {/* Preview halaman checkout */}
-            <PreviewCheckout />
+            <PreviewCheckout handleSubmit={handleSubmit} />
         </div>
     )
 }

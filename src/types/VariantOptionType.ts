@@ -1,10 +1,8 @@
-import { VariantOptionValues } from "./VariantOptionValueType";
-import { Variants } from "./VariantType";
+import { VariantOptionValue } from './VariantOptionValueType'
 
-export type VariantOptions = {
-  id: number;
-  name: string;
-  variantId: number;
-  variant?: Variants[];
-  variantOptionValues?: VariantOptionValues[];
-};
+export type VariantOption = {
+    id: number
+    name: string
+    variantId: number
+    variantOptionValue?: VariantOptionValue
+}

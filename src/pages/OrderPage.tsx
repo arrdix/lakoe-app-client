@@ -16,16 +16,12 @@ export default function OrderPage() {
     }
 
     useEffect(() => {
-        async function fetchOrder() {
-            try {
-                const orders: Order[] = await API.ORDER.GET_ALL()
-                setOrders(orders)
-            } catch (error) {
-                console.error('Failed to fetch orders:', error)
-            }
+        async function GET_ORDERS() {
+            const orders: Order[] = await API.ORDER.GET_ALL()
+            setOrders(orders)
         }
 
-        fetchOrder()
+        GET_ORDERS()
     }, [])
 
     return (
@@ -64,43 +60,18 @@ export default function OrderPage() {
             </div>
 
             {/* Card Item */}
+
+            {/**
+             *  TODO:
+             *
+             *  Bungkus <CardOrder /> di dalam komponen baru <CardOrderList />
+             *  <CardOrderList /> menerima 1 props order.status
+             *  <CardOrderList /> hanya merender <CardOrder /> sesuai statusnya
+             *
+             */}
+
             {orders.length ? (
-                orders.map((order) => {
-                    let color
-                    let text
-
-                    switch (order.status) {
-                        case 'Belum Dibayar':
-                            color = 'bg-yellow-400'
-                            text = 'Hubungi Pembeli'
-                            break
-                        case 'Pesanan Baru':
-                            color = 'bg-green-600 text-white'
-                            text = 'Proses Pesanan'
-                            break
-                        case 'Siap Dikirim':
-                            color = 'bg-blue-600 text-white'
-                            text = 'Kabari Pembeli'
-                            break
-                        case 'Dalam Pengiriman':
-                            color = 'bg-orange-600 text-white'
-                            text = 'Lihat Rincian Pengiriman'
-                            break
-                        case 'Pesanan Selesai':
-                            color = 'bg-lightGray'
-                            text = 'Hubungi Pembeli'
-                            break
-                        case 'Dibatalkan':
-                            color = 'bg-red-600 text-white'
-                            text = 'Hubungi Pembeli'
-                            break
-                        default:
-                            color = 'bg-gray-200'
-                            text = 'Hubungi Pembeli'
-                    }
-
-                    return <CardOrder order={order} color={color} text={text} />
-                })
+                orders.map((order) => <CardOrder order={order} key={order.id} />)
             ) : (
                 <p>No orders available.</p>
             )}
