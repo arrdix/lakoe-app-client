@@ -29,7 +29,7 @@ function ValidatedInput<T extends FieldValues>(props: ValidatedInputProps<T>) {
     if (leftLabel) {
         return (
             <div className="flex">
-                <div className="flex items-center w-max h-10 border-2 border-gray-200 border-r-0 py-2 px-3 rounded-s-md">
+                <div className="flex items-center w-max h-10 border-2 border-gray-200 border-r-0 py-2 px-3 rounded-s-md text-sm">
                     {leftLabel}
                 </div>
                 <input
@@ -58,7 +58,7 @@ function ValidatedInput<T extends FieldValues>(props: ValidatedInputProps<T>) {
                     type={type}
                     {...register(name)}
                 />
-                <div className="flex items-center w-max h-10 border-2 border-gray-200 border-l-0 py-2 px-3 rounded-e-md">
+                <div className="flex items-center w-max h-10 border-2 border-gray-200 border-l-0 py-2 px-3 rounded-e-md text-sm">
                     {rightLabel}
                 </div>
                 {error && <span className="text-error">{error.message}</span>}

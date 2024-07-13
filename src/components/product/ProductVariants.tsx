@@ -200,10 +200,17 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                             </div>
                             {variantOptions.map((variantOption, index) => (
                                 <div key={index} className="flex flex-col gap-4">
-                                    <div className="flex gap-2">
+                                    <div className="flex items-center gap-2">
                                         <p className="font-bold">{variantOption}</p>
-                                        <Switch />
-                                        <p>Aktif</p>
+                                        <Switch
+                                            defaultChecked={true}
+                                            onCheckedChange={(state) => {
+                                                setValue(
+                                                    `variantOptions.${index}.variantOptionValue.variantOptionValueIsActive`,
+                                                    state
+                                                )
+                                            }}
+                                        />
                                     </div>
                                     <div className="flex gap-4 w-full">
                                         <div className="flex flex-col gap-1 w-3/5">
@@ -299,7 +306,7 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                                 id="variantOptionValueWeight"
                                                 type="text"
                                                 placeholder="Berat Produk"
-                                                rightLabel="Kg"
+                                                rightLabel="Gram"
                                             />
                                         </div>
                                     </div>

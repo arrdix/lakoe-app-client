@@ -17,9 +17,9 @@ function ValidatedTextarea<T extends FieldValues>(props: ValidatedInputProps<T>)
         <div>
             <textarea
                 onKeyDown={onKeyDown}
-                className="border-2 border-gray-200 rounded-md h-24 pl-2 pt-2 text-sm w-full"
+                className="border-2 border-gray-200 rounded-md h-24 pl-2 pt-2 text-sm w-full placeholder-gray-200"
                 id={name}
-                defaultValue={placeholder}
+                placeholder={placeholder}
                 autoFocus={autoFocus}
                 {...register(name)}
             />

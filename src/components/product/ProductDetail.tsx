@@ -3,12 +3,12 @@ import { BiImageAdd } from 'react-icons/bi'
 import { UseFormReturn } from 'react-hook-form'
 import ValidatedTextarea from '@/components/utils/ValidatedTextarea'
 
-interface DetilPrductProps {
+interface DetailProductProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     hookForm: UseFormReturn<CreateProductDto, any, undefined>
 }
 
-export default function DetilPrduct({ hookForm }: DetilPrductProps) {
+export default function DetailProduct({ hookForm }: DetailProductProps) {
     const {
         register,
         formState: { errors },
@@ -19,15 +19,15 @@ export default function DetilPrduct({ hookForm }: DetilPrductProps) {
             <h1 className="text-black text-xl font-bold mb-4">Detail Produk</h1>
             <div className="flex flex-col">
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="productName" className="text-sm">
+                    <label htmlFor="productDescription" className="text-sm">
                         Deskripsi <span className="text-red-500">*</span>
                     </label>
                     <ValidatedTextarea
                         error={errors.productDescription}
                         name="productDescription"
-                        id="productDescriptio"
+                        id="productDescription"
                         register={register}
-                        placeholder="Deskripsi Product"
+                        placeholder="Deskripsi Produk"
                     />
                     <div className="flex justify-end text-gray">
                         <p className="text-xs">0/3000</p>

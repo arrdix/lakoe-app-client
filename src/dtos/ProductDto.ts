@@ -4,6 +4,8 @@ export type CreateProductDto = {
     productCategory: string
     productDescription: string
     productAttachments: string
+    productMinimumOrder: number
+
     variantName: string
     variantIsActive: boolean
     variantOptions: CreateVariantOptionDto[]
