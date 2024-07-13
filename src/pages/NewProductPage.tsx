@@ -10,7 +10,7 @@ import ProductSize from '@/components/product/ProductSize'
 
 function NewProductPage() {
     return (
-        <div className="p-8 bg-white">
+        <div className="flex flex-col gap-2 bg-none">
             {/* informasi produk */}
             <ProductInformation />
 
