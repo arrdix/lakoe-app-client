@@ -10,14 +10,29 @@ import Price from '@/components/product/ProductPrice'
 import ProductDevelopment from '@/components/product/ProductDevelopment'
 import WeightAndDelivery from '@/components/product/WeightAndDelivery'
 import ProductSize from '@/components/product/ProductSize'
+import API from '@/networks/api'
+import { Product } from '@/types/ProductType'
 
 function NewProductPage() {
     const hookForm = useForm<CreateProductDto>()
     const { handleSubmit } = hookForm
 
     function onSubmitNewProduct() {
-        handleSubmit((data) => {
+        handleSubmit(async (data) => {
             console.log(data)
+
+            // const { name, attachments, category, description, minimumOrder, url } = data
+
+            // const product: Product = await API.PRODUCT.CREATE({
+            //     name,
+            //     description,
+            //     minimumOrder: +minimumOrder,
+            //     isActive: true,
+            //     attachments: ['example.jpg'],
+            //     storeId: 1,
+            // })
+
+            // console.log(product.id)
         })()
     }
 

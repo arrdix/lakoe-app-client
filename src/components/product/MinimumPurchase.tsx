@@ -21,12 +21,12 @@ function MinimumPurchase({ hookForm }: MinimumPurchaseProps) {
                     <div className="flex">
                         <div className="relative w-full">
                             <ValidatedInput
-                                error={errors.productMinimumOrder}
+                                error={errors.minimumOrder}
                                 register={register}
-                                name="productMinimumOrder"
+                                name="minimumOrder"
                                 id="productMinimumOrder"
                                 placeholder="Minimum Pembelian"
-                                type="text"
+                                type="number"
                                 rightLabel="Produk"
                             />
                         </div>

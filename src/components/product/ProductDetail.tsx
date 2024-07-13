@@ -23,8 +23,8 @@ export default function DetailProduct({ hookForm }: DetailProductProps) {
                         Deskripsi <span className="text-red-500">*</span>
                     </label>
                     <ValidatedTextarea
-                        error={errors.productDescription}
-                        name="productDescription"
+                        error={errors.description}
+                        name="description"
                         id="productDescription"
                         register={register}
                         placeholder="Deskripsi Produk"

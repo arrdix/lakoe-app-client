@@ -50,10 +50,10 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
 
         switch (activeVariant.name) {
             case variantColor:
-                setValue('variantName', variantColor)
+                setValue('variant.name', variantColor)
                 break
             case variantSize:
-                setValue('variantName', variantSize)
+                setValue('variant.name', variantSize)
                 break
         }
 
@@ -62,7 +62,7 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
 
     useEffect(() => {
         variantOptions.map((variantOption, index) => {
-            setValue(`variantOptions.${index}.variantOptionName`, variantOption)
+            setValue(`variant.variantOptions.${index}.name`, variantOption)
         })
     }, [variantOptions])
 
@@ -206,7 +206,7 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                             defaultChecked={true}
                                             onCheckedChange={(state) => {
                                                 setValue(
-                                                    `variantOptions.${index}.variantOptionValue.variantOptionValueIsActive`,
+                                                    `variant.variantOptions.${index}.variantOptionValue.isActive`,
                                                     state
                                                 )
                                             }}
@@ -223,14 +223,15 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                             <ValidatedInput
                                                 register={register}
                                                 error={
-                                                    errors.variantOptions &&
-                                                    errors.variantOptions[index] &&
-                                                    errors.variantOptions[index]
+                                                    errors.variant &&
+                                                    errors.variant.variantOptions &&
+                                                    errors.variant.variantOptions[index] &&
+                                                    errors.variant.variantOptions[index]
                                                         .variantOptionValue &&
-                                                    errors.variantOptions[index].variantOptionValue
-                                                        .variantOptionValuePrice
+                                                    errors.variant.variantOptions[index]
+                                                        .variantOptionValue.price
                                                 }
-                                                name={`variantOptions.${index}.variantOptionValue.variantOptionValuePrice`}
+                                                name={`variant.variantOptions.${index}.variantOptionValue.price`}
                                                 id="variantOptionValuePrice"
                                                 type="text"
                                                 placeholder="Harga produk"
@@ -247,14 +248,15 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                             <ValidatedInput
                                                 register={register}
                                                 error={
-                                                    errors.variantOptions &&
-                                                    errors.variantOptions[index] &&
-                                                    errors.variantOptions[index]
+                                                    errors.variant &&
+                                                    errors.variant.variantOptions &&
+                                                    errors.variant.variantOptions[index] &&
+                                                    errors.variant.variantOptions[index]
                                                         .variantOptionValue &&
-                                                    errors.variantOptions[index].variantOptionValue
-                                                        .variantOptionValueStock
+                                                    errors.variant.variantOptions[index]
+                                                        .variantOptionValue.stock
                                                 }
-                                                name={`variantOptions.${index}.variantOptionValue.variantOptionValueStock`}
+                                                name={`variant.variantOptions.${index}.variantOptionValue.stock`}
                                                 id="variantOptionValueStock"
                                                 type="text"
                                                 placeholder="Jumlah stok barang"
@@ -272,14 +274,15 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                             <ValidatedInput
                                                 register={register}
                                                 error={
-                                                    errors.variantOptions &&
-                                                    errors.variantOptions[index] &&
-                                                    errors.variantOptions[index]
+                                                    errors.variant &&
+                                                    errors.variant.variantOptions &&
+                                                    errors.variant.variantOptions[index] &&
+                                                    errors.variant.variantOptions[index]
                                                         .variantOptionValue &&
-                                                    errors.variantOptions[index].variantOptionValue
-                                                        .variantOptionValueSKU
+                                                    errors.variant.variantOptions[index]
+                                                        .variantOptionValue.sku
                                                 }
-                                                name={`variantOptions.${index}.variantOptionValue.variantOptionValueSKU`}
+                                                name={`variant.variantOptions.${index}.variantOptionValue.sku`}
                                                 id="variantOptionValueSKU"
                                                 type="text"
                                                 placeholder="SKU (Stock Keeping Unit) Produk"
@@ -295,14 +298,15 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                             <ValidatedInput
                                                 register={register}
                                                 error={
-                                                    errors.variantOptions &&
-                                                    errors.variantOptions[index] &&
-                                                    errors.variantOptions[index]
+                                                    errors.variant &&
+                                                    errors.variant.variantOptions &&
+                                                    errors.variant.variantOptions[index] &&
+                                                    errors.variant.variantOptions[index]
                                                         .variantOptionValue &&
-                                                    errors.variantOptions[index].variantOptionValue
-                                                        .variantOptionValueWeight
+                                                    errors.variant.variantOptions[index]
+                                                        .variantOptionValue.weight
                                                 }
-                                                name={`variantOptions.${index}.variantOptionValue.variantOptionValueWeight`}
+                                                name={`variant.variantOptions.${index}.variantOptionValue.weight`}
                                                 id="variantOptionValueWeight"
                                                 type="text"
                                                 placeholder="Berat Produk"
