@@ -10,40 +10,10 @@ import SettingPage from '@/pages/SettingPage'
 import roleChecker from '@/utils/roleChecker'
 import BuyerLayout from '@/layouts/BuyerLayout'
 import BuyerPage from '@/pages/BuyerPage'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
-import ForgotPasswordPage from "./pages/ForgotPasswordPage"
+import CheckoutPage from './pages/CheckoutPage'
 
 function App() {
-    const role = ''
-
-    if (!role) {
-        return (
-            <div className="App">
-                <Routes>
-                    <Route path="/" element={<BuyerLayout />}>
-                        <Route path="/login" element={<LoginPage />} />
-                        <Route path='/register' element={<RegisterPage />} />
-                        <Route path='/forgot' element={<ForgotPasswordPage />} />
-                    </Route>
-                </Routes>
-            </div>
-        )
-    }
-
-    if (!role) {
-        return (
-            <div className="App">
-                <Routes>
-                    <Route path="/" element={<BuyerLayout />}>
-                        <Route path="/login" element={<LoginPage />} />
-                        <Route path='/register' element={<RegisterPage />} />
-                        <Route path='/forgot' element={<ForgotPasswordPage />} />
-                    </Route>
-                </Routes>
-            </div>
-        )
-    }
+    const role = 'SELLER' 
 
     if (roleChecker.isBuyer(role)) {
         return (
@@ -51,6 +21,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<BuyerLayout />}>
                         <Route index element={<BuyerPage />} />
+                        <Route path="/product/new" element={<NewProductPage />} />
+                        <Route path='checkout' index element={<CheckoutPage />} />
                     </Route>
                 </Routes>
             </div>
