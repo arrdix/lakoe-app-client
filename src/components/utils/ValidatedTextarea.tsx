@@ -7,6 +7,7 @@ interface ValidatedInputProps<T extends FieldValues> {
     name: Path<T>
     register: UseFormRegister<T>
     error: FieldError | undefined
+    id: string
 }
 
 function ValidatedTextarea<T extends FieldValues>(props: ValidatedInputProps<T>) {

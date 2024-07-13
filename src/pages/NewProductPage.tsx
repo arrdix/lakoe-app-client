@@ -12,7 +12,10 @@ import { CreateProductDto } from '@/dtos/ProductDto'
 
 function NewProductPage() {
     const hookForm = useForm<CreateProductDto>()
-    const { handleSubmit } = hookForm
+    const {
+        handleSubmit,
+        formState: { errors },
+    } = hookForm
 
     return (
         <div className="flex flex-col gap-4 bg-transparent">

@@ -6,10 +6,18 @@ export type CreateProductDto = {
     productAttachments: string
     variantName: string
     variantIsActive: boolean
+    variantOptions: CreateVariantOptionDto[]
+}
+
+export type CreateVariantOptionDto = {
     variantOptionName: string
+    variantOptionValue: CreateVariantOptionValueDto
+}
+
+export type CreateVariantOptionValueDto = {
     variantOptionValueSKU: string
     variantOptionValueWeight: number
-    VariantOptionValueStock: number
-    VariantOptionValuePrice: number
-    VariantOptionValueIsActive: boolean
+    variantOptionValueStock: number
+    variantOptionValuePrice: number
+    variantOptionValueIsActive: boolean
 }
