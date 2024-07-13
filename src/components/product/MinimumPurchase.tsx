@@ -1,6 +1,6 @@
 function MinimumPurchase() {
     return (
-        <div className="w-full bg-lightgray rounded-lg  ">
+        <div className="w-full bg-white rounded-lg p-8">
             <div className="w-full bg-white rounded-lg p-4">
                 <h1 className="text-black text-xl font-bold mb-2 ">Minimum Pembelian</h1>
                 <form className="flex flex-col gap-1">
