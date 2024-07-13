@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 function Layout() {
     return (
         <div className="h-screen bg-transparent">
-            <div className="flex items-center py-4 px-8 w-full h-16 border border-gray-100 bg-white z-10 fixed">
+            <div className="flex items-center py-4 px-8 w-full h-16 border border-gray-100 bg-white z-100 fixed">
                 <h1 className="text-3xl font-extrabold text-cyan">
                     Lakoe
                     <span className="text-black text-sm font-light ml-1">Seller Centre</span>

@@ -25,6 +25,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
+import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa";
 
 const pieData = [
     { browser: 'chrome', visitors: 275, fill: 'var(--color-chrome)' },
@@ -84,61 +85,102 @@ export default function TestDashboardPage() {
 
             {/* Card Dashboard */}
             <div className="flex flex-row gap-5">
-                <div className="relative flex flex-col text-gray-700 bg-pending shadow bg-clip-border rounded-md w-96">
-                    <div className="p-6 flex flex-row">
-                        <div className="h-full w-1 bg-black mx-2 self-stretch rounded"></div>
-                        <div className="flex flex-col items-center justify-center">
-                            <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
-                                PENDING
+                <div className="relative flex flex-col text-white bg-gradient-to-tr from-slate-800 to-slate-400 shadow bg-clip-border rounded-md w-96">
+                    <div className="p-6 flex flex-col">
+                        <div className='flex flex-row'>
+                            <div className="h-full w-1 bg-white mx-2 self-stretch rounded"></div>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
+                                    PENDING
+                                </p>
+                                <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                                    Rp. 123
+                                </h5>
+                            </div>
+                        </div>
+                        <div className='flex flex-row items-center'>
+                            <FaLongArrowAltUp className='text-slate-100' />
+                            <span className='text-slate-100 mr-1'>
+                                +5.3%
+                            </span>
+                            <p>
+                                Since last week
                             </p>
-                            <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                                Rp. 123
-                            </h5>
                         </div>
                     </div>
                 </div>
 
-                <div className="relative flex flex-col text-gray-700 bg-proccess shadow bg-clip-border rounded-md w-96">
-                    <div className="p-6 flex flex-row">
-                        <div className="h-full w-1 bg-black mx-2 self-stretch rounded"></div>
-                        <div className="flex flex-col items-center justify-center">
-                            <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
-                                PROCCESS
-                            </p>
-                            <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                                Rp. 123
-                            </h5>
+                <div className="relative flex flex-col text-white bg-gradient-to-tr from-amber-600 to-yellow-400 shadow bg-clip-border rounded-md w-96">
+                    <div className="p-6 flex flex-col">
+                        <div className='flex flex-row'>
+                            <div className="h-full w-1 bg-white mx-2 self-stretch rounded"></div>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
+                                    PROCCESS
+                                </p>
+                                <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                                    Rp. 123
+                                </h5>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Card Dashboard */}
-            <div className="flex flex-row gap-5">
-                <div className="relative flex flex-col text-gray-700 bg-success shadow bg-clip-border rounded-md w-96">
-                    <div className="p-6 flex flex-row">
-                        <div className="h-full w-1 bg-black mx-2 self-stretch rounded"></div>
-                        <div className="flex flex-col items-center justify-center">
-                            <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
-                                SUCCESS
+                        <div className='flex flex-row items-center'>
+                            <FaLongArrowAltDown className='text-yellow-100' />
+                            <span className='text-yellow-100 mr-1'>
+                                +5.3%
+                            </span>
+                            <p>
+                                Since last week
                             </p>
-                            <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                                Rp. 123
-                            </h5>
                         </div>
                     </div>
                 </div>
 
-                <div className="relative flex flex-col text-gray-700 bg-rejected shadow bg-clip-border rounded-md w-96">
-                    <div className="p-6 flex flex-row">
-                        <div className="h-full w-1 bg-black mx-2 self-stretch rounded"></div>
-                        <div className="flex flex-col items-center justify-center">
-                            <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
-                                REJECTED
+                <div className="relative flex flex-col text-white bg-gradient-to-tr from-lime-600 to-lime-400 shadow bg-clip-border rounded-md w-96">
+                    <div className="p-6 flex flex-col">
+                        <div className='flex flex-row'>
+                            <div className="h-full w-1 bg-white mx-2 self-stretch rounded"></div>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
+                                    SUCCESS
+                                </p>
+                                <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                                    Rp. 123
+                                </h5>
+                            </div>
+                        </div>
+                        <div className='flex flex-row items-center'>
+                            <FaLongArrowAltUp className='text-lime-100' />
+                            <span className='text-lime-100 mr-1'>
+                                +5.3%
+                            </span>
+                            <p>
+                                Since last week
                             </p>
-                            <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                                Rp. 123
-                            </h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="relative flex flex-col text-white bg-gradient-to-tr from-rose-600 to-red-400 shadow bg-clip-border rounded-md w-96">
+                    <div className="p-6 flex flex-col">
+                        <div className='flex flex-row'>
+                            <div className="h-full w-1 bg-white mx-2 self-stretch rounded"></div>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="block font-sans text-base antialiased font-medium leading-relaxed text-inherit">
+                                    REJECTED
+                                </p>
+                                <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                                    Rp. 123
+                                </h5>
+                            </div>
+                        </div>
+                        <div className='flex flex-row items-center'>
+                            <FaLongArrowAltDown className='text-red-100' />
+                            <span className='text-red-100 mr-1'>
+                                +5.3%
+                            </span>
+                            <p>
+                                Since last week
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -146,7 +188,7 @@ export default function TestDashboardPage() {
 
             <div className="w-full flex flex-row gap-5">
                 {/* Pie Chart */}
-                <Card className="relative flex flex-col text-gray-700 bg-white border-white shadow bg-clip-border rounded-md w-3/6">
+                <Card className="relative flex flex-col text-white bg-white border-white shadow bg-clip-border rounded-md w-3/6">
                     <CardHeader className="items-center pb-0">
                         <CardTitle>Total Visitor</CardTitle>
                         <CardDescription>January - June 2024</CardDescription>
@@ -212,7 +254,7 @@ export default function TestDashboardPage() {
                 </Card>
 
                 {/* Bar Chart */}
-                <Card className="relative flex flex-col text-gray-700 bg-white border-white shadow bg-clip-border rounded-md w-3/6">
+                <Card className="relative flex flex-col text-white bg-white border-white shadow bg-clip-border rounded-md w-3/6">
                     <CardHeader>
                         <CardTitle>Total Transaksi</CardTitle>
                         <CardDescription>January - June 2024</CardDescription>
