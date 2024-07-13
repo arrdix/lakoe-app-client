@@ -1,25 +1,39 @@
-export type CreateProductDto = {
-    productName: string
-    productURL: string
-    productCategory: string
-    productDescription: string
-    productAttachments: string
-    productMinimumOrder: number
+export type EditProductDto = {
+    name?: string
+    description?: string
+    attachments?: string[]
+    isActive?: boolean
+    size?: string
+    minimumOrder?: number
+    storeId?: number
+}
 
-    variantName: string
-    variantIsActive: boolean
+export type CreateProductDto = {
+    name: string
+    url: string
+    category: string
+    description: string
+    attachments: string[]
+    minimumOrder: number
+    isActive: boolean
+    variant: CreateVariantDto
+}
+
+export type CreateVariantDto = {
+    name: string
+    isActive: boolean
     variantOptions: CreateVariantOptionDto[]
 }
 
 export type CreateVariantOptionDto = {
-    variantOptionName: string
+    name: string
     variantOptionValue: CreateVariantOptionValueDto
 }
 
 export type CreateVariantOptionValueDto = {
-    variantOptionValueSKU: string
-    variantOptionValueWeight: number
-    variantOptionValueStock: number
-    variantOptionValuePrice: number
-    variantOptionValueIsActive: boolean
+    sku: string
+    weight: number
+    stock: number
+    price: number
+    isActive: boolean
 }

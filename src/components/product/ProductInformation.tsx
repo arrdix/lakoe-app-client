@@ -22,8 +22,8 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
                         Nama Produk <span className="text-red-500">*</span>
                     </label>
                     <ValidatedInput
-                        error={errors.productName}
-                        name="productName"
+                        error={errors.name}
+                        name="name"
                         id="productName"
                         placeholder="Nama Produk"
                         register={register}
@@ -36,8 +36,8 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
                         URL Halaman Checkout <span className="text-red-500">*</span>
                     </label>
                     <ValidatedInput
-                        error={errors.productURL}
-                        name="productURL"
+                        error={errors.url}
+                        name="url"
                         id="productURL"
                         placeholder="URL Halaman Checkout"
                         register={register}
@@ -49,8 +49,8 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
                         Kategori <span className="text-red-500">*</span>
                     </label>
                     <ValidatedInput
-                        error={errors.productCategory}
-                        name="productCategory"
+                        error={errors.category}
+                        name="category"
                         id="productCategory"
                         placeholder="Kategori Produk"
                         register={register}
