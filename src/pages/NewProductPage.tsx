@@ -1,18 +1,25 @@
-import DetilPrduct from '@/components/product/ProductDetil'
+import DetailProduct from '@/components/product/ProductDetail'
 import PreviewCheckout from '@/components/product/PreviewCheckout'
-import Price from '@/components/product/ProductPrice'
-import ProductDevelopment from '@/components/product/ProductDevelopment'
 import ProductInformation from '@/components/product/ProductInformation'
 import VariantProduct from '@/components/product/ProductVariants'
-import WeightAndDelivery from '@/components/product/WeightAndDelivery'
 import MinimumPurchase from '@/components/product/MinimumPurchase'
-import ProductSize from '@/components/product/ProductSize'
 import { useForm } from 'react-hook-form'
 import { CreateProductDto } from '@/dtos/ProductDto'
+
+import Price from '@/components/product/ProductPrice'
+import ProductDevelopment from '@/components/product/ProductDevelopment'
+import WeightAndDelivery from '@/components/product/WeightAndDelivery'
+import ProductSize from '@/components/product/ProductSize'
 
 function NewProductPage() {
     const hookForm = useForm<CreateProductDto>()
     const { handleSubmit } = hookForm
+
+    function onSubmitNewProduct() {
+        handleSubmit((data) => {
+            console.log(data)
+        })()
+    }
 
     return (
         <div className="flex flex-col gap-4 bg-transparent">
@@ -20,28 +27,32 @@ function NewProductPage() {
             <ProductInformation hookForm={hookForm} />
 
             {/* Detail Produk */}
-            <DetilPrduct hookForm={hookForm} />
+            <DetailProduct hookForm={hookForm} />
 
             {/* Varian Produk */}
             <VariantProduct hookForm={hookForm} />
 
             {/* Minimal pembelian */}
-            <MinimumPurchase />
+            <MinimumPurchase hookForm={hookForm} />
 
+            {/* Skip */}
             {/* Ukuran Produk */}
-            <ProductSize />
+            {/* <ProductSize /> */}
 
+            {/* Skip */}
             {/* Harga */}
-            <Price />
+            {/* <Price /> */}
 
+            {/* Skip */}
             {/* Pengelolaan produk */}
-            <ProductDevelopment />
+            {/* <ProductDevelopment /> */}
 
+            {/* Skip */}
             {/* Berat dan Pengiriman */}
-            <WeightAndDelivery />
+            {/* <WeightAndDelivery /> */}
 
             {/* Preview halaman checkout */}
-            <PreviewCheckout handleSubmit={handleSubmit} />
+            <PreviewCheckout onSubmit={onSubmitNewProduct} />
         </div>
     )
 }
