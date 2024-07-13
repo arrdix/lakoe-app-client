@@ -12,7 +12,7 @@ import BuyerLayout from '@/layouts/BuyerLayout'
 import BuyerPage from '@/pages/BuyerPage'
 
 function App() {
-    const role = 'SELLER'
+    const role = 'BUYER'
 
     if (roleChecker.isBuyer(role)) {
         return (
