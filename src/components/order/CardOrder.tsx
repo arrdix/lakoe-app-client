@@ -40,13 +40,19 @@ export default function CardOrder({ order }: CardOrderProps) {
                         product.variant &&
                         product.variant.variantOption &&
                         product.variant.variantOption.variantOptionValue) ||
-                        null
+                    null
                 )
             }
         }
 
         GET_PRODUCT()
     }, [])
+
+    console.log('Product SKU:', productSKU)
+    console.log('Product State:', product)
+    console.log('Variant State:', variant)
+    console.log('Variant Option State:', variantOption)
+    console.log('Variant Option Value State:', variantOptionValue)
 
     console.log('BUTTON TEXT:', buttonText)
     console.log('LABEL COLOR:', labelColor)
@@ -69,16 +75,16 @@ export default function CardOrder({ order }: CardOrderProps) {
     if (product) {
         return (
             <div>
-                {/* <div className="border border-lightGray rounded flex flex-col gap-3">
+                <div className="border border-lightGray rounded flex flex-col gap-3">
                     <div className="flex justify-between border-b p-3">
                         <div className="flex flex-col gap-1">
-                            <p className={`${color} w-fit font-semibold rounded p-1 text-sm`}>
+                            <p className={`${labelColor} w-fit font-semibold rounded p-1 text-sm`}>
                                 {order.status}
                             </p>
                             <p className="text-gray text-sm">{order.receiverNumber}</p>
                         </div>
                         <div>
-                            <Button variant={'outline'}>{text}</Button>
+                            <Button variant={'outline'}>{buttonText}</Button>
                         </div>
                     </div>
                     <div className="w-full flex flex-row px-3 pb-3">
@@ -87,15 +93,12 @@ export default function CardOrder({ order }: CardOrderProps) {
                             <div>
                                 <h1 className="text-sm font-semibold">
                                     {product.name} -
-                                    {product.variants?.[1]?.variantOptions?.[0].name} |
+                                    {variantOption?.name} |
                                     {product.description} -
-                                    {product.variants?.[0]?.variantOptions?.[0].name}
+                                    {variant?.variantOption?.name}
                                 </h1>
                                 <p className="text-gray text-sm">
-                                    {
-                                        product.variants?.[0]?.variantOptions?.[0]
-                                            ?.variantOptionValues.stock
-                                    }{' '}
+                                    {variantOptionValue?.stock}
                                     Barang
                                 </p>
                             </div>
@@ -105,7 +108,9 @@ export default function CardOrder({ order }: CardOrderProps) {
                             </div>
                         </div>
                     </div>
-                </div> */}
+                </div>
+
+
             </div>
         )
     }

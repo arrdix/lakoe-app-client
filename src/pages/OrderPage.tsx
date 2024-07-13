@@ -1,11 +1,11 @@
 import { Input } from '@/components/ui/input'
 import { BiSearchAlt } from 'react-icons/bi'
 import FilterOrder from '@/components/order/FilterOrder'
-import CardOrder from '@/components/order/CardOrder'
 import { useEffect, useState } from 'react'
 import ScrollArea from '@/components/order/ScrollArea'
 import API from '@/networks/api'
 import { Order } from '@/types/OrderType'
+import CardOrderList from '@/components/order/CardOrderList'
 
 export default function OrderPage() {
     const [activeTab, setActiveTab] = useState<string>('Semua')
@@ -70,11 +70,7 @@ export default function OrderPage() {
              *
              */}
 
-            {orders.length ? (
-                orders.map((order) => <CardOrder order={order} key={order.id} />)
-            ) : (
-                <p>No orders available.</p>
-            )}
+            <CardOrderList orders={orders} status={activeTab} />
         </div>
     )
 }
