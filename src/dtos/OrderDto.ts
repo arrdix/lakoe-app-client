@@ -8,7 +8,7 @@ export type CreateOrderDto = {
   receiverPhone: number;
   receiverAddress: string;
   receiverName: string;
-  invoiceNumber: number;
+  receiverNumber: number;
 };
 
 export type UpdateOrderDto = {
@@ -21,6 +21,5 @@ export type UpdateOrderDto = {
   receiverPhone?: number;
   receiverAddress?: string;
   receiverName?: string;
-  invoiceNumber?: number;
-  createdAt: Date;
+  receiverNumber?: number;
 };
