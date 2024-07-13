@@ -8,5 +8,5 @@ export type CartItem = {
     userId: number
     storeId: number
     variantOptionValueId: number
-    variantOptionValue?: VariantOptionValue
+    variantOptionValues?: VariantOptionValue
 }

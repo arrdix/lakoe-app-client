@@ -1,4 +1,3 @@
-import { Product } from './ProductType'
 import { VariantOption } from './VariantOptionType'
 
 export type Variant = {
@@ -6,6 +5,5 @@ export type Variant = {
     name: string
     isActive: boolean
     productId: number
-    products?: Product[]
-    variantOptions?: VariantOption[]
+    variantOption?: VariantOption
 }

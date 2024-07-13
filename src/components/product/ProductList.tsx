@@ -1,4 +1,4 @@
-import Card from './CardProduct'
+import CardProduct from './CardProduct'
 import ProductFilter from './ProductFilter'
 import NonaktifProductsModal from './NonaktifProductsModal'
 import DeleteProductsModal from './DeleteProductsModal'
@@ -6,15 +6,16 @@ import { Checkbox } from '@/components/ui/checkbox'
 import NoResultProduct from './NoResultProduct'
 import { ProductType } from '@/dummy/productDummy'
 import { useProductCheckedContext } from '@/context/checkedProductContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Product } from '@/types/ProductType'
 
-export default function ProductList({
-    productList,
-    tabOptions,
-}: {
-    productList: ProductType[]
+interface ProductListProps {
+    realProducts?: Product[]
+    products: ProductType[]
     tabOptions: string
-}) {
+}
+
+export default function ProductList({ realProducts, products, tabOptions }: ProductListProps) {
     const { id } = useProductCheckedContext()
     const [isAllChecked, setIsAllChecked] = useState<boolean>(false)
     const [isCheckedChange, setIsCheckedChange] = useState(false)
@@ -23,12 +24,16 @@ export default function ProductList({
         setIsCheckedChange(!isCheckedChange)
     }
 
-    console.log('ini id', id)
-    console.log('all checked', isAllChecked)
+    // real product edit
+    useEffect(() => {
+        if (id.length < 1) {
+            setIsAllChecked(false)
+        }
+    }, [id])
 
     return (
         <div>
-            {productList.length === 0 ? (
+            {products.length === 0 ? (
                 <div>
                     <NoResultProduct tabOptions={tabOptions} />
                 </div>
@@ -36,7 +41,7 @@ export default function ProductList({
                 <div>
                     <ProductFilter />
                     <div className="w-full bg-white rounded-lg flex justify-between">
-                        <h3 className="font-semibold">{productList.length} produk</h3>
+                        <h3 className="font-semibold">{products.length} produk</h3>
                         <div className="flex items-center gap-4 mb-4">
                             {id.length > 0 && (
                                 <div className="flex gap-2 items-center">
@@ -63,14 +68,23 @@ export default function ProductList({
                         </div>
                     </div>
                     <div className="flex flex-col gap-3">
-                        {productList.map((product) => (
-                            <Card
+                        {/* {products.map((product) => (
+                            <CardProduct
                                 key={product.id}
                                 product={product}
                                 isCheckedDefault={isAllChecked}
                                 onCheckedChanges={onCheckedChange}
                             />
-                        ))}
+                        ))} */}
+                        {realProducts &&
+                            realProducts.map((realProduct) => (
+                                <CardProduct
+                                    key={realProduct.id}
+                                    realProduct={realProduct}
+                                    isCheckedDefault={isAllChecked}
+                                    onCheckedChanges={onCheckedChange}
+                                />
+                            ))}
                     </div>
                 </div>
             )}

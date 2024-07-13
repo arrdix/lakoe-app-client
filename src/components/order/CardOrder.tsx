@@ -19,32 +19,27 @@ export default function CardOrder({ order }: CardOrderProps) {
     const [variantOptionValue, setVariantOptionValue] = useState<VariantOptionValue | null>(null)
 
     const { buttonText, labelColor } = statusChecker(order.status)
-    const productId =
+    const productSKU =
         order &&
         order.carts &&
         order.carts.cartItems &&
         order.carts.cartItems[0] &&
-        order.carts.cartItems[0].id
+        order.carts.cartItems[0].variantOptionValues &&
+        order.carts.cartItems[0].variantOptionValues.sku
 
     useEffect(() => {
         async function GET_PRODUCT() {
-            if (productId) {
-                const product: Product = await API.PRODUCT.GET_ONE(productId)
+            if (productSKU) {
+                const product: Product = await API.PRODUCT.GET_ONE(productSKU)
 
                 setProduct(product)
-                setVariant((product.variants && product.variants[0]) || null)
-                setVariantOption(
-                    (product.variants &&
-                        product.variants[0] &&
-                        product.variants[0].variantOptions &&
-                        product.variants[0].variantOptions[0]) ||
-                        null
-                )
+                setVariant((product.variant && product.variant) || null)
+                setVariantOption((product.variant && product.variant.variantOption) || null)
                 setVariantOptionValue(
-                    (product.variants &&
-                        product.variants[0] &&
-                        product.variants[0].variantOptions &&
-                        product.variants[0].variantOptions[0].variantOptionValue) ||
+                    (product.variant &&
+                        product.variant &&
+                        product.variant.variantOption &&
+                        product.variant.variantOption.variantOptionValue) ||
                         null
                 )
             }
@@ -56,7 +51,7 @@ export default function CardOrder({ order }: CardOrderProps) {
     console.log('BUTTON TEXT:', buttonText)
     console.log('LABEL COLOR:', labelColor)
 
-    console.log('PRODUCT ID:', productId)
+    console.log('PRODUCT SKU:', productSKU)
 
     console.log('PRODUCT:', product)
     console.log('VARIANT:', variant)
