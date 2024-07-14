@@ -1,6 +1,5 @@
 import ValidatedInput from '@/components/utils/ValidatedInput'
 import { CreateProductDto } from '@/dtos/ProductDto'
-import { useEffect } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 
 interface ValidatedInputProps {

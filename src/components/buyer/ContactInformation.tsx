@@ -1,6 +1,18 @@
 import LoginModal from "./LoginModal";
+import { UseFormReturn } from "react-hook-form";
+import ValidatedInput from "@/components/utils/ValidatedInput";
+import { CheckoutDto } from "@/dtos/CheckoutDto";
 
-export default function ContactInformation() {
+interface ValidatedInputProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  hookForm: UseFormReturn<CheckoutDto, any, undefined>;
+}
+
+export default function ContactInformation({ hookForm }: ValidatedInputProps) {
+  const {
+    register,
+    formState: { errors },
+  } = hookForm;
   return (
     <div className="w-full bg-white rounded-lg p-8 border">
       <h1 className="text-black text-xl font-bold mb-4">Informasi Kontak</h1>
@@ -9,10 +21,12 @@ export default function ContactInformation() {
           <label htmlFor="productName" className="text-sm">
             Nama Kontak
           </label>
-          <input
+          <ValidatedInput
+            error={errors.contactName}
+            name="contactName"
+            placeholder=""
+            register={register}
             type="text"
-            id="productName"
-            className="border rounded-md h-10 pl-2 text-sm"
           />
           <div className="flex justify-end">
             <p className="text-xs font-thin text-gray">0/50</p>
@@ -31,17 +45,18 @@ export default function ContactInformation() {
           <div className="flex">
             <div
               data-dropdown-toggle="dropdown"
-              className="flex-shrink-0 text-black font-thin z-10 inline-flex items-center py-2.5 px-4 text-sm bg-slate-200 text-center border rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+              className="flex-shrink-0 text-black font-thin z-2 inline-flex items-center py-2.5 px-4 text-sm bg-slate-200 text-center border rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
             >
               +62
             </div>
 
             <div className="relative w-full">
-              <input
-                type="search"
-                id="search-dropdown"
-                className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                required
+              <ValidatedInput
+                error={errors.phoneNumber}
+                name="phoneNumber"
+                placeholder=""
+                register={register}
+                type="text"
               />
             </div>
           </div>

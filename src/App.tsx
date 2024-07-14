@@ -13,7 +13,7 @@ import BuyerPage from '@/pages/BuyerPage'
 import CheckoutPage from './pages/CheckoutPage'
 
 function App() {
-    const role = 'SELLER' 
+    const role = 'BUYER' 
 
     if (roleChecker.isBuyer(role)) {
         return (
