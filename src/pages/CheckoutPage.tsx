@@ -21,7 +21,7 @@ function CheckoutPage() {
         <div className="flex flex-col gap-2 w-4/6">
           <div className="flex flex-col gap-2">
             <ContactInformation hookForm={hookForm}/>
-            <ShippingAddress />
+            <ShippingAddress hookForm={hookForm} />
             <DeliveryMethods />
           </div>
         </div>
