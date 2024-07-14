@@ -23,7 +23,6 @@ import {
     PiCopySimpleLight,
 } from 'react-icons/pi'
 import { Button } from '@/components/ui/button'
-import { FaCircleDot } from 'react-icons/fa6'
 import {
     Dialog,
     DialogContent,
@@ -33,8 +32,16 @@ import {
     DialogTrigger,
 } from '@/components/ui/dialog'
 import { toast } from 'sonner'
+import AlertOrder from '@/components/order/AlertOrder'
+import { useState } from 'react'
 
 export default function DetailOrderPage() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleAccordion = () => {
+        setIsOpen(!isOpen)
+    }
+
     return (
         <div className="bg-white p-8">
             {/* Breadcrumb */}
@@ -76,26 +83,25 @@ export default function DetailOrderPage() {
                             pembayaran terkonfirmasi sebelum mengirimkan barang.
                         </p>
                         <div className="flex flex-row items-center text-cyan gap-1">
-                            <Accordion type="single" collapsible className="hover:bg-transparent">
+                            <Accordion type="single" collapsible className="hover:bg-transparent" value={isOpen ? "item-1" : ""}>
                                 <AccordionItem value="item-1">
-                                    <AccordionTrigger className="my-2">
-                                        Lihat Riwayat Pesanan?
-                                    </AccordionTrigger>
-                                    <AccordionContent>
-                                        <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-full bg-white border">
-                                            <div className="my-auto flex items-center justify-center">
-                                                <div className="flex items-center justify-center bg-cyan rounded-full w-5 h-5 relative">
-                                                    <FaCircleDot className="text-blue-200 border-none w-5 h-5" />
-                                                </div>
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <p className="font-semibold text-xs">
-                                                    Pesanan Dibuat
-                                                </p>
-                                                <p className="text-gray text-xs">
-                                                    Sab, 10 Agu 2023 - 14:00 WIB
-                                                </p>
-                                            </div>
+                                    <div onClick={toggleAccordion}>
+                                        {isOpen ? (
+                                            <AccordionTrigger className="my-2">
+                                                Sembunyikan
+                                            </AccordionTrigger>
+                                        ) : (
+                                            <AccordionTrigger className="my-2">
+                                                Lihat Riwayat Pesanan?
+                                            </AccordionTrigger>
+                                        )}
+                                    </div>
+                                    <AccordionContent
+                                        className={`transition-all duration-500 ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                                            }`}
+                                    >
+                                        <div className="flex flex-col border rounded bg-white">
+                                            <AlertOrder status='Produk Telah Dikirim' date='Sab, 10 Agu 2023 - 14.00 WIB' />
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
@@ -161,7 +167,7 @@ export default function DetailOrderPage() {
                 </div>
                 <div className="w-full flex-col gap-3">
                     <p className="font-semibold mb-2">Detail Produk</p>
-                    <div className="flex flex-col shadow p-2 rounded">
+                    <div className="flex flex-col border p-2 rounded">
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-row">
                                 <div className="w-14 mr-2">
@@ -235,88 +241,8 @@ export default function DetailOrderPage() {
                                             </span>
                                         </p>
                                         <div className="flex flex-col border rounded bg-white">
-                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
-                                                <div className="my-auto flex items-center justify-center">
-                                                    <div className="flex items-center justify-center bg-cyan rounded-full w-5 h-5 relative">
-                                                        <FaCircleDot className="text-blue-200 border-none w-5 h-5" />
-                                                        <div className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray"></div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">
-                                                        RECEIVED AT INBOUND STATION [JAKARTA , HUB
-                                                        VETERAN BINTARO]
-                                                    </p>
-                                                    <p className="text-gray text-xs">
-                                                        Sab, 10 Agu 2023 - 14:00 WIB
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
-                                                <div className="my-auto flex items-center justify-center">
-                                                    <div className="flex items-center justify-center bg-gray rounded-full w-5 h-5 relative">
-                                                        <FaCircleDot className="text-lightGray border-none w-5 h-5" />
-                                                        <div className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray"></div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">
-                                                        SHIPMENT FORWARDED TO DESTINATION [JAKARTA ,
-                                                        HUB VETERAN BINTARO]
-                                                    </p>
-                                                    <p className="text-gray text-xs">
-                                                        Sab, 10 Agu 2023 - 14:00 WIB
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
-                                                <div className="my-auto flex items-center justify-center">
-                                                    <div className="flex items-center justify-center bg-gray rounded-full w-5 h-5 relative">
-                                                        <FaCircleDot className="text-lightGray border-none w-5 h-5" />
-                                                        <div className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray"></div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">
-                                                        Pesanan Diproses
-                                                    </p>
-                                                    <p className="text-gray text-xs">
-                                                        Sab, 10 Agu 2023 - 14:00 WIB
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
-                                                <div className="my-auto flex items-center justify-center">
-                                                    <div className="flex items-center justify-center bg-gray rounded-full w-5 h-5 relative">
-                                                        <FaCircleDot className="text-lightGray border-none w-5 h-5" />
-                                                        <div className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray"></div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">
-                                                        RECEIVED AT SORTING CENTER [JAKARTA]
-                                                    </p>
-                                                    <p className="text-gray text-xs">
-                                                        Sab, 10 Agu 2023 - 14:00 WIB
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="rounded flex flex-row gap-3 py-2.5 px-3 h-ful">
-                                                <div className="my-auto flex items-center justify-center">
-                                                    <div className="flex items-center justify-center bg-gray rounded-full w-5 h-5 relative">
-                                                        <FaCircleDot className="text-lightGray border-none w-5 h-5" />
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <p className="font-semibold text-xs">
-                                                        SHIPMENT RECEIVED BY JNE COUNTER OFFICER AT
-                                                        [JAKARTA]
-                                                    </p>
-                                                    <p className="text-gray text-xs">
-                                                        Sab, 10 Agu 2023 - 14:00 WIB
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            <AlertOrder status='DELIVERED TO [ainul yakin | 17-03-2021 11:15 | JAKARTA ]' date='Sen, 12 Agu 2023 - 10:00 WIB' />
+                                            <AlertOrder status='WITH DELIVERY COURIER [JAKARTA , HUB VETERAN BINTARO]' date='Sen, 12 Agu 2023 - 10:00 WIB' />
                                         </div>
                                     </DialogDescription>
                                 </DialogHeader>
