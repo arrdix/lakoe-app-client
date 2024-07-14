@@ -22,8 +22,9 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
                         Nama Produk <span className="text-red-500">*</span>
                     </label>
                     <ValidatedInput
-                        error={errors.productName}
-                        name="productName"
+                        error={errors.name}
+                        name="name"
+                        id="productName"
                         placeholder="Nama Produk"
                         register={register}
                         type="text"
@@ -31,24 +32,26 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="productName" className="text-sm">
+                    <label htmlFor="productURL" className="text-sm">
                         URL Halaman Checkout <span className="text-red-500">*</span>
                     </label>
                     <ValidatedInput
-                        error={errors.productURL}
-                        name="productURL"
+                        error={errors.url}
+                        name="url"
+                        id="productURL"
                         placeholder="URL Halaman Checkout"
                         register={register}
                         type="text"
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="productName" className="text-sm">
+                    <label htmlFor="productCategory" className="text-sm">
                         Kategori <span className="text-red-500">*</span>
                     </label>
                     <ValidatedInput
-                        error={errors.productCategory}
-                        name="productCategory"
+                        error={errors.category}
+                        name="category"
+                        id="productCategory"
                         placeholder="Kategori Produk"
                         register={register}
                         type="text"

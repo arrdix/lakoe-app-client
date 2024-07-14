@@ -1,4 +1,12 @@
-export default function WeightAndDelivery() {
+import { CreateProductDto } from '@/dtos/ProductDto'
+import { UseFormReturn } from 'react-hook-form'
+
+interface WeightAndDeliveryProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    hookForm: UseFormReturn<CreateProductDto, any, undefined>
+}
+
+export default function WeightAndDelivery({ hookForm }: WeightAndDeliveryProps) {
     return (
         <div className="w-full bg-white rounded-lg p-8 items-center">
             <h1 className="text-black text-xl font-bold mb-4">Berat & Pengiriman</h1>
