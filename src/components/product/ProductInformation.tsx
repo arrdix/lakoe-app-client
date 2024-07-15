@@ -1,3 +1,4 @@
+import SelectCategory from '@/components/product/SelectCategory'
 import ValidatedInput from '@/components/utils/ValidatedInput'
 import { CreateProductDto } from '@/dtos/ProductDto'
 import { UseFormReturn } from 'react-hook-form'
@@ -11,6 +12,7 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
     const {
         register,
         formState: { errors },
+        setValue,
     } = hookForm
 
     return (
@@ -45,17 +47,7 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <label htmlFor="productCategory" className="text-sm">
-                        Kategori <span className="text-red-500">*</span>
-                    </label>
-                    <ValidatedInput
-                        error={errors.category}
-                        name="category"
-                        id="productCategory"
-                        placeholder="Kategori Produk"
-                        register={register}
-                        type="text"
-                    />
+                    <SelectCategory setValue={setValue} />
                 </div>
             </div>
         </div>
