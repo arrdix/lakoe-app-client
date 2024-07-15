@@ -10,8 +10,8 @@ import { useForm } from "react-hook-form";
 import { CheckoutDto } from "@/dtos/CheckoutDto";
 
 function CheckoutPage() {
-  const hookForm = useForm<CheckoutDto>()
-  const { handleSubmit } = hookForm
+  const hookForm = useForm<CheckoutDto>();
+  const { handleSubmit } = hookForm;
 
   return (
     <div className=" w-full h-full bg-white px-32 py-14">
@@ -20,9 +20,9 @@ function CheckoutPage() {
       <div className="flex  gap-4">
         <div className="flex flex-col gap-2 w-4/6">
           <div className="flex flex-col gap-2">
-            <ContactInformation hookForm={hookForm}/>
+            <ContactInformation hookForm={hookForm} />
             <ShippingAddress hookForm={hookForm} />
-            <DeliveryMethods />
+            <DeliveryMethods hookForm={hookForm} />
           </div>
         </div>
         <div className="flex flex-col gap-2 w-2/6">
@@ -32,9 +32,9 @@ function CheckoutPage() {
           <Button
             type="button"
             className="rounded-lg p-1 border=none bg-cyan px-14 py-6 w-full"
-            onClick={(handleSubmit((data)=>{
-              console.log(data)
-            }))}
+            onClick={handleSubmit((data) => {
+              console.log(data);
+            })}
           >
             <p className="mx-2 text-md font-semibold">Bayar sekarang</p>
             <FaArrowRight size={20} className="text-white mr-2" />
