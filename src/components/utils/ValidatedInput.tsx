@@ -29,12 +29,12 @@ function ValidatedInput<T extends FieldValues>(props: ValidatedInputProps<T>) {
     if (leftLabel) {
         return (
             <div className="flex">
-                <div className="flex items-center w-max h-10 border-2 border-gray-200 border-r-0 py-2 px-3 rounded-s-md text-sm">
+                <div className="flex items-center w-max h-10 border border-r-0 bg-slate-200 py-2 px-3 rounded-s-md text-sm">
                     {leftLabel}
                 </div>
                 <input
                     onKeyDown={onKeyDown}
-                    className="border-2 border-gray-200 rounded-md rounded-s-none h-10 pl-2 text-sm w-full"
+                    className="border rounded-md rounded-s-none h-10 pl-2 text-sm w-full"
                     id={name}
                     placeholder={placeholder}
                     autoFocus={autoFocus}
@@ -51,14 +51,14 @@ function ValidatedInput<T extends FieldValues>(props: ValidatedInputProps<T>) {
             <div className="flex">
                 <input
                     onKeyDown={onKeyDown}
-                    className="border-2 border-gray-200 rounded-md rounded-e-none h-10 pl-2 text-sm w-full"
+                    className="border rounded-md rounded-e-none h-10 pl-2 text-sm w-full"
                     id={name}
                     placeholder={placeholder}
                     autoFocus={autoFocus}
                     type={type}
                     {...register(name)}
                 />
-                <div className="flex items-center w-max h-10 border-2 border-gray-200 border-l-0 py-2 px-3 rounded-e-md text-sm">
+                <div className="flex items-center w-max h-10 border bg-slate-200 border-l-0 py-2 px-3 rounded-e-md text-sm">
                     {rightLabel}
                 </div>
                 {error && <span className="text-error">{error.message}</span>}
@@ -70,7 +70,7 @@ function ValidatedInput<T extends FieldValues>(props: ValidatedInputProps<T>) {
         <div>
             <input
                 onKeyDown={onKeyDown}
-                className="border-2 border-gray-200 rounded-md h-10 pl-2 text-sm w-full"
+                className="border rounded-md h-10 pl-2 text-sm w-full"
                 id={name}
                 placeholder={placeholder}
                 autoFocus={autoFocus}
