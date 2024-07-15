@@ -1,11 +1,11 @@
 import LoginModal from "./LoginModal";
 import { UseFormReturn } from "react-hook-form";
 import ValidatedInput from "@/components/utils/ValidatedInput";
-import { CheckoutDto } from "@/dtos/CheckoutDto";
+import { CreateOrderDto } from "@/dtos/OrderDto";
 
 interface ValidatedInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  hookForm: UseFormReturn<CheckoutDto, any, undefined>;
+  hookForm: UseFormReturn<CreateOrderDto, any, undefined>;
 }
 
 export default function ContactInformation({ hookForm }: ValidatedInputProps) {
@@ -13,19 +13,20 @@ export default function ContactInformation({ hookForm }: ValidatedInputProps) {
     register,
     formState: { errors },
   } = hookForm;
+
   return (
     <div className="w-full bg-white rounded-lg p-8 border">
       <h1 className="text-black text-xl font-bold mb-4">Informasi Kontak</h1>
       <div className="flex flex-col gap-1">
         <div className="flex flex-col gap-2">
-          <p className="text-sm">Nama Kontak</p>
+          <p className="text-sm">Nama Penerima</p>
           <ValidatedInput
-            error={errors.contactName}
-            name="contactName"
+            error={errors.receiverName}
+            name="receiverName"
             placeholder=""
             register={register}
             type="text"
-            id="contactName"
+            id="receiverName"
           />
           <div className="flex justify-end">
             <p className="text-xs font-thin text-gray">0/50</p>
@@ -40,13 +41,13 @@ export default function ContactInformation({ hookForm }: ValidatedInputProps) {
           </div>
 
           <ValidatedInput
-            error={errors.phoneNumber}
-            name="phoneNumber"
+            error={errors.receiverPhone}
+            name="receiverPhone"
             placeholder=""
             register={register}
             type="text"
             leftLabel="+62"
-            id="phoneNumber"
+            id="receiverPhone"
           />
 
           <p className="text-sm font-thin">
@@ -58,3 +59,4 @@ export default function ContactInformation({ hookForm }: ValidatedInputProps) {
     </div>
   );
 }
+
