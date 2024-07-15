@@ -5,13 +5,13 @@ import VariantProduct from '@/components/product/ProductVariants'
 import MinimumPurchase from '@/components/product/MinimumPurchase'
 import { useForm } from 'react-hook-form'
 import { CreateProductDto } from '@/dtos/ProductDto'
+import { Product } from '@/types/ProductType'
+import API from '@/networks/api'
 
 import Price from '@/components/product/ProductPrice'
 import ProductDevelopment from '@/components/product/ProductDevelopment'
 import WeightAndDelivery from '@/components/product/WeightAndDelivery'
 import ProductSize from '@/components/product/ProductSize'
-import API from '@/networks/api'
-import { Product } from '@/types/ProductType'
 
 function NewProductPage() {
     const hookForm = useForm<CreateProductDto>()
@@ -20,15 +20,16 @@ function NewProductPage() {
     function onSubmitNewProduct() {
         handleSubmit(async (data) => {
             console.log(data)
-
-            // const { name, attachments, category, description, minimumOrder, url } = data
+            // const { name, category, description, minimumOrder, url } = data
 
             // const product: Product = await API.PRODUCT.CREATE({
             //     name,
+            //     url,
+            //     category,
             //     description,
+            //     attachments: ['example.jpg'],
             //     minimumOrder: +minimumOrder,
             //     isActive: true,
-            //     attachments: ['example.jpg'],
             //     storeId: 1,
             // })
 
