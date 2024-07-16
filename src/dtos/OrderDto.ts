@@ -5,10 +5,12 @@ export type CreateOrderDto = {
   receiverLatitude: number;
   receiverLongtitude: number;
   receiverDistrict: string;
+  receiverVillage: string;
   receiverPhone: number;
   receiverAddress: string;
   receiverName: string;
-  receiverNumber: number;
+  invoiceNumber: string;
+  notes? : string;
 };
 
 export type UpdateOrderDto = {
