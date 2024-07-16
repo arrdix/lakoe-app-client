@@ -17,7 +17,7 @@ function SelectCategory({ setValue }: SelectCategoryProps) {
     }
 
     function onSelectCategory(id: string) {
-        setValue('categoryId', id)
+        setValue('categoryId', +id)
         setSelectedCategory('Pakaian Pria / Atasan / Kaos')
     }
 
@@ -59,26 +59,26 @@ function SelectCategory({ setValue }: SelectCategoryProps) {
                             />
                             <CategoryItem
                                 text="Descendant Category"
-                                value={2}
+                                value={1}
                                 onClick={onSelectCategory}
                                 noIcon
                             />
                             <CategoryItem
                                 text="Descendant Category"
-                                value={3}
+                                value={1}
                                 onClick={onSelectCategory}
                                 noIcon
                             />
                             <CategoryItem
                                 text="Descendant Category"
-                                value={4}
+                                value={1}
                                 onClick={onSelectCategory}
                                 noIcon
                                 isActive
                             />
                             <CategoryItem
                                 text="Descendant Category"
-                                value={5}
+                                value={1}
                                 onClick={onSelectCategory}
                                 noIcon
                             />
