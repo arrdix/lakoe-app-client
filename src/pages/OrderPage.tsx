@@ -1,28 +1,61 @@
-import { Input } from '@/components/ui/input'
-import { BiSearchAlt } from 'react-icons/bi'
-import FilterOrder from '@/components/order/FilterOrder'
-import { useEffect, useState } from 'react'
-import ScrollArea from '@/components/order/ScrollArea'
-import API from '@/networks/api'
-import { Order } from '@/types/OrderType'
-import CardOrderList from '@/components/order/CardOrderList'
+import { Input } from '@/components/ui/input';
+import { BiSearchAlt } from 'react-icons/bi';
+import FilterOrder from '@/components/order/FilterOrder';
+import { useEffect, useState } from 'react';
+import ScrollArea from '@/components/order/ScrollArea';
+import API from '@/networks/api';
+import { Order } from '@/types/OrderType';
+import CardOrderList from '@/components/order/CardOrderList';
+
+const courierOptions = [
+    { value: "GoSend", text: "GoSend" },
+    { value: "GrabExpress", text: "GrabExpress" },
+    { value: "AnterAja", text: "AnterAja" },
+    { value: "JNE", text: "JNE" },
+    { value: "J&T", text: "J&T" },
+    { value: "LionParcel", text: "Lion Parcel" },
+    { value: "NinjaExpress", text: "Ninja Express" },
+    { value: "PosIndonesia", text: "Pos Indonesia" }
+];
+
+const sortOptions = [
+    { value: "PalingBaru", text: "Paling Baru" },
+    { value: "PalingLama", text: "Paling Lama" },
+    { value: "ResponsTercepat", text: "Respons Tercepat" },
+    { value: "ResponsTerlama", text: "Respons Terlama" }
+];
 
 export default function OrderPage() {
-    const [activeTab, setActiveTab] = useState<string>('Semua')
-    const [orders, setOrders] = useState<Order[]>([])
+    const [activeTab, setActiveTab] = useState<string>('Semua');
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [selectedCourier, setSelectedCourier] = useState<string>('');
+    const [sortOption, setSortOption] = useState<string>('');
 
     function onTabChange(tab: string) {
-        setActiveTab(tab)
+        setActiveTab(tab);
     }
 
     useEffect(() => {
         async function GET_ORDERS() {
-            const orders: Order[] = await API.ORDER.GET_ALL()
-            setOrders(orders)
+            const orders: Order[] = await API.ORDER.GET_ALL();
+            setOrders(orders);
         }
 
-        GET_ORDERS()
-    }, [])
+        GET_ORDERS();
+    }, []);
+
+    const handleCourierChange = (value: string) => {
+        setSelectedCourier(value);
+        console.log(`Selected courier: ${value}`);
+    };
+
+    const handleSortChange = (value: string) => {
+        setSortOption(value);
+        console.log(`Selected sort option: ${value}`);
+    };
+
+    console.log(orders);
 
     return (
         <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
@@ -40,37 +73,33 @@ export default function OrderPage() {
                 onTabChange={onTabChange}
             />
 
+            {/* Search and Input */}
             <div>
                 <div className="relative mb-6">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                        <BiSearchAlt className="productSize-5" />
+                        <BiSearchAlt className="size-5" />
                     </div>
                     <div className="flex flex-row gap-3 w-full">
                         <div className="w-2/4">
-                            <Input className="pl-10 rounded-md w-full" placeholder="Cari Pesanan" />
+                            <Input
+                                className="pl-10 rounded-md w-full"
+                                placeholder="Cari Pesanan"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                         </div>
                         <div className="w-1/4">
-                            <FilterOrder text="Kurir" />
+                            <FilterOrder text="Kurir" items={courierOptions} onChange={handleCourierChange} />
                         </div>
                         <div className="w-1/4">
-                            <FilterOrder text="Urutkan" />
+                            <FilterOrder text="Urutkan" items={sortOptions} onChange={handleSortChange} />
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Card Item */}
-
-            {/**
-             *  TODO:
-             *
-             *  Bungkus <CardOrder /> di dalam komponen baru <CardOrderList />
-             *  <CardOrderList /> menerima 1 props order.status
-             *  <CardOrderList /> hanya merender <CardOrder /> sesuai statusnya
-             *
-             */}
-
-            <CardOrderList orders={orders} status={activeTab} />
+            <CardOrderList orders={orders} status={activeTab} searchTerm={searchTerm} />
         </div>
-    )
+    );
 }

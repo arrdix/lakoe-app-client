@@ -2,23 +2,22 @@
 
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
-import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import { FaEyeSlash, FaEye, FaGoogle } from "react-icons/fa";
 import { FaApple } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom"
-import { registerDto } from "@/dtos/AuthDto"
+import { resetPassword } from "@/dtos/AuthDto"
 import ValidateInput from "@/components/utils/ValidatedInput";
 import { useState } from "react";
-import API from "@/networks/api";
 
-export default function RegisterPage() {
-    const hookForm = useForm<registerDto>()
+export default function ResetPasswordPage() {
+    const hookForm = useForm<resetPassword>()
     const { handleSubmit, register, formState: { errors } } = hookForm
     const [visible, setVisible] = useState(false)
 
-    function onSubmitRegister() {
+    function onSubmitLogin() {
         handleSubmit(async (data) => {
-            await API.AUTH.REGISTER(data)
+            console.log(data)
         })()
     }
 
@@ -38,48 +37,28 @@ export default function RegisterPage() {
                         </div>
                     </div>
                     <div className="w-full">
-                        <img className="w-96" src="../../public/persontwo.png" alt="" />
+                        <img className="w-96" src="persontwo.png" alt="" />
                     </div>
                 </div>
             </div>
             <div className="w-3/6 flex flex-col justify-start gap-5">
                 <div className="flex flex-col gap-3">
-                    <ValidateInput
-                        error={errors.name}
-                        name="name"
-                        id="name"
-                        placeholder="Your Name"
-                        register={register}
-                        type="text"
-                    />
-                    <ValidateInput
-                        error={errors.email}
-                        name="email"
-                        id="email"
-                        placeholder="Your Email"
-                        register={register}
-                        type="text"
-                    />
                     <div className="relative">
                         <ValidateInput
                             error={errors.password}
                             name="password"
                             id="password"
-                            placeholder="Password"
+                            placeholder="Your Password"
                             register={register}
                             type={visible ? "text" : "password"}
                         />
-                        <button
-                            type="button"
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                            onClick={() => setVisible(!visible)}
-                        >
-                            {visible ? <FaEyeSlash /> : <FaEye />}
+                        <button type="submit" className="absolute right-3 top-1/2 transform -translate-y-1/2" onClick={() => setVisible(!visible)}>
+                            {visible ? < FaEyeSlash /> : <FaEye />}
                         </button>
                     </div>
                 </div>
                 <div className="w-full flex flex-col gap-7">
-                    <button className="bg-cyan hover:bg-transparent hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full" type="submit" onClick={onSubmitRegister}>Sign Up</button>
+                    <button className="bg-cyan hover:bg-transparent hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full" type="submit" onClick={onSubmitLogin}>Reset</button>
                     <div className="flex items-center justify-center">
                         <div className="flex-grow border-t border-gray"></div>
                         <span className="px-1 text-gray-500">or continue with</span>

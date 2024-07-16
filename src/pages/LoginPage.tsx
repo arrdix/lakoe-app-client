@@ -1,116 +1,142 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { FaGoogle } from "react-icons/fa";
-import { FaApple } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
-import { Link } from "react-router-dom"
-
-const formSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
-})
-
-type FormData = z.infer<typeof formSchema>;
+import { useForm } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { FaGoogle, FaApple, FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { loginDto } from '@/dtos/AuthDto'
+import ValidateInput from '@/components/utils/ValidatedInput'
+import { useState } from 'react'
+import API from '@/networks/api'
+import { useLakoeStore } from '@/store/store'
+import { User } from '@/types/UserType'
 
 export default function LoginPage() {
-    const form = useForm<FormData>({
-        resolver: zodResolver(formSchema),
-    })
+    const hookForm = useForm<loginDto>()
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = hookForm
+    const [visible, setVisible] = useState(false)
+    const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
 
-    const onSubmit = (data: FormData) => {
-        console.log(data)
+    function onSubmitLogin() {
+        handleSubmit(async (data) => {
+            const response = await API.AUTH.LOGIN(data)
+            console.log(response)
+
+            const token = response.token
+
+            if (token === undefined) {
+                console.log('Login Failed')
+                return
+            }
+
+            localStorage.setItem('token', token)
+
+            const loggedUser: User = {
+                name: 'Lakoe',
+                email: 'lakoe@gmail.com',
+                phone: '081',
+                role: 'SELLER',
+            }
+            setLoggedUser(loggedUser)
+        })()
     }
 
     return (
         <div className="flex flex-row w-full justify-center items-center h-screen px-40">
             <div className="w-full flex flex-col justify-center">
-                <h1 className="text-4xl font-bold">Sign In to <span className="text-cyan">Lakoe</span></h1>
+                <h1 className="text-4xl font-bold">
+                    Sign In to <span className="text-cyan">Lakoe</span>
+                </h1>
                 <div className="flex flex-row gap-3">
                     <div className="mt-10 w-96">
                         <p className="text-base font-medium">If you don't have an account</p>
                         <div className="flex flex-row gap-1 items-center">
-                            <p className="text-base font-medium">You can
-                            </p>
-                            <Link to="/register">
-                                <span className="text-base font-medium text-cyan">Register here!</span>
+                            <p className="text-base font-medium">You can</p>
+                            <Link to="/auth/register">
+                                <span className="text-base font-medium text-cyan">
+                                    Register here!
+                                </span>
                             </Link>
                         </div>
                     </div>
                     <div className="w-full">
-                        <img className="w-96" src="persontwo.png" alt="" />
+                        <img className="w-96" src="../../public/persontwo.png" alt="" />
                     </div>
                 </div>
             </div>
-            <div className="w-3/6 flex flex-col justify-start">
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <FormField
-                            control={form.control}
-                            name="username"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input placeholder="Enter email or phone number" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                    <FormControl>
-                                        <Input placeholder="Password" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                    <div className="flex justify-end">
-                                        <Link to="/forgot">
-                                            <p className="text-xs font-medium">Forgot password?</p>
-                                        </Link>
-                                    </div>
-                                </FormItem>
-                            )}
+            <div className="w-3/6 flex flex-col justify-start gap-5">
+                <div className="flex flex-col gap-3">
+                    <ValidateInput
+                        error={errors.email}
+                        name="email"
+                        id="email"
+                        placeholder="Email"
+                        register={register}
+                        type="text"
+                    />
+                    <div className="relative">
+                        <ValidateInput
+                            error={errors.password}
+                            name="password"
+                            id="password"
+                            placeholder="Password"
+                            register={register}
+                            type={visible ? 'text' : 'password'}
                         />
-                        <Button type="submit" className="w-full rounded-lg bg-cyan hover:bg-transparent hover:text-cyan hover:border-cyan hover:border-2">Submit</Button>
-                    </form>
-                </Form>
-                <div className="flex items-center justify-center my-4">
-                    <div className="flex-grow border-t border-gray"></div>
-                    <span className="px-1 text-gray-500">or continue with</span>
-                    <div className="flex-grow border-t border-gray"></div>
+                        <button
+                            type="button"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                            onClick={() => setVisible(!visible)}
+                        >
+                            {visible ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                    </div>
+                    <div className="flex justify-end text-xs font-medium">
+                        <Link to="/forgot">Forgot Password?</Link>
+                    </div>
                 </div>
-                <div className="flex flex-row gap-5 items-center justify-center">
-                    <div className="rounded-full">
-                        <Button
-                            type="submit"
-                            className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
-                        >
-                            <FaGoogle className="text-orange-400 size-5" />
-                        </Button>
+                <div className="w-full flex flex-col gap-7">
+                    <button
+                        className="bg-cyan hover:bg-transparent hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full"
+                        type="submit"
+                        onClick={onSubmitLogin}
+                    >
+                        Sign In
+                    </button>
+                    <div className="flex items-center justify-center">
+                        <div className="flex-grow border-t border-gray"></div>
+                        <span className="px-1 text-gray-500">or continue with</span>
+                        <div className="flex-grow border-t border-gray"></div>
                     </div>
-                    <div className="rounded-full">
-                        <Button
-                            type="submit"
-                            className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
-                        >
-                            <FaApple className="text-black size-5" />
-                        </Button>
-                    </div>
-                    <div className="rounded-full">
-                        <Button
-                            type="submit"
-                            className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
-                        >
-                            <FaFacebook className="text-blue-400 size-5" />
-                        </Button>
+                    <div className="flex flex-row gap-5 items-center justify-center">
+                        <div className="rounded-full">
+                            <Button
+                                type="button"
+                                className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
+                            >
+                                <FaGoogle className="text-orange-400 size-5" />
+                            </Button>
+                        </div>
+                        <div className="rounded-full">
+                            <Button
+                                type="button"
+                                className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
+                            >
+                                <FaApple className="text-black size-5" />
+                            </Button>
+                        </div>
+                        <div className="rounded-full">
+                            <Button
+                                type="button"
+                                className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
+                            >
+                                <FaFacebook className="text-blue-400 size-5" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
