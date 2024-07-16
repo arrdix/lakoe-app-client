@@ -2,6 +2,7 @@ import { CreateProductDto } from '@/dtos/ProductDto'
 import { UseFormReturn } from 'react-hook-form'
 import ValidatedTextarea from '@/components/utils/ValidatedTextarea'
 import ProductImageInput from '@/components/product/ProductImageInput'
+import ProductImageInputList from '@/components/product/ProductImageInputList'
 
 interface DetailProductProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,11 +39,7 @@ export default function DetailProduct({ hookForm }: DetailProductProps) {
                         Foto Produk <span className="text-red-500">*</span>
                     </label>
                     <div className="flex flex-row gap-2 w-full h-max">
-                        <ProductImageInput />
-                        <ProductImageInput />
-                        <ProductImageInput />
-                        <ProductImageInput />
-                        <ProductImageInput />
+                        <ProductImageInputList />
                     </div>
                 </div>
             </div>

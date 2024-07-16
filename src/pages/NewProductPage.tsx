@@ -19,21 +19,45 @@ function NewProductPage() {
 
     function onSubmitNewProduct() {
         handleSubmit(async (data) => {
-            console.log(data)
-            // const { name, category, description, minimumOrder, url } = data
+            const submitedProduct = {
+                name: data.name,
+                description: data.description,
+                attachments: ['example.jpg'],
+                minimumOrder: +data.minimumOrder,
+                storeId: 1, // TODO: use real store id
+                categoryId: data.categoryId,
+                url: data.url,
+                variant: {
+                    name: data.variant && data.variant.name,
+                    variantOptions:
+                        data.variant &&
+                        data.variant.variantOptions &&
+                        data.variant.variantOptions.map((option) => ({
+                            name: option.name,
+                            variantOptionValue: {
+                                sku: option.variantOptionValue && option.variantOptionValue.sku,
+                                weight:
+                                    option.variantOptionValue &&
+                                    option.variantOptionValue.weight &&
+                                    +option.variantOptionValue.weight,
+                                stock:
+                                    option.variantOptionValue &&
+                                    option.variantOptionValue.stock &&
+                                    +option.variantOptionValue.stock,
+                                price:
+                                    option.variantOptionValue &&
+                                    option.variantOptionValue.price &&
+                                    +option.variantOptionValue.price,
+                                isActive:
+                                    option.variantOptionValue && option.variantOptionValue.isActive,
+                            },
+                        })),
+                },
+            }
+            console.log(submitedProduct)
 
-            // const product: Product = await API.PRODUCT.CREATE({
-            //     name,
-            //     url,
-            //     category,
-            //     description,
-            //     attachments: ['example.jpg'],
-            //     minimumOrder: +minimumOrder,
-            //     isActive: true,
-            //     storeId: 1,
-            // })
-
-            // console.log(product.id)
+            // const product = await API.PRODUCT.CREATE(submitedProduct)
+            // console.log(product)
         })()
     }
 

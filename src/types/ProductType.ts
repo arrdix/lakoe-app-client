@@ -9,6 +9,7 @@ export type Product = {
     isActive: boolean
     minimumOrder: number
     storeId: string
+    category: string
     carts?: Cart
     variant?: Variant
     
