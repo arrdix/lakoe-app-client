@@ -7,7 +7,7 @@ import { VariantOptionValue } from '@/types/VariantOptionValueType'
 import { Variant } from '@/types/VariantType'
 import statusChecker from '@/utils/statusChecker'
 import { useEffect, useState } from 'react'
-import formatRupiah from '../../lib/formatRupiah'
+import formatToIDR from '../../lib/IdrUtils'
 import { Link } from 'react-router-dom'
 
 interface CardOrderProps {
@@ -63,20 +63,20 @@ export default function CardOrder({ order }: CardOrderProps) {
 
     if (product) {
         return (
-            <Link to={`/order/detail`}>
-                <div className='mb-2'>
-                    <div className="border border-lightGray rounded-md flex flex-col gap-3">
-                        <div className="flex justify-between border-b p-3">
-                            <div className="flex flex-col gap-1">
-                                <p className={`${labelColor} w-fit font-semibold rounded p-1 text-sm`}>
-                                    {order.status}
-                                </p>
-                                <p className="text-gray text-sm">INV/{formattedDate}/MPL/{order.invoiceNumber}</p>
-                            </div>
-                            <div>
-                                <Button variant={'outline'}>{buttonText}</Button>
-                            </div>
+            <div className='mb-2'>
+                <div className="border border-lightGray rounded-md flex flex-col gap-3">
+                    <div className="flex justify-between border-b p-3">
+                        <div className="flex flex-col gap-1">
+                            <p className={`${labelColor} w-fit font-semibold rounded p-1 text-sm`}>
+                                {order.status}
+                            </p>
+                            <p className="text-gray text-sm">INV/{formattedDate}/MPL/{order.invoiceNumber}</p>
                         </div>
+                        <div>
+                            <Button variant={'outline'}>{buttonText}</Button>
+                        </div>
+                    </div>
+                    <Link to={`/order/detail`}>
                         <div className="w-full flex flex-row px-3 pb-3">
                             <img className="w-14 mr-2" src="../../public/tshirt.png" alt="" />
                             <div className="w-full flex flex-row justify-between items-center">
@@ -98,13 +98,13 @@ export default function CardOrder({ order }: CardOrderProps) {
                                 </div>
                                 <div className="flex flex-col items-end">
                                     <p className="text-gray text-sm font-normal">Total Belanja</p>
-                                    <p className="font-medium text-sm">{formatRupiah(order.price)}</p>
+                                    <p className="font-medium text-sm">{formatToIDR(order.price)}</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 </div>
-            </Link>
+            </div>
         )
     }
     return null;

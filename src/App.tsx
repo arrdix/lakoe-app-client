@@ -11,40 +11,70 @@ import roleChecker from '@/utils/roleChecker'
 import BuyerLayout from '@/layouts/BuyerLayout'
 import BuyerPage from '@/pages/BuyerPage'
 import CheckoutPage from './pages/CheckoutPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 
 function App() {
-    const role = 'SELLER'
+    const role = 'BUYER'
+    const token = localStorage.token
+    console.log(token);
 
-    if (roleChecker.isBuyer(role)) {
-        return (
-            <div className="App">
-                <Routes>
-                    <Route path="/" element={<BuyerLayout />}>
-                        <Route index element={<BuyerPage />} />
-                        <Route path="/product/new" element={<NewProductPage />} />
-                        <Route path='checkout' index element={<CheckoutPage />} />
-                    </Route>
-                </Routes>
-            </div>
-        )
+    if (token) {
+        return <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<DashboardPage />} />
+                <Route path="/product" element={<ProductPage />} />
+                <Route path="/product/new" element={<NewProductPage />} />
+                <Route path="/order" element={<OrderPage />} />
+                <Route path="/order/detail" element={<DetailOrderPage />} />
+                <Route path="/setting" element={<SettingPage />} />
+            </Route>
+        </Routes>
+    } else {
+        return <Routes>
+            <Route path='/' index element={<LoginPage />} />
+            <Route path='/auth/register' index element={<RegisterPage />} />
+            <Route path='forgot' index element={<ForgotPasswordPage />} />
+            <Route path='reset' index element={<ResetPasswordPage />} />
+        </Routes>
     }
 
-    if (roleChecker.isSeller(role)) {
-        return (
-            <div className="App">
-                <Routes>
-                    <Route path="/" element={<Layout />}>
-                        <Route index element={<DashboardPage />} />
-                        <Route path="/product" element={<ProductPage />} />
-                        <Route path="/product/new" element={<NewProductPage />} />
-                        <Route path="/order" element={<OrderPage />} />
-                        <Route path="/order/detail" element={<DetailOrderPage />} />
-                        <Route path="/setting" element={<SettingPage />} />
-                    </Route>
-                </Routes>
-            </div>
-        )
-    }
+    // if (roleChecker.isBuyer(role)) {
+    //     return (
+    //         <div className="App">
+    //             <Routes>
+    //                 <Route path="/" element={<BuyerLayout />}>
+    //                     <Route index element={<BuyerPage />} />
+    //                     <Route path="/product/new" element={<NewProductPage />} />
+    //                     <Route path='checkout' index element={<CheckoutPage />} />
+    //                     <Route path='/auth/login' index element={<LoginPage />} />
+    //                     <Route path='/auth/register' index element={<RegisterPage />} />
+    //                     <Route path='forgot' index element={<ForgotPasswordPage />} />
+    //                     <Route path='reset' index element={<ResetPasswordPage />} />
+    //                 </Route>
+    //             </Routes>
+    //         </div>
+    //     )
+    // }
+
+    // if (roleChecker.isSeller(role)) {
+    //     return (
+    //         <div className="App">
+    //             <Routes>
+    //                 <Route path="/" element={<Layout />}>
+    //                     <Route index element={<DashboardPage />} />
+    //                     <Route path="/product" element={<ProductPage />} />
+    //                     <Route path="/product/new" element={<NewProductPage />} />
+    //                     <Route path="/order" element={<OrderPage />} />
+    //                     <Route path="/order/detail" element={<DetailOrderPage />} />
+    //                     <Route path="/setting" element={<SettingPage />} />
+    //                 </Route>
+    //             </Routes>
+    //         </div>
+    //     )
+    // }
 }
 
 export default App

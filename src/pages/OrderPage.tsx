@@ -55,6 +55,7 @@ export default function OrderPage() {
         console.log(`Selected sort option: ${value}`);
     };
 
+    console.log(orders);
 
     return (
         <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
@@ -76,7 +77,7 @@ export default function OrderPage() {
             <div>
                 <div className="relative mb-6">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                        <BiSearchAlt className="productSize-5" />
+                        <BiSearchAlt className="size-5" />
                     </div>
                     <div className="flex flex-row gap-3 w-full">
                         <div className="w-2/4">

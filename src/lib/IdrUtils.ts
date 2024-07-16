@@ -1,4 +1,4 @@
-const formatRupiah = (price: number) => {
+const formatToIDR = (price: number) => {
   return price.toLocaleString("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -7,4 +7,4 @@ const formatRupiah = (price: number) => {
   });
 };
 
-export default formatRupiah;
+export default formatToIDR;
