@@ -7,7 +7,8 @@ import { VariantOptionValue } from '@/types/VariantOptionValueType'
 import { Variant } from '@/types/VariantType'
 import statusChecker from '@/utils/statusChecker'
 import { useEffect, useState } from 'react'
-import formatRupiah from '../../lib/formatRupiah'
+import formatToIDR from '../../lib/idrUtils'
+import { Link } from 'react-router-dom'
 
 interface CardOrderProps {
     order: Order
@@ -75,31 +76,33 @@ export default function CardOrder({ order }: CardOrderProps) {
                             <Button variant={'outline'}>{buttonText}</Button>
                         </div>
                     </div>
-                    <div className="w-full flex flex-row px-3 pb-3">
-                        <img className="w-14 mr-2" src="../../public/tshirt.png" alt="" />
-                        <div className="w-full flex flex-row justify-between items-center">
-                            <div>
-                                <h1 className="text-sm font-semibold">
-                                    {product.name} -
-                                    {variantOption?.name}
-                                    <span className='mx-1'>|</span>
-                                    {product.description}
-                                    <span className='mx-1'>-</span>
-                                    {variant?.variantOption?.name}
-                                </h1>
-                                <div className='flex items-center text-gray text-sm'>
-                                    <p className='mr-1'>
-                                        {variantOptionValue?.stock}
-                                    </p>
-                                    <span>Barang</span>
+                    <Link to={`/order/detail/${order.id}`}>
+                        <div className="w-full flex flex-row px-3 pb-3">
+                            <img className="w-14 mr-2" src="../../public/tshirt.png" alt="" />
+                            <div className="w-full flex flex-row justify-between items-center">
+                                <div>
+                                    <h1 className="text-sm font-semibold">
+                                        {product.name} -
+                                        {variantOption?.name}
+                                        <span className='mx-1'>|</span>
+                                        {product.description}
+                                        <span className='mx-1'>-</span>
+                                        {variant?.variantOption?.name}
+                                    </h1>
+                                    <div className='flex items-center text-gray text-sm'>
+                                        <p className='mr-1'>
+                                            {variantOptionValue?.stock}
+                                        </p>
+                                        <span>Barang</span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col items-end">
+                                    <p className="text-gray text-sm font-normal">Total Belanja</p>
+                                    <p className="font-medium text-sm">{formatToIDR(order.price)}</p>
                                 </div>
                             </div>
-                            <div className="flex flex-col items-end">
-                                <p className="text-gray text-sm font-normal">Total Belanja</p>
-                                <p className="font-medium text-sm">{formatRupiah(order.price)}</p>
-                            </div>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
         )
