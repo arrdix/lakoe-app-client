@@ -1,3 +1,5 @@
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import ContactInformation from "@/components/buyer/ContactInformation";
 import InsertVoucherModal from "@/components/buyer/InsertVoucherModal";
 import Note from "@/components/buyer/Note";
@@ -81,6 +83,6 @@ function CheckoutPage() {
       </div>
     </div>
   );
-}
+};
 
 export default CheckoutPage;
