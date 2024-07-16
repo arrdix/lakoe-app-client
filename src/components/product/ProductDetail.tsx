@@ -1,7 +1,7 @@
 import { CreateProductDto } from '@/dtos/ProductDto'
-import { BiImageAdd } from 'react-icons/bi'
 import { UseFormReturn } from 'react-hook-form'
 import ValidatedTextarea from '@/components/utils/ValidatedTextarea'
+import ProductImageInput from '@/components/product/ProductImageInput'
 
 interface DetailProductProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,26 +38,11 @@ export default function DetailProduct({ hookForm }: DetailProductProps) {
                         Foto Produk <span className="text-red-500">*</span>
                     </label>
                     <div className="flex flex-row gap-2 w-full h-max">
-                        <div className="w-full h-52 flex flex-col border-dashed border border-gray rounded items-center justify-center">
-                            <BiImageAdd className="size-10 fill-gray" />
-                            <span className="text-gray">Foto Produk</span>
-                        </div>
-                        <div className="w-full h-52 flex flex-col border-dashed border border-gray rounded items-center justify-center">
-                            <BiImageAdd className="size-10 fill-gray" />
-                            <span className="text-gray">Foto Produk</span>
-                        </div>
-                        <div className="w-full h-52 flex flex-col border-dashed border border-gray rounded items-center justify-center">
-                            <BiImageAdd className="size-10 fill-gray" />
-                            <span className="text-gray">Foto Produk</span>
-                        </div>
-                        <div className="w-full h-52 flex flex-col border-dashed border border-gray rounded items-center justify-center">
-                            <BiImageAdd className="size-10 fill-gray" />
-                            <span className="text-gray">Foto Produk</span>
-                        </div>
-                        <div className="w-full h-52 flex flex-col border-dashed border border-gray rounded items-center justify-center">
-                            <BiImageAdd className="size-10 fill-gray" />
-                            <span className="text-gray">Foto Produk</span>
-                        </div>
+                        <ProductImageInput />
+                        <ProductImageInput />
+                        <ProductImageInput />
+                        <ProductImageInput />
+                        <ProductImageInput />
                     </div>
                 </div>
             </div>

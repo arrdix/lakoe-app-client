@@ -17,9 +17,13 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 
 function App() {
+<<<<<<< HEAD
     const role = 'BUYER'
     const token = localStorage.token
     console.log(token);
+=======
+    const role = 'BUYER' 
+>>>>>>> 3538dd8839602338eb99fbeb01c90b07f2a3624f
 
     if (token) {
         return <Routes>
