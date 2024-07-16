@@ -22,21 +22,21 @@ interface opsiPengirimanType {
 const opsiPengiriman: opsiPengirimanType[] = [
   {
     harga: 10000,
-    image: "Add to Cart-amico.png",
+    image: "https://static.desty.app/desty-store/jnt.png",
     IsAvailableForCOD: true,
     nama: "jnt",
   },
   {
     harga: 30000,
-    image: "Add to Cart-amico.png",
+    image: "https://static.desty.app/desty-store/logistic-files/anteraja.png",
     IsAvailableForCOD: false,
-    nama: "jne",
+    nama: "anteraja",
   },
   {
     harga: 50000,
-    image: "Add to Cart-amico.png",
+    image: "https://static.desty.app/desty-store/logistic-files/jne.png",
     IsAvailableForCOD: true,
-    nama: "ninja",
+    nama: "jne",
   },
 ];
 
@@ -69,7 +69,7 @@ export default function DeliveryMethodsModal({
         >
           <div className="w-1/3 h-full flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <img src={deliveryMethod.image} alt="" className="w-20" />
+              <img src={deliveryMethod.image} alt="" className="w-20 h-10" />
               <p className="text-black relative top-1 font-semibold">Reguler</p>
             </div>
 

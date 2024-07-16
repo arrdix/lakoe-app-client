@@ -9,7 +9,7 @@ const SimpleMap = () => {
       <MapContainer
         center={[51.505, -0.09]}
         zoom={13}
-        style={{ height: "100%", width: "100%" }}
+        style={{ height: "100%", width: "100%", zIndex:"10" }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -17,7 +17,6 @@ const SimpleMap = () => {
         />
         <LocationMarker/>
       </MapContainer>
-      ,
     </div>
   );
 };
