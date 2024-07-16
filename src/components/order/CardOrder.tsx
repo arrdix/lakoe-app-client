@@ -7,7 +7,7 @@ import { VariantOptionValue } from '@/types/VariantOptionValueType'
 import { Variant } from '@/types/VariantType'
 import statusChecker from '@/utils/statusChecker'
 import { useEffect, useState } from 'react'
-import formatToIDR from '../../lib/IdrUtils'
+import formatToIDR from '../../lib/idrUtils'
 import { Link } from 'react-router-dom'
 
 interface CardOrderProps {
@@ -76,7 +76,7 @@ export default function CardOrder({ order }: CardOrderProps) {
                             <Button variant={'outline'}>{buttonText}</Button>
                         </div>
                     </div>
-                    <Link to={`/order/detail`}>
+                    <Link to={`/order/detail/${order.id}`}>
                         <div className="w-full flex flex-row px-3 pb-3">
                             <img className="w-14 mr-2" src="../../public/tshirt.png" alt="" />
                             <div className="w-full flex flex-row justify-between items-center">
