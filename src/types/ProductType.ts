@@ -7,8 +7,9 @@ export type Product = {
     description: string
     attachments: string[]
     isActive: boolean
-    minimunOrder: number
+    minimumOrder: number
     storeId: string
     carts?: Cart
     variant?: Variant
+    
 }
