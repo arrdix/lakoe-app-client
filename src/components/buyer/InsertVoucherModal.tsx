@@ -19,7 +19,7 @@ export default function InsertVoucherModal() {
       <Button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-lg p-1 bg-white text-black px-4 py-6 border border-black w-full hover:bg-blue-50"
+        className="rounded-md p-1 bg-blue-50 text-black px-4 py-6 border w-full hover:bg-blue-100"
       >
         <FaMoneyCheckDollar fontSize={20} className="text-cyan" />
         <p className="text-md font-bold ml-4 mr-7">Gunakan / Masukan Voucher</p>

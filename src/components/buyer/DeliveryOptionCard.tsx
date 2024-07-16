@@ -1,4 +1,4 @@
-import formatToIDR from "@/lib/idrUtils";
+import formatRupiah from "@/lib/formatRupiah";
 
 interface DeliveryOptionCardProops {
   deliveryName: string;
@@ -22,7 +22,7 @@ export default function DeliveryOptionCard(props: DeliveryOptionCardProops) {
           </p>
         </div>
         <div className="">
-          <p className="text-blue-600 text-md">{formatToIDR(price)}</p>
+          <p className="text-blue-600 text-md">{formatRupiah(price)}</p>
         </div>
       </div>
     </>

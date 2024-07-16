@@ -1,12 +1,13 @@
-import { CheckoutDto } from "@/dtos/CheckoutDto";
 import { UseFormReturn } from "react-hook-form";
-import ValidatedInput from "@/components/utils/ValidatedInput";
+// import ValidatedInput from "@/components/utils/ValidatedInput";
 import ValidatedTextarea from "../utils/ValidatedTextarea";
 import ValidatedSelect from "../utils/ValidatedSelect";
+import { CreateOrderDto } from "@/dtos/OrderDto";
+import PinModal from "./PinModal";
 
 interface ValidatedInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  hookForm: UseFormReturn<CheckoutDto, any, undefined>;
+  hookForm: UseFormReturn<CreateOrderDto, any, undefined>;
 }
 
 export default function ShippingAddress({ hookForm }: ValidatedInputProps) {
@@ -21,39 +22,39 @@ export default function ShippingAddress({ hookForm }: ValidatedInputProps) {
       <h1 className="text-black text-xl font-bold mb-4">Alamat Pengiriman</h1>
 
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <p className="text-sm">Nama Penerima</p>
           <ValidatedInput
-            error={errors.recipientName}
-            name="recipientName"
+            error={errors.receiverName}
+            name="receiverName"
             placeholder=""
             register={register}
             type="text"
-            id="recipientName"
+            id="receiverName"
           />
         </div>
 
         <div className="flex flex-col gap-2">
           <p className="text-sm">Masukan WhatsApp</p>
           <ValidatedInput
-            error={errors.recipientNumber}
-            name="recipientName"
+            error={errors.receiverPhone}
+            name="receiverPhone"
             placeholder=""
             register={register}
             type="text"
             id="recipientNumber"
             leftLabel="+62"
           />
-        </div>
+        </div> */}
 
         <div className="flex flex-col gap-2">
           <label htmlFor="productName" className="text-sm">
             Kecamatan
           </label>
           <ValidatedSelect
-            error={errors.village}
+            error={errors.receiverDistrict}
             setValue={setValue}
-            name="district"
+            name="receiverDistrict"
             options={["kecamatan 1", "kecamatan 2"]}
           />
         </div>
@@ -63,9 +64,9 @@ export default function ShippingAddress({ hookForm }: ValidatedInputProps) {
             Kelurahan
           </label>
           <ValidatedSelect
-            error={errors.village}
+            error={errors.receiverVillage}
             setValue={setValue}
-            name="village"
+            name="receiverVillage"
             options={["desa 1", "desa 2"]}
           />
         </div>
@@ -73,12 +74,19 @@ export default function ShippingAddress({ hookForm }: ValidatedInputProps) {
         <div className="flex flex-col gap-2">
           <p className="text-sm">Detail Alamat</p>
           <ValidatedTextarea
-            error={errors.adressDetail}
+            error={errors.receiverAddress}
             register={register}
-            name="adressDetail"
-            id="adressDetail"
+            name="receiverAddress"
+            id="receiverAddress"
             placeholder=""
           />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="text-sm">Pin Alamat</p>
+          <div className="w-full h-20 rounded-md border flex justify-end items-center px-4  bg-slate-50">
+            <PinModal />
+          </div>
         </div>
       </div>
     </div>
