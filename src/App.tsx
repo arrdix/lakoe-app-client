@@ -13,7 +13,7 @@ import BuyerPage from '@/pages/BuyerPage'
 import CheckoutPage from './pages/CheckoutPage'
 
 function App() {
-    const role = 'BUYER'
+    const role = 'SELLER'
 
     if (roleChecker.isBuyer(role)) {
         return (
@@ -22,7 +22,7 @@ function App() {
                     <Route path="/" element={<BuyerLayout />}>
                         <Route index element={<BuyerPage />} />
                         <Route path="/product/new" element={<NewProductPage />} />
-                        <Route path='checkout' index element={<CheckoutPage />} />
+                        <Route path="checkout" index element={<CheckoutPage />} />
                     </Route>
                 </Routes>
             </div>
