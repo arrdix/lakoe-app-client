@@ -1,5 +1,19 @@
 import React from "react";
-export default function PaymentSummary() {
+import { Product } from '@/types/ProductType';
+
+interface PaymentSummaryProps {
+  totalHarga: number;
+  biayaPengiriman: number;
+  totalPembayaran: number;
+  
+
+ 
+  
+
+
+}
+
+const PaymentSummary: React.FC<PaymentSummaryProps> = ({ totalHarga, biayaPengiriman, totalPembayaran}) => {
   return (
     <div className="w-full bg-blue-50 rounded-lg p-7 flex flex-col border gap-6">
       <div>
@@ -39,3 +53,5 @@ export default function PaymentSummary() {
     </div>
   );
 }
+
+export default PaymentSummary;
