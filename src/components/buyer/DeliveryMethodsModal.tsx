@@ -5,29 +5,87 @@ import { LiaTimesSolid } from "react-icons/lia";
 import DeliveryOptionCard from "./DeliveryOptionCard";
 import { UseFormReturn } from "react-hook-form";
 import { CheckoutDto } from "@/dtos/CheckoutDto";
+import formatRupiah from "@/lib/formatRupiah";
 
 interface ValidatedInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   hookForm: UseFormReturn<CheckoutDto, any, undefined>;
 }
 
-const dataPengiriman = ["jnt", "jnt2", "jnt3"];
+interface opsiPengirimanType {
+  nama: string;
+  harga: number;
+  image: string;
+  IsAvailableForCOD: boolean;
+}
+
+const opsiPengiriman: opsiPengirimanType[] = [
+  {
+    harga: 10000,
+    image: "Add to Cart-amico.png",
+    IsAvailableForCOD: true,
+    nama: "jnt",
+  },
+  {
+    harga: 30000,
+    image: "Add to Cart-amico.png",
+    IsAvailableForCOD: false,
+    nama: "jne",
+  },
+  {
+    harga: 50000,
+    image: "Add to Cart-amico.png",
+    IsAvailableForCOD: true,
+    nama: "ninja",
+  },
+];
 
 export default function DeliveryMethodsModal({
   hookForm,
 }: ValidatedInputProps) {
   const [open, setOpen] = useState(false);
   const { setValue } = hookForm;
+  const [deliveryMethod, setDeliveryMethod] = useState<
+    opsiPengirimanType | undefined
+  >(undefined);
+  console.log("delivery method", deliveryMethod);
   return (
     <div>
       {/* Tombol Pemicu */}
-      <Button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="rounded-lg p-1 border=none bg-cyan px-14 py-6"
-      >
-        <p className="mx-2 text-md font-semibold">Pilih Metode Pengiriman</p>
-      </Button>
+
+      {!deliveryMethod ? (
+        <Button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="rounded-lg p-1 border-none bg-cyan px-14 py-6"
+        >
+          <p className="mx-2 text-md font-semibold">Pilih Metode Pengiriman</p>
+        </Button>
+      ) : (
+        <Button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="rounded-sm p-3 border border-blue-400 bg-blue-100 w-72 h-20 flex justify-between hover:bg-blue-100"
+        >
+          <div className="w-1/3 h-full flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <img src={deliveryMethod.image} alt="" className="w-20" />
+              <p className="text-black relative top-1 font-semibold">Reguler</p>
+            </div>
+
+            <div>
+              <p className="text-slate-600 font-thin text-sm text-left">
+                2-4 hari estimasi pengiriman
+              </p>
+            </div>
+          </div>
+          <div className="w-2/3 flex justify-end">
+            <p className="font-bold text-blue-500">
+              {formatRupiah(deliveryMethod.harga)}
+            </p>
+          </div>
+        </Button>
+      )}
 
       {/* Background Overlay */}
       {open && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
@@ -62,21 +120,27 @@ export default function DeliveryMethodsModal({
                 <p>Pengiriman diatas jam 3 berpotensi dikirim besok</p>
 
                 <div className="flex flex-col gap-2">
-                  {dataPengiriman.map((data) => (
+                  {opsiPengiriman.map((data) => (
                     <Button
-                      key={data}
+                      key={data.nama}
                       onClick={() => {
                         setOpen(false);
-                        setValue("deliveryMethod", data);
+                        setValue("deliveryMethod", data.nama);
+                        setDeliveryMethod({
+                          harga: data.harga,
+                          image: data.image,
+                          IsAvailableForCOD: data.IsAvailableForCOD,
+                          nama: data.nama,
+                        });
                       }}
                       className="bg-white p-2 h-14 hover:bg-blue-200 rounded-sm"
                     >
                       <DeliveryOptionCard
-                        key={data}
-                        IsAvailableForCOD={true}
-                        deliveryName={data}
-                        img="https://static.desty.app/desty-store/jnt.png"
-                        price={500}
+                        key={data.nama}
+                        IsAvailableForCOD={data.IsAvailableForCOD}
+                        deliveryName={data.nama}
+                        img={data.image}
+                        price={data.harga}
                       />
                     </Button>
                   ))}

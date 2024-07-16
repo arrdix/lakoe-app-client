@@ -10,19 +10,19 @@ export type EditProductDto = {
 
 export type CreateProductDto = {
   name: string;
-  url: string;
-  categoryId: string;
   description: string;
   attachments: string[];
+  isActive?: boolean;
   minimumOrder: number;
-  isActive: boolean;
   storeId: number;
+  categoryId: number;
+  url: string;
   variant?: CreateVariantDto;
 };
 
 export type CreateVariantDto = {
-  name: string;
-  isActive: boolean;
+  name: string | undefined;
+  isActive?: boolean;
   variantOptions?: CreateVariantOptionDto[];
 };
 
@@ -32,9 +32,9 @@ export type CreateVariantOptionDto = {
 };
 
 export type CreateVariantOptionValueDto = {
-  sku: string;
-  weight: number;
-  stock: number;
-  price: number;
-  isActive: boolean;
+  sku: string | undefined;
+  weight: number | undefined;
+  stock: number | undefined;
+  price: number | undefined;
+  isActive?: boolean | undefined;
 };
