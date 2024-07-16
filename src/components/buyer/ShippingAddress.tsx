@@ -3,6 +3,7 @@ import { UseFormReturn } from "react-hook-form";
 import ValidatedTextarea from "../utils/ValidatedTextarea";
 import ValidatedSelect from "../utils/ValidatedSelect";
 import { CreateOrderDto } from "@/dtos/OrderDto";
+import PinModal from "./PinModal";
 
 interface ValidatedInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -79,6 +80,13 @@ export default function ShippingAddress({ hookForm }: ValidatedInputProps) {
             id="receiverAddress"
             placeholder=""
           />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="text-sm">Pin Alamat</p>
+          <div className="w-full h-20 rounded-md border flex justify-end items-center px-4  bg-slate-50">
+            <PinModal />
+          </div>
         </div>
       </div>
     </div>

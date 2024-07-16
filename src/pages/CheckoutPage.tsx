@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { CheckoutDto } from "@/dtos/CheckoutDto";
 import { CreateOrderDto } from "@/dtos/OrderDto";
 import axios from "axios";
+import SimpleMap from "@/components/Map";
 
 function CheckoutPage() {
   const hookForm = useForm<CreateOrderDto>();
@@ -26,7 +27,7 @@ function CheckoutPage() {
   const postCheckout = async (data: CreateOrderDto) => {
     try {
       const response = await axios.post("http://localhost:3000/order", data);
-      console.log(response)
+      console.log(response);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -40,20 +41,26 @@ function CheckoutPage() {
   const { handleSubmit } = hookForm;
 
   return (
-    <div className=" w-full h-full bg-white px-10 py-14">
-      <h1 className="font-semibold text-3xl mb-10 px-2">Checkout</h1>
-
+    <div className=" w-full h-full bg-white px-20 py-14">
       <div className="flex gap-10">
         <div className="flex flex-col gap-2 w-4/6">
+          <div className="flex items-center gap-6">
+            <h1 className="font-semibold text-6xl mb-10 px-3">Checkout</h1>
+            <img
+              className="w-32 relative bottom-7"
+              src="Add to Cart-amico.png"
+              alt=""
+            />
+          </div>
           <div className="flex flex-col gap-2">
             <ContactInformation hookForm={hookForm} />
             <ShippingAddress hookForm={hookForm} />
             <DeliveryMethods hookForm={hookForm2} />
           </div>
         </div>
-        <div className="flex flex-col gap-2 w-2/6">
-          <InsertVoucherModal />
+        <div className="flex flex-col gap-2 w-2/6 relative top-6">
           <PaymentSummary />
+          <InsertVoucherModal />
           <Note hookForm={hookForm} />
           <Button
             type="button"
@@ -66,6 +73,10 @@ function CheckoutPage() {
             <p className="mx-2 text-md font-semibold">Bayar sekarang</p>
             <FaArrowRight size={20} className="text-white mr-2" />
           </Button>
+
+          <div className="w-96 h-96 bg-black">
+            <SimpleMap />
+          </div>
         </div>
       </div>
     </div>
