@@ -11,23 +11,24 @@ export type EditProductDto = {
 export type CreateProductDto = {
     name: string
     url: string
-    category: string
+    categoryId: string
     description: string
     attachments: string[]
     minimumOrder: number
     isActive: boolean
-    variant: CreateVariantDto
+    storeId: number
+    variant?: CreateVariantDto
 }
 
 export type CreateVariantDto = {
     name: string
     isActive: boolean
-    variantOptions: CreateVariantOptionDto[]
+    variantOptions?: CreateVariantOptionDto[]
 }
 
 export type CreateVariantOptionDto = {
     name: string
-    variantOptionValue: CreateVariantOptionValueDto
+    variantOptionValue?: CreateVariantOptionValueDto
 }
 
 export type CreateVariantOptionValueDto = {

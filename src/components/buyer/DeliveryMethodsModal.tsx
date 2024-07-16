@@ -3,9 +3,21 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { Button } from "../ui/button";
 import { LiaTimesSolid } from "react-icons/lia";
 import DeliveryOptionCard from "./DeliveryOptionCard";
+import { UseFormReturn } from "react-hook-form";
+import { CheckoutDto } from "@/dtos/CheckoutDto";
 
-export default function DeliveryMethodsModal() {
+interface ValidatedInputProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  hookForm: UseFormReturn<CheckoutDto, any, undefined>;
+}
+
+const dataPengiriman = ["jnt", "jnt2", "jnt3"];
+
+export default function DeliveryMethodsModal({
+  hookForm,
+}: ValidatedInputProps) {
   const [open, setOpen] = useState(false);
+  const { setValue } = hookForm;
   return (
     <div>
       {/* Tombol Pemicu */}
@@ -33,7 +45,7 @@ export default function DeliveryMethodsModal() {
               className="relative transform px-8 py-3 overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
             >
               <div className="bg-gray-50 flex items-center justify-center border-b pb-3 mb-6">
-              <Button
+                <Button
                   variant="outline"
                   className="p-2 border-none hover:bg-white absolute top-0 right-2"
                   onClick={() => {
@@ -42,17 +54,33 @@ export default function DeliveryMethodsModal() {
                 >
                   <LiaTimesSolid />
                 </Button>
-                <p className="text-xl font-semibold">
-                  Pilih metode pengiriman
-                </p>
+                <p className="text-xl font-semibold">Pilih metode pengiriman</p>
               </div>
 
               <div className="flex flex-col gap-2">
                 <p className="text-xl font-semibold">Reguler (2-4 hari)</p>
                 <p>Pengiriman diatas jam 3 berpotensi dikirim besok</p>
-                <DeliveryOptionCard />
-                <DeliveryOptionCard />
-                <DeliveryOptionCard />
+
+                <div className="flex flex-col gap-2">
+                  {dataPengiriman.map((data) => (
+                    <Button
+                      key={data}
+                      onClick={() => {
+                        setOpen(false);
+                        setValue("deliveryMethod", data);
+                      }}
+                      className="bg-white p-2 h-14 hover:bg-blue-200 rounded-sm"
+                    >
+                      <DeliveryOptionCard
+                        key={data}
+                        IsAvailableForCOD={true}
+                        deliveryName={data}
+                        img="https://static.desty.app/desty-store/jnt.png"
+                        price={500}
+                      />
+                    </Button>
+                  ))}
+                </div>
               </div>
             </DialogPanel>
           </div>

@@ -26,7 +26,7 @@ function MinimumPurchase({ hookForm }: MinimumPurchaseProps) {
                                 name="minimumOrder"
                                 id="productMinimumOrder"
                                 placeholder="Minimum Pembelian"
-                                type="number"
+                                type="text"
                                 rightLabel="Produk"
                             />
                         </div>
