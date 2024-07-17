@@ -11,9 +11,6 @@ function Layout() {
                     <span className="text-black text-sm font-light ml-1">Seller Centre</span>
                 </h1>
             </div>
-            {/* <div className="w-72 h-screen mt-14 fixed">
-                <Navigation />
-            </div> */}
             <div className="wrapper flex flex-row w-full h-full fixed z-10">
                 <div className="w-1/5 h-full mt-14">
                     <Navigation />
