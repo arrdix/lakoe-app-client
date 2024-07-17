@@ -1,18 +1,18 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import ContactInformation from "@/components/buyer/ContactInformation";
 import InsertVoucherModal from "@/components/buyer/InsertVoucherModal";
 import Note from "@/components/buyer/Note";
 import DeliveryMethods from "@/components/buyer/DeliveryMethods";
-import PaymentSummary from "@/components/buyer/PaymentSummary";
 import ShippingAddress from "@/components/buyer/ShippingAddress";
 import { Button } from "@/components/ui/button";
 import { FaArrowRight } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { CheckoutDto } from "@/dtos/CheckoutDto";
 import { CreateOrderDto } from "@/dtos/OrderDto";
-import axios from "axios";
-import SimpleMap from "@/components/Map";
+import axios from 'axios';
+import PaymentSummary from '@/components/buyer/PaymentSummary';
+
 
 function CheckoutPage() {
   const hookForm = useForm<CreateOrderDto>();
@@ -61,7 +61,10 @@ function CheckoutPage() {
           </div>
         </div>
         <div className="flex flex-col gap-2 w-2/6 relative top-6">
-          <PaymentSummary />
+
+        {/* <PaymentSummar2/> */}
+        <PaymentSummary biayaPengiriman={2000} totalHarga={5453333} totalPembayaran={400000000}/>
+         
           <InsertVoucherModal />
           <Note hookForm={hookForm} />
           <Button
@@ -83,6 +86,6 @@ function CheckoutPage() {
       </div>
     </div>
   );
-};
+}
 
 export default CheckoutPage;

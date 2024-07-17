@@ -5,7 +5,7 @@ import { LiaTimesSolid } from "react-icons/lia";
 import DeliveryOptionCard from "./DeliveryOptionCard";
 import { UseFormReturn } from "react-hook-form";
 import { CheckoutDto } from "@/dtos/CheckoutDto";
-import formatRupiah from "@/lib/formatRupiah";
+import formatToIDR from "@/lib/IdrUtils";
 
 interface ValidatedInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -81,7 +81,7 @@ export default function DeliveryMethodsModal({
           </div>
           <div className="w-2/3 flex justify-end">
             <p className="font-bold text-blue-500">
-              {formatRupiah(deliveryMethod.harga)}
+              {formatToIDR(deliveryMethod.harga)}
             </p>
           </div>
         </Button>

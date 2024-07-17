@@ -42,7 +42,7 @@ function ProductPage() {
         GET_PRODUCTS()
     }, [])
 
-    // console.log(realProducts)
+    console.log("data produk",realProducts)
 
     if (products)
         <div className="w-full h-full bg-white rounded-lg p-8">

@@ -7,8 +7,8 @@ import { VariantOptionValue } from '@/types/VariantOptionValueType'
 import { Variant } from '@/types/VariantType'
 import statusChecker from '@/utils/statusChecker'
 import { useEffect, useState } from 'react'
-import formatToIDR from '../../lib/idrUtils'
 import { Link } from 'react-router-dom'
+import formatToIDR from '@/lib/IdrUtils'
 
 interface CardOrderProps {
     order: Order

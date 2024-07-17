@@ -18,7 +18,7 @@ function BuyerPage() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await API.PRODUCT.GET_ONE("PUTIH00002"); // Ubah ID produk sesuai kebutuhan
+                const response = await API.PRODUCT.GET_ONE("11"); // Ubah ID produk sesuai kebutuhan
                 if (response) {
                     setProduct(response); // Mengatur produk ke state
                     setCurrentIndex(0); // Set indeks saat ini kembali ke 0 karena kita hanya mengambil satu produk
