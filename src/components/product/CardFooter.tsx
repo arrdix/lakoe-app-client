@@ -3,7 +3,12 @@ import { BiLink } from 'react-icons/bi'
 import ChangeProductPriceModal from './ChangeProductPriceModal'
 import ChangeProductStockModal from './ChangeStockModal'
 import ProductDevelopmentsModal from './ProductDevelopmentsModal'
-export default function CardFooter({ productName }: { productName: string }) {
+
+interface CardFooterProps {
+    productName: string;
+    productSku: string;
+  }
+export default function CardFooter({ productName,productSku }: CardFooterProps) {
     return (
         <div className="flex flex-row gap-2">
             <ChangeProductPriceModal productName={productName} />
@@ -12,7 +17,7 @@ export default function CardFooter({ productName }: { productName: string }) {
                 <BiLink className="mr-1" />
                 Lihat Halaman
             </Button>
-            <ProductDevelopmentsModal productName={productName} />
+            <ProductDevelopmentsModal productName={productName} productSku={productSku} />
         </div>
     )
 }

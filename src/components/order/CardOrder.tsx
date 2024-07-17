@@ -15,10 +15,10 @@ interface CardOrderProps {
 }
 
 function formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}${month}${day}`;
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}${month}${day}`
 }
 
 export default function CardOrder({ order }: CardOrderProps) {
@@ -39,7 +39,7 @@ export default function CardOrder({ order }: CardOrderProps) {
     useEffect(() => {
         async function GET_PRODUCT() {
             if (productSKU) {
-                const product: Product = await API.PRODUCT.GET_ONE(productSKU)
+                const product: Product = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
 
                 setProduct(product)
                 setVariant((product.variant && product.variant) || null)
@@ -49,7 +49,7 @@ export default function CardOrder({ order }: CardOrderProps) {
                         product.variant &&
                         product.variant.variantOption &&
                         product.variant.variantOption.variantOptionValue) ||
-                    null
+                        null
                 )
             }
         }
@@ -57,20 +57,23 @@ export default function CardOrder({ order }: CardOrderProps) {
         GET_PRODUCT()
     }, [])
 
-    const formattedDate = order.updatedAt instanceof Date
-        ? formatDate(order.updatedAt)
-        : formatDate(new Date(order.updatedAt));
+    const formattedDate =
+        order.updatedAt instanceof Date
+            ? formatDate(order.updatedAt)
+            : formatDate(new Date(order.updatedAt))
 
     if (product) {
         return (
-            <div className='mb-2'>
+            <div className="mb-2">
                 <div className="border border-lightGray rounded-md flex flex-col gap-3">
                     <div className="flex justify-between border-b p-3">
                         <div className="flex flex-col gap-1">
                             <p className={`${labelColor} w-fit font-semibold rounded p-1 text-sm`}>
                                 {order.status}
                             </p>
-                            <p className="text-gray text-sm">INV/{formattedDate}/MPL/{order.invoiceNumber}</p>
+                            <p className="text-gray text-sm">
+                                INV/{formattedDate}/MPL/{order.invoiceNumber}
+                            </p>
                         </div>
                         <div>
                             <Button variant={'outline'}>{buttonText}</Button>
@@ -82,23 +85,22 @@ export default function CardOrder({ order }: CardOrderProps) {
                             <div className="w-full flex flex-row justify-between items-center">
                                 <div>
                                     <h1 className="text-sm font-semibold">
-                                        {product.name} -
-                                        {variantOption?.name}
-                                        <span className='mx-1'>|</span>
+                                        {product.name} -{variantOption?.name}
+                                        <span className="mx-1">|</span>
                                         {product.description}
-                                        <span className='mx-1'>-</span>
+                                        <span className="mx-1">-</span>
                                         {variant?.variantOption?.name}
                                     </h1>
-                                    <div className='flex items-center text-gray text-sm'>
-                                        <p className='mr-1'>
-                                            {variantOptionValue?.stock}
-                                        </p>
+                                    <div className="flex items-center text-gray text-sm">
+                                        <p className="mr-1">{variantOptionValue?.stock}</p>
                                         <span>Barang</span>
                                     </div>
                                 </div>
                                 <div className="flex flex-col items-end">
                                     <p className="text-gray text-sm font-normal">Total Belanja</p>
-                                    <p className="font-medium text-sm">{formatToIDR(order.price)}</p>
+                                    <p className="font-medium text-sm">
+                                        {formatToIDR(order.price)}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -107,5 +109,5 @@ export default function CardOrder({ order }: CardOrderProps) {
             </div>
         )
     }
-    return null;
+    return null
 }
