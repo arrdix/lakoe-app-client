@@ -7,22 +7,26 @@ import {
 } from "@/components/ui/select"
 
 interface FilterOrderProps {
-    text?: string
+    text?: string;
+    items: { value: string; text: string }[];
+    onChange?: (value: string) => void;
 }
-export default function FilterOrder({ text }: FilterOrderProps) {
+
+export default function FilterOrder({ text, items, onChange }: FilterOrderProps) {
     return (
         <div className="border rounded-md">
-            <Select>
+            <Select onValueChange={onChange}>
                 <SelectTrigger className="w-full focus:outline-none border-none">
                     <SelectValue placeholder={text} />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="light">Light</SelectItem>
-                    <SelectItem value="dark">Dark</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
+                    {items.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                            {item.text}
+                        </SelectItem>
+                    ))}
                 </SelectContent>
             </Select>
-
         </div>
-    )
+    );
 }

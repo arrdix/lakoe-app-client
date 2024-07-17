@@ -76,9 +76,9 @@ function CheckoutPage() {
             <FaArrowRight size={20} className="text-white mr-2" />
           </Button>
 
-          <div className="w-96 h-96 bg-black">
+          {/* <div className="w-96 h-96 bg-black">
             <SimpleMap />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

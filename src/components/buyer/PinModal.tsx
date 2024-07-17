@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { LiaTimesSolid } from "react-icons/lia";
 import { IoIosWarning } from "react-icons/io";
+import SimpleMap from "../Map";
 
 export default function PinModal() {
   const [open, setOpen] = useState(false);
@@ -17,7 +18,9 @@ export default function PinModal() {
         onClick={() => setOpen(true)}
         className="rounded-md border border-blue-600 bg-white px-2 hover:bg-transparent"
       >
-        <p className="mx-2 text-md text-blue-600 font-semibold">Tandai Pinpoint</p>
+        <p className="mx-2 text-md text-blue-600 font-semibold">
+          Tandai Pinpoint
+        </p>
       </Button>
 
       {/* Background Overlay */}
@@ -49,7 +52,9 @@ export default function PinModal() {
               </div>
 
               <div className="bg-blue-300 flex p-4 rounded-md">
-                <p className="text-sm flex items-center gap-2"> <IoIosWarning size={25} className="text-yellow-500"/>
+                <p className="text-sm flex items-center gap-2">
+                  {" "}
+                  <IoIosWarning size={25} className="text-yellow-500" />
                   pastikan pinpoint lokasi kamu benar !
                 </p>
               </div>
@@ -61,8 +66,8 @@ export default function PinModal() {
                   className="border rounded-3xl h-10 px-4 text-sm font-thin w-full"
                   placeholder="Cari Alamat"
                 />
-                <div className="bg-blue-400 h-60 w-full">
-
+                <div className="h-60 w-60">
+                  <SimpleMap />
                 </div>
               </div>
             </DialogPanel>

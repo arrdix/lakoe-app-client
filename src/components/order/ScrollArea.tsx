@@ -13,7 +13,7 @@ interface ScrollAreaProps {
 }
 
 export default function ScrollArea({ allTab, firstTab, secondTab, thirdTab, fourthTab, fifthTab, sixthTab, onTabChange }: ScrollAreaProps) {
-    const [activeTab, setActiveTab] = useState<string>(firstTab)
+    const [activeTab, setActiveTab] = useState<string>(allTab)
 
     useEffect(() => {
         onTabChange(activeTab)
