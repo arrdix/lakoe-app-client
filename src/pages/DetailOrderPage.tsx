@@ -44,6 +44,7 @@ import statusChecker from '@/utils/statusChecker'
 import { useParams } from 'react-router-dom'
 
 export default function DetailOrderPage() {
+
     const [isOpen, setIsOpen] = useState(false);
     const [order, setOrder] = useState<Order | null>(null)
     const [product, setProduct] = useState<Product | null>(null)
@@ -69,6 +70,7 @@ export default function DetailOrderPage() {
     async function GET_PRODUCT() {
         if (productSKU) {
             const product: Product = await API.PRODUCT.GET_ONE(productSKU)
+            console.log("Product", product);
 
             setProduct(product)
             setVariant((product.variant && product.variant) || null)
@@ -86,7 +88,7 @@ export default function DetailOrderPage() {
     useEffect(() => {
         async function GET_ORDER() {
             const order = await API.ORDER.GET_ONE(Number(id))
-            console.log("order", order)
+            console.log("Order", order)
             setOrder(order)
             setVariant((order.variant && order.variant) || null)
             setVariantOption((order.variant && order.variant.variantOption) || null)

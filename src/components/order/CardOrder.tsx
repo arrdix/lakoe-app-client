@@ -36,6 +36,9 @@ export default function CardOrder({ order }: CardOrderProps) {
         order.carts.cartItems[0].variantOptionValues &&
         order.carts.cartItems[0].variantOptionValues.sku
 
+    console.log("order", order)
+    console.log("sku", productSKU)
+
     useEffect(() => {
         async function GET_PRODUCT() {
             if (productSKU) {

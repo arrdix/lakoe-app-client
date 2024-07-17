@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { Button } from "../ui/button";
 import { LiaTimesSolid } from "react-icons/lia";
 import DeliveryOptionCard from "./DeliveryOptionCard";
 import { UseFormReturn } from "react-hook-form";
 import { CheckoutDto } from "@/dtos/CheckoutDto";
-import formatRupiah from "@/lib/formatRupiah";
+import formatRupiah from "@/lib/idrUtils";
 
 interface ValidatedInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

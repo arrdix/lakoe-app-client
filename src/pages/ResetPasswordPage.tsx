@@ -37,7 +37,7 @@ export default function ResetPasswordPage() {
                         </div>
                     </div>
                     <div className="w-full">
-                        <img className="w-96" src="persontwo.png" alt="" />
+                        <img className="w-96" src="../../public/persontwo.png   " alt="" />
                     </div>
                 </div>
             </div>

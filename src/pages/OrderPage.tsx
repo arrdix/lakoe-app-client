@@ -55,8 +55,6 @@ export default function OrderPage() {
         console.log(`Selected sort option: ${value}`);
     };
 
-    console.log(orders);
-
     return (
         <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
             <h1 className="text-xl font-bold">Daftar Pesanan</h1>

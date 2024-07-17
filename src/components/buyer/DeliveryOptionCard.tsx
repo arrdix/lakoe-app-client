@@ -1,4 +1,4 @@
-import formatRupiah from "@/lib/formatRupiah";
+import formatRupiah from "@/lib/idrUtils";
 
 interface DeliveryOptionCardProops {
   deliveryName: string;

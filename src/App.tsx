@@ -51,8 +51,8 @@ function App() {
                         <Route path='checkout' index element={<CheckoutPage />} />
                         <Route path='/auth/login' index element={<LoginPage />} />
                         <Route path='/auth/register' index element={<RegisterPage />} />
-                        <Route path='forgot' index element={<ForgotPasswordPage />} />
-                        <Route path='reset' index element={<ResetPasswordPage />} />
+                        <Route path='/auth/forgot' index element={<ForgotPasswordPage />} />
+                        <Route path='/auth/reset' index element={<ResetPasswordPage />} />
                     </Route>
                 </Routes>
             </div>
