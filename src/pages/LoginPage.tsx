@@ -10,8 +10,10 @@ import { useState } from 'react'
 import API from '@/networks/api'
 import { useLakoeStore } from '@/store/store'
 import { User } from '@/types/UserType'
+import LOCAL_STORAGE from '@/networks/storage'
 
 export default function LoginPage() {
+    const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
     const hookForm = useForm<loginDto>()
     const {
         handleSubmit,
@@ -19,13 +21,10 @@ export default function LoginPage() {
         formState: { errors },
     } = hookForm
     const [visible, setVisible] = useState(false)
-    const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
 
-    function onSubmitLogin() {
+    function onLogin() {
         handleSubmit(async (data) => {
             const response = await API.AUTH.LOGIN(data)
-            console.log(response)
-
             const token = response.token
 
             if (token === undefined) {
@@ -33,14 +32,9 @@ export default function LoginPage() {
                 return
             }
 
-            localStorage.setItem('token', token)
+            LOCAL_STORAGE.SET(token)
 
-            const loggedUser: User = {
-                name: 'Lakoe',
-                email: 'lakoe@gmail.com',
-                phone: '081',
-                role: 'SELLER',
-            }
+            const loggedUser: User = await API.USER.GET_LOGGED_USER()
             setLoggedUser(loggedUser)
         })()
     }
@@ -64,7 +58,7 @@ export default function LoginPage() {
                         </div>
                     </div>
                     <div className="w-full">
-                        <img className="w-96" src="../../public/persontwo.png" alt="" />
+                        <img className="w-96" src="/persontwo.png" alt="" />
                     </div>
                 </div>
             </div>
@@ -103,7 +97,7 @@ export default function LoginPage() {
                     <button
                         className="bg-cyan hover:bg-transparent hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full"
                         type="submit"
-                        onClick={onSubmitLogin}
+                        onClick={onLogin}
                     >
                         Sign In
                     </button>

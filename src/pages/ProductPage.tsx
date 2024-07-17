@@ -35,7 +35,7 @@ function ProductPage() {
 
     useEffect(() => {
         async function GET_PRODUCTS() {
-            const products = await API.PRODUCT.GET_ALL()
+            const products = await API.PRODUCT.GET_ALL_BY_SKU()
             setRealProducts(products)
         }
 

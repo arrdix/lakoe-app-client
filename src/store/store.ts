@@ -3,7 +3,7 @@ import { create } from 'zustand'
 
 interface Store {
     loggedUser: User | null
-    setLoggedUser: (user: User) => void
+    setLoggedUser: (user: User | null) => void
 }
 
 export const useLakoeStore = create<Store>((set) => ({

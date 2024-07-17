@@ -16,9 +16,45 @@ import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import { useLakoeStore } from '@/store/store'
+import { useEffect, useState } from 'react'
+import API from '@/networks/api'
 
 function App() {
+    const [isPreloaded, setIsPreloaded] = useState<boolean>(true)
+
     const loggedUser = useLakoeStore((state) => state.loggedUser)
+    const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
+
+    useEffect(() => {
+        async function isUserLogged() {
+            try {
+                const loggedUser = await API.USER.GET_LOGGED_USER()
+
+                if (loggedUser) {
+                    setLoggedUser(loggedUser)
+                }
+            } catch (error) {
+                setLoggedUser(null)
+            } finally {
+                setTimeout(() => {
+                    setIsPreloaded(false)
+                }, 1000)
+            }
+        }
+
+        isUserLogged()
+    }, [])
+
+    if (isPreloaded) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                <div className="flex items-start">
+                    <h1 className="text-3xl text-cyan font-black aniamte-spin">Lakoe.</h1>
+                    <div className="inline-block h-2 w-2 animate-spin-fast rounded-full border-4 border-solid border-current border-e-transparent border-cyan mt-1 ml-1"></div>
+                </div>
+            </div>
+        )
+    }
 
     if (loggedUser) {
         return (
@@ -29,7 +65,7 @@ function App() {
                     <Route path="/product/new" element={<NewProductPage />} />
                     <Route path="/order" element={<OrderPage />} />
                     <Route path="/order/detail" element={<DetailOrderPage />} />
-                    <Route path="/setting" element={<SettingPage />} />
+                    <Route path="/store-setting" element={<SettingPage />} />
                 </Route>
             </Routes>
         )

@@ -39,7 +39,7 @@ export default function CardOrder({ order }: CardOrderProps) {
     useEffect(() => {
         async function GET_PRODUCT() {
             if (productSKU) {
-                const product: Product = await API.PRODUCT.GET_ONE(productSKU)
+                const product: Product = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
 
                 setProduct(product)
                 setVariant((product.variant && product.variant) || null)
