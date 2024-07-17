@@ -4,6 +4,8 @@ import ValidatedTextarea from "../utils/ValidatedTextarea";
 import ValidatedSelect from "../utils/ValidatedSelect";
 import { CreateOrderDto } from "@/dtos/OrderDto";
 import PinModal from "./PinModal";
+import { IoIosWarning } from "react-icons/io";
+import SimpleMap from "../Map";
 
 interface ValidatedInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -83,9 +85,17 @@ export default function ShippingAddress({ hookForm }: ValidatedInputProps) {
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-sm">Pin Alamat</p>
-          <div className="w-full h-20 rounded-md border flex justify-end items-center px-4  bg-slate-50">
-            <PinModal />
+          <div className="flex px-3 py-3 rounded-md">
+            <div className="text-sm flex items-center gap-4">
+              <IoIosWarning size={35} className="text-yellow-500" />
+              <div>
+                <p className="font-bold">Tandai Lokasimu!</p>
+                <p>pastikan pinpoint lokasi kamu benar</p>
+              </div>
+            </div>
+          </div>
+          <div className="h-72">
+            <SimpleMap />
           </div>
         </div>
       </div>

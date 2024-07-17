@@ -15,66 +15,109 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import { useLakoeStore } from '@/store/store'
+import { useEffect, useState } from 'react'
+import API from '@/networks/api'
 
 function App() {
-    const role = 'SELLER'
-    const token = localStorage.token
+    const [isPreloaded, setIsPreloaded] = useState<boolean>(true)
+
+    const loggedUser = useLakoeStore((state) => state.loggedUser)
+    const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
+
+    useEffect(() => {
+        async function isUserLogged() {
+            try {
+                const loggedUser = await API.USER.GET_LOGGED_USER()
+
+                if (loggedUser) {
+                    setLoggedUser(loggedUser)
+                }
+            } catch (error) {
+                setLoggedUser(null)
+            } finally {
+                setTimeout(() => {
+                    setIsPreloaded(false)
+                }, 1000)
+            }
+        }
+
+        isUserLogged()
+    }, [])
+
+    if (isPreloaded) {
+        return (
+            <div className="flex justify-center items-center w-full h-screen">
+                <div className="flex items-start">
+                    <h1 className="text-3xl text-cyan font-black aniamte-spin">Lakoe.</h1>
+                    <div className="inline-block h-2 w-2 animate-spin-fast rounded-full border-4 border-solid border-current border-e-transparent border-cyan mt-1 ml-1"></div>
+                </div>
+            </div>
+        )
+    }
+
+    if (loggedUser) {
+        return (
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<DashboardPage />} />
+                    <Route path="/product" element={<ProductPage />} />
+                    <Route path="/product/new" element={<NewProductPage />} />
+                    <Route path="/order" element={<OrderPage />} />
+                    <Route path="/order/detail" element={<DetailOrderPage />} />
+                    <Route path="/store-setting" element={<SettingPage />} />
+                </Route>
+            </Routes>
+        )
+    }
+
+    return (
+        <Routes>
+            <Route path="/" index element={<LoginPage />} />
+            <Route path="/auth/register" index element={<RegisterPage />} />
+            <Route path="/forgot" index element={<ForgotPasswordPage />} />
+            <Route path="/reset" index element={<ResetPasswordPage />} />
+            <Route path="/checkout" index element={<CheckoutPage />} />
+            <Route path="/buy" element={<BuyerPage />} />
+        </Routes>
+    )
+
+    // const role = 'SELLER'
+    // const token = localStorage.token
     // console.log(token);
 
-    // if (token) {
-    //     return <Routes>
-    //         <Route path="/" element={<Layout />}>
-    //             <Route index element={<DashboardPage />} />
-    //             <Route path="/product" element={<ProductPage />} />
-    //             <Route path="/product/new" element={<NewProductPage />} />
-    //             <Route path="/order" element={<OrderPage />} />
-    //             <Route path="/order/detail" element={<DetailOrderPage />} />
-    //             <Route path="/setting" element={<SettingPage />} />
-    //         </Route>
-    //     </Routes>
-    // } else {
-    //     return <Routes>
-    //         <Route path='/' index element={<LoginPage />} />
-    //         <Route path='/auth/register' index element={<RegisterPage />} />
-    //         <Route path='forgot' index element={<ForgotPasswordPage />} />
-    //         <Route path='reset' index element={<ResetPasswordPage />} />
-    //     </Routes>
+    // if (roleChecker.isBuyer(role)) {
+    //     return (
+    //         <div className="App">
+    //             <Routes>
+    //                 <Route path="/" element={<BuyerLayout />}>
+    //                     <Route path="/product/new" element={<NewProductPage />} />
+    //                     <Route path="/auth/login" index element={<LoginPage />} />
+    //                     <Route path="/auth/register" index element={<RegisterPage />} />
+    //                     <Route path="forgot" index element={<ForgotPasswordPage />} />
+    //                     <Route path="reset" index element={<ResetPasswordPage />} />
+    //                 </Route>
+    //             </Routes>
+    //         </div>
+    //     )
     // }
 
-    if (roleChecker.isBuyer(role)) {
-        return (
-            <div className="App">
-                <Routes>
-                    <Route path="/" element={<BuyerLayout />}>
-                        <Route index element={<BuyerPage />} />
-                        <Route path="/product/new" element={<NewProductPage />} />
-                        <Route path='checkout' index element={<CheckoutPage />} />
-                        <Route path='/auth/login' index element={<LoginPage />} />
-                        <Route path='/auth/register' index element={<RegisterPage />} />
-                        <Route path='/auth/forgot' index element={<ForgotPasswordPage />} />
-                        <Route path='/auth/reset' index element={<ResetPasswordPage />} />
-                    </Route>
-                </Routes>
-            </div>
-        )
-    }
-
-    if (roleChecker.isSeller(role)) {
-        return (
-            <div className="App">
-                <Routes>
-                    <Route path="/" element={<Layout />}>
-                        <Route index element={<DashboardPage />} />
-                        <Route path="/product" element={<ProductPage />} />
-                        <Route path="/product/new" element={<NewProductPage />} />
-                        <Route path="/order" element={<OrderPage />} />
-                        <Route path="/order/detail/:id" element={<DetailOrderPage />} />
-                        <Route path="/setting" element={<SettingPage />} />
-                    </Route>
-                </Routes>
-            </div>
-        )
-    }
+    // if (roleChecker.isSeller(role)) {
+    //     return (
+    //         <div className="App">
+    //             <Routes>
+    //                 <Route path="/" element={<Layout />}>
+    //                     <Route index element={<DashboardPage />} />
+    //                     <Route path="/product" element={<ProductPage />} />
+    //                     <Route path="/product/new" element={<NewProductPage />} />
+    //                     <Route path="/order" element={<OrderPage />} />
+    //                     <Route path="/order/detail/:id" element={<DetailOrderPage />} />
+    //                     <Route path="/setting" element={<SettingPage />} />
+    //                 </Route>
+    //             </Routes>
+    //         </div>
+    //     )
+    // }
 }
 
 export default App

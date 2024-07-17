@@ -1,52 +1,64 @@
-"use client"
+'use client'
 
-import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { FaGoogle, FaApple, FaFacebook, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom"
-import { loginDto } from "@/dtos/AuthDto"
-import ValidateInput from "@/components/utils/ValidatedInput";
-import { useState } from "react";
-import API from "@/networks/api";
+import { useForm } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { FaGoogle, FaApple, FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { loginDto } from '@/dtos/AuthDto'
+import ValidateInput from '@/components/utils/ValidatedInput'
+import { useState } from 'react'
+import API from '@/networks/api'
+import { useLakoeStore } from '@/store/store'
+import { User } from '@/types/UserType'
+import LOCAL_STORAGE from '@/networks/storage'
 
 export default function LoginPage() {
+    const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
     const hookForm = useForm<loginDto>()
-    const { handleSubmit, register, formState: { errors } } = hookForm
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = hookForm
     const [visible, setVisible] = useState(false)
 
-    function onSubmitLogin() {
+    function onLogin() {
         handleSubmit(async (data) => {
             const response = await API.AUTH.LOGIN(data)
-            console.log(response);
-
             const token = response.token
 
             if (token === undefined) {
-                console.log("Login Failed");
+                console.log('Login Failed')
                 return
             }
 
-            localStorage.setItem("token", token)
+            LOCAL_STORAGE.SET(token)
+
+            const loggedUser: User = await API.USER.GET_LOGGED_USER()
+            setLoggedUser(loggedUser)
         })()
     }
 
     return (
         <div className="flex flex-row w-full justify-center items-center h-screen px-40">
             <div className="w-full flex flex-col justify-center">
-                <h1 className="text-4xl font-bold">Sign In to <span className="text-cyan">Lakoe</span></h1>
+                <h1 className="text-4xl font-bold">
+                    Sign In to <span className="text-cyan">Lakoe</span>
+                </h1>
                 <div className="flex flex-row gap-3">
                     <div className="mt-10 w-96">
                         <p className="text-base font-medium">If you don't have an account</p>
                         <div className="flex flex-row gap-1 items-center">
-                            <p className="text-base font-medium">You can
-                            </p>
+                            <p className="text-base font-medium">You can</p>
                             <Link to="/auth/register">
-                                <span className="text-base font-medium text-cyan">Register here!</span>
+                                <span className="text-base font-medium text-cyan">
+                                    Register here!
+                                </span>
                             </Link>
                         </div>
                     </div>
                     <div className="w-full">
-                        <img className="w-96" src="../../public/persontwo.png" alt="" />
+                        <img className="w-96" src="/persontwo.png" alt="" />
                     </div>
                 </div>
             </div>
@@ -67,7 +79,7 @@ export default function LoginPage() {
                             id="password"
                             placeholder="Password"
                             register={register}
-                            type={visible ? "text" : "password"}
+                            type={visible ? 'text' : 'password'}
                         />
                         <button
                             type="button"
@@ -82,7 +94,13 @@ export default function LoginPage() {
                     </div>
                 </div>
                 <div className="w-full flex flex-col gap-7">
-                    <button className="bg-cyan hover:bg-transparent hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full" type="submit" onClick={onSubmitLogin}>Sign In</button>
+                    <button
+                        className="bg-cyan hover:bg-transparent hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full"
+                        type="submit"
+                        onClick={onLogin}
+                    >
+                        Sign In
+                    </button>
                     <div className="flex items-center justify-center">
                         <div className="flex-grow border-t border-gray"></div>
                         <span className="px-1 text-gray-500">or continue with</span>

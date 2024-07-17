@@ -37,7 +37,16 @@ function ProductImageInputList() {
                                         alt="Foto Produk"
                                         className="w-full h-full object-cover"
                                     />
-                                    <button className="flex justify-center items-center absolute top-1 right-1 w-6 h-6 bg-white rounded-full">
+                                    <button
+                                        className="flex justify-center items-center absolute top-1 right-1 w-6 h-6 bg-white rounded-full"
+                                        onClick={() => {
+                                            setimagePreviews((prevValue) => {
+                                                return prevValue.filter(
+                                                    (value) => value !== imagePreviews[index]
+                                                )
+                                            })
+                                        }}
+                                    >
                                         <IoIosClose className="text-lg" />
                                     </button>
                                 </div>

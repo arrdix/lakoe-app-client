@@ -44,16 +44,15 @@ import statusChecker from '@/utils/statusChecker'
 import { useParams } from 'react-router-dom'
 
 export default function DetailOrderPage() {
-
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
     const [order, setOrder] = useState<Order | null>(null)
     const [product, setProduct] = useState<Product | null>(null)
-    const [variant, setVariant] = useState<Variant | null>(null)
+    const [, setVariant] = useState<Variant | null>(null)
     const [variantOption, setVariantOption] = useState<VariantOption | null>(null)
-    const [variantOptionValue, setVariantOptionValue] = useState<VariantOptionValue | null>(null)
+    const [, setVariantOptionValue] = useState<VariantOptionValue | null>(null)
     const [productSKU, setproductSKU] = useState<string | null>(null)
 
-    const { buttonText, labelColor } = statusChecker(status)
+    const { labelColor } = statusChecker(status)
 
     const toggleAccordion = () => {
         setIsOpen(!isOpen)
@@ -61,16 +60,15 @@ export default function DetailOrderPage() {
     const { id } = useParams()
 
     function formatDate(date: Date): string {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}${month}${day}`;
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        return `${year}${month}${day}`
     }
 
     async function GET_PRODUCT() {
         if (productSKU) {
-            const product: Product = await API.PRODUCT.GET_ONE(productSKU)
-            console.log("Product", product);
+            const product: Product = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
 
             setProduct(product)
             setVariant((product.variant && product.variant) || null)
@@ -88,7 +86,7 @@ export default function DetailOrderPage() {
     useEffect(() => {
         async function GET_ORDER() {
             const order = await API.ORDER.GET_ONE(Number(id))
-            console.log("Order", order)
+            console.log('order', order)
             setOrder(order)
             setVariant((order.variant && order.variant) || null)
             setVariantOption((order.variant && order.variant.variantOption) || null)
@@ -100,7 +98,8 @@ export default function DetailOrderPage() {
                 null
             )
 
-            const productSKU = order &&
+            const productSKU =
+                order &&
                 order.carts &&
                 order.carts.cartItems &&
                 order.carts.cartItems[0] &&
@@ -108,7 +107,6 @@ export default function DetailOrderPage() {
                 order.carts.cartItems[0].variantOptionValues.sku
 
             setproductSKU(productSKU)
-
         }
 
         GET_ORDER()
@@ -118,18 +116,19 @@ export default function DetailOrderPage() {
         }
     }, [productSKU])
 
-    const formattedDate = order?.updatedAt
-        ? formatDate(new Date(order.updatedAt))
-        : 'Invalid Date';
+    const formattedDate = order?.updatedAt ? formatDate(new Date(order.updatedAt)) : 'Invalid Date'
 
     if (order && product) {
-        const totalBeforeDiscount = (order?.price || 0) * (order?.carts?.cartItems?.[0]?.qty || 0);
-        const shipping = 15000;
-        const totalAfterDiscount = (order?.price || 0) * (order?.carts?.cartItems?.[0]?.qty || 0) - (order?.carts?.discount || 0) + (order?.serviceCharge || 0) + shipping;
+        const totalBeforeDiscount = (order?.price || 0) * (order?.carts?.cartItems?.[0]?.qty || 0)
+        const shipping = 15000
+        const totalAfterDiscount =
+            (order?.price || 0) * (order?.carts?.cartItems?.[0]?.qty || 0) -
+            (order?.carts?.discount || 0) +
+            (order?.serviceCharge || 0) +
+            shipping
 
         return (
             <div className="bg-white p-8">
-
                 {/* Breadcrumb */}
                 <div>
                     <Breadcrumb>
@@ -141,12 +140,15 @@ export default function DetailOrderPage() {
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
-                                <BreadcrumbLink className="text-black w-44 truncate" href="/components">
+                                <BreadcrumbLink
+                                    className="text-black w-44 truncate"
+                                    href="/components"
+                                >
                                     <h1>
                                         {product.name}
-                                        <span className='mx-1'>|</span>
+                                        <span className="mx-1">|</span>
                                         {product.description}
-                                        <span className='mx-1'>-</span>
+                                        <span className="mx-1">-</span>
                                         {variantOption?.name}
                                     </h1>
                                 </BreadcrumbLink>
@@ -166,7 +168,9 @@ export default function DetailOrderPage() {
                     </div>
                     <div>
                         <div className="flex flex-col gap-1 text-sm">
-                            <p className={`${labelColor} bg-yellow-400 w-fit font-semibold rounded p-1 text-sm`}>
+                            <p
+                                className={`${labelColor} bg-yellow-400 w-fit font-semibold rounded p-1 text-sm`}
+                            >
                                 {order.status}
                             </p>
                             <p>
@@ -175,7 +179,12 @@ export default function DetailOrderPage() {
                                 pembayaran terkonfirmasi sebelum mengirimkan barang.
                             </p>
                             <div className="flex flex-row items-center text-cyan gap-1">
-                                <Accordion type="single" collapsible className="hover:bg-transparent" value={isOpen ? "item-1" : ""}>
+                                <Accordion
+                                    type="single"
+                                    collapsible
+                                    className="hover:bg-transparent"
+                                    value={isOpen ? 'item-1' : ''}
+                                >
                                     <AccordionItem value="item-1">
                                         <div onClick={toggleAccordion}>
                                             {isOpen ? (
@@ -189,11 +198,16 @@ export default function DetailOrderPage() {
                                             )}
                                         </div>
                                         <AccordionContent
-                                            className={`transition-all duration-500 ease-in-out ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+                                            className={`transition-all duration-500 ease-in-out ${isOpen
+                                                ? 'max-h-screen opacity-100'
+                                                : 'max-h-0 opacity-0 overflow-hidden'
                                                 }`}
                                         >
                                             <div className="flex flex-col border rounded bg-white">
-                                                <AlertOrder status='Produk Telah Dikirim' date='Sab, 10 Agu 2023 - 14.00 WIB' />
+                                                <AlertOrder
+                                                    status="Produk Telah Dikirim"
+                                                    date="Sab, 10 Agu 2023 - 14.00 WIB"
+                                                />
                                             </div>
                                         </AccordionContent>
                                     </AccordionItem>
@@ -236,7 +250,9 @@ export default function DetailOrderPage() {
                             >
                                 <PiCopySimpleLight className="mr-2 size-5" />
                             </Button>
-                            <p>INV/{formattedDate}/MPL/{order.invoiceNumber}</p>
+                            <p>
+                                INV/{formattedDate}/MPL/{order.invoiceNumber}
+                            </p>
                         </div>
                     </div>
                     {/* Buyer Order */}
@@ -263,17 +279,23 @@ export default function DetailOrderPage() {
                             <div className="flex flex-row justify-between">
                                 <div className="flex flex-row">
                                     <div className="w-14 mr-2">
-                                        <img className="w-full" src="../../public/tshirt.png" alt="" />
+                                        <img
+                                            className="w-full"
+                                            src="../../public/tshirt.png"
+                                            alt=""
+                                        />
                                     </div>
                                     <div className="flex flex-col justify-center">
                                         <h1>
                                             {product.name}
-                                            <span className='mx-1'>|</span>
+                                            <span className="mx-1">|</span>
                                             {product.description}
-                                            <span className='mx-1'>-</span>
+                                            <span className="mx-1">-</span>
                                             {variantOption?.name}
                                         </h1>
-                                        <p>{order?.carts?.cartItems?.[0]?.qty} x Rp {order.price}</p>
+                                        <p>
+                                            {order?.carts?.cartItems?.[0]?.qty} x Rp {order.price}
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col justify-center items-end">
@@ -305,17 +327,23 @@ export default function DetailOrderPage() {
                                                 <div className="w-96 flex flex-col gap-3">
                                                     <div>
                                                         <p>Kurir</p>
-                                                        <p className="font-semibold">J&T - Regular</p>
+                                                        <p className="font-semibold">
+                                                            J&T - Regular
+                                                        </p>
                                                     </div>
                                                     <div>
                                                         <div className="flex">
                                                             <p>No.Resi</p>
                                                         </div>
-                                                        <p className="font-semibold">JT6268865922</p>
+                                                        <p className="font-semibold">
+                                                            JT6268865922
+                                                        </p>
                                                     </div>
                                                     <div>
                                                         <p>Pengirim</p>
-                                                        <p className="font-semibold">Bakulan Store</p>
+                                                        <p className="font-semibold">
+                                                            Bakulan Store
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -323,9 +351,7 @@ export default function DetailOrderPage() {
                                                     <p className="font-semibold">
                                                         {order.receiverName}
                                                     </p>
-                                                    <p>
-                                                        {order.receiverAddress}
-                                                    </p>
+                                                    <p>{order.receiverAddress}</p>
                                                 </div>
                                             </div>
                                             <p>
@@ -335,8 +361,14 @@ export default function DetailOrderPage() {
                                                 </span>
                                             </p>
                                             <div className="flex flex-col border rounded bg-white">
-                                                <AlertOrder status='DELIVERED TO [ | 17-03-2021 11:15 | JAKARTA ]' date='Sen, 12 Agu 2023 - 10:00 WIB' />
-                                                <AlertOrder status='WITH DELIVERY COURIER [JAKARTA , HUB VETERAN BINTARO]' date='Sen, 12 Agu 2023 - 10:00 WIB' />
+                                                <AlertOrder
+                                                    status="DELIVERED TO [ | 17-03-2021 11:15 | JAKARTA ]"
+                                                    date="Sen, 12 Agu 2023 - 10:00 WIB"
+                                                />
+                                                <AlertOrder
+                                                    status="WITH DELIVERY COURIER [JAKARTA , HUB VETERAN BINTARO]"
+                                                    date="Sen, 12 Agu 2023 - 10:00 WIB"
+                                                />
                                             </div>
                                         </DialogDescription>
                                     </DialogHeader>
@@ -387,9 +419,7 @@ export default function DetailOrderPage() {
                                     </Button>
                                 </div>
                                 <div className="w-full flex flex-col">
-                                    <p>
-                                        {order.receiverAddress}
-                                    </p>
+                                    <p>{order.receiverAddress}</p>
                                     <p className="text-gray">{order.receiverPhone}</p>
                                     <p className="text-gray">{order.receiverName}</p>
                                 </div>
@@ -448,7 +478,7 @@ export default function DetailOrderPage() {
                         </Button>
                     </div>
                 </div>
-            </div >
+            </div>
         )
     }
 }
