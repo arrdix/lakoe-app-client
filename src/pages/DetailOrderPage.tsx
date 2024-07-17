@@ -86,7 +86,6 @@ export default function DetailOrderPage() {
     useEffect(() => {
         async function GET_ORDER() {
             const order = await API.ORDER.GET_ONE(Number(id))
-            console.log('order', order)
             setOrder(order)
             setVariant((order.variant && order.variant) || null)
             setVariantOption((order.variant && order.variant.variantOption) || null)

@@ -12,6 +12,8 @@ export default function CardOrderList({ orders, status, searchTerm }: CardOrderL
     const filteredOrders = orders
         .filter(order => status === 'Semua' || order.status === status)
 
+    console.log(orders);
+
     return (
         <div>
             {filteredOrders.length > 0 ? (
