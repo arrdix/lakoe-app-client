@@ -61,7 +61,7 @@ function CheckoutPage() {
           </div>
         </div>
         <div className="flex flex-col gap-2 w-2/6 relative top-6">
-          <PaymentSummary />
+          <PaymentSummary  />
           <InsertVoucherModal />
           <Note hookForm={hookForm} />
           <Button

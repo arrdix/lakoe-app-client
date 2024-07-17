@@ -1,19 +1,16 @@
 import React from "react";
 import { Product } from '@/types/ProductType';
 
-interface PaymentSummaryProps {
-  totalHarga: number;
-  biayaPengiriman: number;
-  totalPembayaran: number;
+
   
 
  
   
 
 
-}
 
-const PaymentSummary: React.FC<PaymentSummaryProps> = ({ totalHarga, biayaPengiriman, totalPembayaran}) => {
+
+const PaymentSummary: React.FC<Product> = ({ }) => {
   return (
     <div className="w-full bg-blue-50 rounded-lg p-7 flex flex-col border gap-6">
       <div>

@@ -1,7 +1,19 @@
 import { Button } from '@/components/ui/button'
 import { BiImageAdd } from 'react-icons/bi'
+import ValidatedInput from '../utils/ValidatedInput'
+import { StoreInfoDto } from '@/dtos/StoreInfoDto';
+import { useForm } from 'react-hook-form';
+import ValidatedTextarea from '../utils/ValidatedTextarea';
 
 function StoreInfo() {
+    const hookForm = useForm<StoreInfoDto>();
+
+    const {
+        register,
+        formState: { errors }, 
+        handleSubmit
+    } = hookForm;
+
     return (
         <>
             <h2 className="text-black text-lg font-bold mt-2">Informasi Toko</h2>
@@ -11,22 +23,27 @@ function StoreInfo() {
                         <label htmlFor="productName" className="text-sm">
                             Slogan <span className="text-red-500">*</span>
                         </label>
-                        <input
+                        <ValidatedInput
+                            error={errors.slogan}
+                            name='slogan'
+                            register={register}
                             type="text"
-                            id="storeSlogan"
+                            id="slogan"
                             placeholder="Prediksi Jaya Jaya Jaya"
-                            className="border border-gray-200 rounded-md h-10 pl-2 text-sm"
+
                         />
                     </div>
                     <div className="flex flex-col gap-1">
                         <label htmlFor="productName" className="text-sm">
                             Nama Toko <span className="text-red-500">*</span>
                         </label>
-                        <input
+                        <ValidatedInput
+                            error={errors.name}
+                            name="name"
+                            register={register}
                             type="text"
-                            id="storeName"
+                            id="name"
                             placeholder="Toko Haram"
-                            className="border border-gray-200 rounded-md h-10 pl-2 text-sm"
                         />
                     </div>
                 </div>
@@ -34,15 +51,17 @@ function StoreInfo() {
                     <label htmlFor="storeDescription" className="text-sm">
                         Deskripsi Toko <span className="text-red-500">*</span>
                     </label>
-                    <textarea
-                        id="storeDescription"
-                        className="w-full h-full border border-gray-200 resize-none rounded-md pl-2 pt-2 text-sm text-gray"
-                        defaultValue="Toko ini menjual barang haram."
+                    <ValidatedTextarea
+                        error={errors.description}
+                        name='description'
+                        id="description"
+                        register={register}
+                        placeholder="Toko ini menj"
                     />
                 </div>
             </div>
             <div className="flex border-b border-lightGray pb-4">
-                <Button className="ml-auto rounded-lg">Simpan</Button>
+                <Button onClick={handleSubmit((data) => console.log(data))} className="ml-auto rounded-lg">Simpan</Button>
             </div>
             <h2 className="text-black text-md font-bold">Logo Toko</h2>
             <div className="border border-gray border-dotted w-56 h-56 rounded-md relative">
