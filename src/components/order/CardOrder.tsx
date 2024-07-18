@@ -82,7 +82,7 @@ export default function CardOrder({ order }: CardOrderProps) {
                     </div>
                     <Link to={`/order/detail/${order.id}`}>
                         <div className="w-full flex flex-row px-3 pb-3">
-                            <img className="w-20 h-20 mr-2 flex-shrink-0" src="../../public/tshirt.png" alt="" />
+                            <img className="w-20 h-20 mr-2 flex-shrink-0" src={product.attachments[0]} alt="" />
                             <div className="w-full flex flex-row justify-between items-center">
                                 <div className="flex-grow">
                                     <h1 className="text-xl font-bold whitespace-normal break-words">

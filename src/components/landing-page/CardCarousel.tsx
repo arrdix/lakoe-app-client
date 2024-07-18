@@ -1,11 +1,11 @@
 import formatToIDR from "@/lib/IdrUtils"
 
-interface CardLandingProps {
+interface CardCarouselProps {
     name: string
     price?: number
     attachment?: string
 }
-export default function CardLanding({ name, price, attachment }: CardLandingProps) {
+export default function CardCarousel({ name, price, attachment }: CardCarouselProps) {
     const nameSplitted = name.split('')
     const namePrepared = []
     const maxChar = 30
@@ -21,7 +21,7 @@ export default function CardLanding({ name, price, attachment }: CardLandingProp
         <div className="rounded-lg dark:bg-gray-800 dark:border-gray-700">
             <div className="overflow-hidden rounded-xl">
                 <img
-                    className="object-cover w-full h-72 transition-transform duration-500 hover:scale-105"
+                    className="object-cover w-full h-96 transition-transform duration-500 hover:scale-105"
                     src={attachment}
                     alt="Black Panther Suit"
                 />
