@@ -42,6 +42,7 @@ import { Variant } from '@/types/VariantType'
 import API from '@/networks/api'
 import statusChecker from '@/utils/statusChecker'
 import { useParams } from 'react-router-dom'
+import { ProductBySku } from '@/types/ProductBySkuType'
 
 export default function DetailOrderPage() {
     const [isOpen, setIsOpen] = useState(false)
@@ -68,7 +69,7 @@ export default function DetailOrderPage() {
 
     async function GET_PRODUCT() {
         if (productSKU) {
-            const product: Product = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
+            const product: ProductBySku = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
 
             setProduct(product)
             setVariant((product.variant && product.variant) || null)

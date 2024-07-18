@@ -4,11 +4,12 @@ import { Order } from '@/types/OrderType'
 import { Product } from '@/types/ProductType'
 import { VariantOption } from '@/types/VariantOptionType'
 import { VariantOptionValue } from '@/types/VariantOptionValueType'
-import { Variant } from '@/types/VariantType'
 import statusChecker from '@/utils/statusChecker'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import formatToIDR from '@/lib/IdrUtils'
+import { ProductBySku } from '@/types/ProductBySkuType'
+import { VariantTypeBySku } from '@/types/VariantTypeBySku'
 
 interface CardOrderProps {
     order: Order
@@ -23,8 +24,8 @@ function formatDate(date: Date): string {
 
 export default function CardOrder({ order }: CardOrderProps) {
     const [product, setProduct] = useState<Product | null>(null)
-    const [variant, setVariant] = useState<Variant | null>(null)
-    const [variantOption, setVariantOption] = useState<VariantOption | null>(null)
+    const [variant, setVariant] = useState<VariantTypeBySku | null>(null)
+    const [_, setVariantOption] = useState<VariantOption | null>(null)
     const [variantOptionValue, setVariantOptionValue] = useState<VariantOptionValue | null>(null)
 
     const { buttonText, labelColor } = statusChecker(order.status)
@@ -39,7 +40,7 @@ export default function CardOrder({ order }: CardOrderProps) {
     useEffect(() => {
         async function GET_PRODUCT() {
             if (productSKU) {
-                const product: Product = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
+                const product: ProductBySku = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
 
                 setProduct(product)
                 setVariant((product.variant && product.variant) || null)
@@ -85,8 +86,7 @@ export default function CardOrder({ order }: CardOrderProps) {
                             <div className="w-full flex flex-row justify-between items-center">
                                 <div className="flex-grow">
                                     <h1 className="text-xl font-bold whitespace-normal break-words">
-                                        {/* {product.name} */}
-                                        {"NIKE Dunk Low Black White Panda GS"}
+                                        {product.name}
                                     </h1>
                                     <h1 className='font-semibold'>
                                         {variant?.variantOption?.name}
