@@ -56,8 +56,8 @@ function NewProductPage() {
             }
             console.log(submitedProduct)
 
-            // const product = await API.PRODUCT.CREATE(submitedProduct)
-            // console.log(product)
+            const product = await API.PRODUCT.CREATE(submitedProduct)
+            console.log(product)
         })()
     }
 
