@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useLocation } from 'react-router-dom';
 import ContactInformation from "@/components/buyer/ContactInformation";
 import InsertVoucherModal from "@/components/buyer/InsertVoucherModal";
@@ -42,6 +42,12 @@ function CheckoutPage() {
 
   const { handleSubmit } = hookForm;
 
+  const loc = useLocation()
+  const { product, count, selectedVariant } = loc.state  
+
+
+console.log(product, count, selectedVariant)
+
   return (
     <div className=" w-full h-full bg-white px-20 py-14">
       <div className="flex gap-10">
@@ -61,7 +67,7 @@ function CheckoutPage() {
           </div>
         </div>
         <div className="flex flex-col gap-2 w-2/6 relative top-6">
-          <PaymentSummary  />
+          <PaymentSummary/>
           <InsertVoucherModal />
           <Note hookForm={hookForm} />
           <Button

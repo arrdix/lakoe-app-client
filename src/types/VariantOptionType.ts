@@ -4,5 +4,5 @@ export type VariantOption = {
     id: number
     name: string
     variantId: number
-    variantOptionValue?: VariantOptionValue
+    variantOptionValue?: VariantOptionValue // Perubahan disini untuk mengikuti tipe data dari VariantOptionValue
 }

@@ -4,9 +4,26 @@ import ValidatedInput from '../utils/ValidatedInput'
 import { StoreInfoDto } from '@/dtos/StoreInfoDto';
 import { useForm } from 'react-hook-form';
 import ValidatedTextarea from '../utils/ValidatedTextarea';
+import { useState } from 'react';
 
 function StoreInfo() {
     const hookForm = useForm<StoreInfoDto>();
+
+    // const [imagePreviews, setimagePreviews] = useState<string[]>([])
+
+    // const maxImage = 1
+
+    // function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    //     const files = e.target.files
+
+    //     if (files?.length) {
+    //         const imagePreviews = Array.from(files).map((file) => {
+    //             return URL.createObjectURL(file)
+    //         })
+
+    //         setimagePreviews(imagePreviews)
+    //     }
+    // }
 
     const {
         register,
