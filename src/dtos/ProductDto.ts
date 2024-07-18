@@ -39,3 +39,11 @@ export type CreateVariantOptionValueDto = {
     price: string
     isActive: string
 }
+
+export type UpdateVariantOptionValueDto = {
+    sku?: string | undefined
+    weight?: number | undefined
+    stock?: number | undefined
+    price?: number | undefined
+    isActive?: boolean | undefined
+}

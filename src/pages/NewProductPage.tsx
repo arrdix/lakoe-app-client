@@ -79,7 +79,7 @@ function NewProductPage() {
                 navigate('/product')
 
                 toast({
-                    title: 'Produk Dibuat!',
+                    title: 'Produk Berhasil Dibuat!',
                     description: 'Kami berhasil membuat produk kamu.',
                     variant: 'success',
                 })
