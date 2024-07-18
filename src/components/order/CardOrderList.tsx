@@ -1,5 +1,7 @@
+import API from "@/networks/api";
 import CardOrder from "./CardOrder";
 import { Order } from "@/types/OrderType";
+import { Product } from "@/types/ProductType";
 import { BiSearchAlt } from 'react-icons/bi';
 
 interface CardOrderListProps {
@@ -11,19 +13,22 @@ interface CardOrderListProps {
 export default function CardOrderList({ orders, status, searchTerm }: CardOrderListProps) {
     const filteredOrders = orders
         .filter(order => status === 'Semua' || order.status === status)
-        .filter(order =>
-            order.carts?.cartItems?.some(cartItem => {
-                const productName = cartItem.variantOptionValues?.variantOptions.variant?.products?.name;
-                const productDescription = cartItem.variantOptionValues?.variantOptions?.variant?.products?.description;
-                const variantOptionName = cartItem.variantOptionValues?.variantOptions?.name;
+        .filter(order => {
+            return order.carts?.cartItems?.some(async (cartItem) => {
 
-                return (
-                    productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    productDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    variantOptionName.toLowerCase().includes(searchTerm.toLowerCase())
-                );
+                const productSKU = cartItem.variantOptionValues?.sku
+                if (productSKU) {
+                    const product: Product = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
+
+                    const reqProduct = product
+                    const variantOption = product.variant && product.variant.variantOption
+
+                    return reqProduct.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        reqProduct.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        variantOption?.name.toLowerCase().includes(searchTerm.toLowerCase())
+                }
             })
-        );
+        });
 
     return (
         <div>

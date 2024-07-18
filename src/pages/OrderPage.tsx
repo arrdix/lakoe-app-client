@@ -25,12 +25,23 @@ const sortOptions = [
     { value: "ResponsTerlama", text: "Respons Terlama" }
 ];
 
+interface StatusTab {
+    BELUM_DIBAYAR: number;
+    PESANAN_BARU: number;
+    SIAP_DIKIRIM: number;
+    DALAM_PENGIRIMAN: number;
+    PESANAN_SELESAI: number;
+    DIBATALKAN: number;
+}
+
 export default function OrderPage() {
     const [activeTab, setActiveTab] = useState<string>('Semua');
     const [orders, setOrders] = useState<Order[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [selectedCourier, setSelectedCourier] = useState<string>('');
     const [sortOption, setSortOption] = useState<string>('');
+
+
 
     function onTabChange(tab: string) {
         setActiveTab(tab);
@@ -54,8 +65,6 @@ export default function OrderPage() {
         setSortOption(value);
         console.log(`Selected sort option: ${value}`);
     };
-
-    console.log(orders);
 
     return (
         <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
