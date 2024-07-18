@@ -45,6 +45,8 @@ function App() {
         isUserLogged()
     }, [])
 
+    console.log(loggedUser?.role)
+
     if (isPreloaded) {
         return (
             <div className="flex justify-center items-center w-full h-screen">
@@ -57,19 +59,41 @@ function App() {
     }
 
     if (loggedUser) {
-        return (
-            <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<DashboardPage />} />
-                    <Route path="/product" element={<ProductPage />} />
-                    <Route path="/product/new" element={<NewProductPage />} />
-                    <Route path="/order" element={<OrderPage />} />
-                    <Route path="/order/detail/:id" element={<DetailOrderPage />} />
-                    <Route path="/store-setting" element={<SettingPage />} />
-                </Route>
-            </Routes>
-        )
+        if (roleChecker.isSeller(loggedUser.role)) {
+            return (
+                <Routes>
+                    <Route path="/" element={<Layout />}>
+                        <Route index element={<DashboardPage />} />
+                        <Route path="/product" element={<ProductPage />} />
+                        <Route path="/product/new" element={<NewProductPage />} />
+                        <Route path="/order" element={<OrderPage />} />
+                        <Route path="/order/detail/:id" element={<DetailOrderPage />} />
+                        <Route path="/store-setting" element={<SettingPage />} />
+                        <Route path="/reset" index element={<ResetPasswordPage />} />
+                    </Route>
+                </Routes>
+            )
+        }
+
+        if (roleChecker.isBuyer(loggedUser.role)) {
+            return (
+                <Routes>
+                    <Route path="/" element={<h1>Home</h1>} />
+                    <Route path="/product/:id" element={<BuyerPage />} />
+                    <Route path="/checkout" index element={<CheckoutPage />} />
+                    <Route path="/reset" index element={<ResetPasswordPage />} />
+                </Routes>
+            )
+        }
     }
+
+    return (
+        <Routes>
+            <Route path="/" index element={<LoginPage />} />
+            <Route path="/auth/register" index element={<RegisterPage />} />
+            <Route path="/forgot" index element={<ForgotPasswordPage />} />
+        </Routes>
+    )
 
     return (
         <Routes>

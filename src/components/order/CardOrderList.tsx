@@ -1,41 +1,40 @@
-import API from "@/networks/api";
-import CardOrder from "./CardOrder";
-import { Order } from "@/types/OrderType";
-import { Product } from "@/types/ProductType";
-import { BiSearchAlt } from 'react-icons/bi';
+import API from '@/networks/api'
+import CardOrder from './CardOrder'
+import { Order } from '@/types/OrderType'
+import { BiSearchAlt } from 'react-icons/bi'
+import { ProductBySku } from '@/types/ProductBySkuType'
 
 interface CardOrderListProps {
-    orders: Order[];
-    status: string;
-    searchTerm: string;
+    orders: Order[]
+    status: string
+    searchTerm: string
 }
 
 export default function CardOrderList({ orders, status, searchTerm }: CardOrderListProps) {
     const filteredOrders = orders
-        .filter(order => status === 'Semua' || order.status === status)
-        .filter(order => {
+        .filter((order) => status === 'Semua' || order.status === status)
+        .filter((order) => {
             return order.carts?.cartItems?.some(async (cartItem) => {
-
                 const productSKU = cartItem.variantOptionValues?.sku
                 if (productSKU) {
-                    const product: Product = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
+                    const product: ProductBySku = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
 
                     const reqProduct = product
                     const variantOption = product.variant && product.variant.variantOption
 
-                    return reqProduct.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    return (
+                        reqProduct.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                         reqProduct.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                         variantOption?.name.toLowerCase().includes(searchTerm.toLowerCase())
+                    )
                 }
             })
-        });
+        })
 
     return (
         <div>
             {filteredOrders.length > 0 ? (
-                filteredOrders.map(order => (
-                    <CardOrder order={order} key={order.id} />
-                ))
+                filteredOrders.map((order) => <CardOrder order={order} key={order.id} />)
             ) : (
                 <div className="flex flex-row items-center justify-center gap-3 py-7">
                     <div>
@@ -48,5 +47,5 @@ export default function CardOrderList({ orders, status, searchTerm }: CardOrderL
                 </div>
             )}
         </div>
-    );
+    )
 }
