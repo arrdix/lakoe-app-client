@@ -38,8 +38,8 @@ export default function OrderPage() {
     const [activeTab, setActiveTab] = useState<string>('Semua');
     const [orders, setOrders] = useState<Order[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [selectedCourier, setSelectedCourier] = useState<string>('');
-    const [sortOption, setSortOption] = useState<string>('');
+    const [, setSelectedCourier] = useState<string>('');
+    const [, setSortOption] = useState<string>('');
 
 
 
