@@ -82,7 +82,7 @@ function ProductPage() {
   // real product edit
   if (realProducts)
     return (
-      <div className="w-full h-full bg-white rounded-lg p-8">
+      <div className="w-full bg-white rounded-lg p-8">
         <div className="flex justify-between">
           <h3 className="font-bold text-xl">Daftar Produk</h3>
           <Link to="/product/new">

@@ -4,7 +4,7 @@ import { useState } from "react";
 import AktifProductModal from "./AktifProductModal";
 import NonaktifProductModal from "./NonaktifProductModal";
 import { CheckedState } from "@radix-ui/react-checkbox";
-import API from "@/networks/api";
+import SwitchModal from "./SwitchModal";
 
 interface CardSideProops {
   isActive: boolean;
@@ -21,15 +21,9 @@ export default function CardSide({
   productName,
   productSku,
 }: CardSideProops) {
-  const [isToggleChecked, setIsToggleChecked] = useState<boolean>(isActive);
   const [isAktifModalView, setIsAktifModalView] = useState<boolean>(false);
   const [isNonaktifModalView, setIsNonaktifModalView] =
     useState<boolean>(false);
-
-  async function UPDATE_IS_ACTIVED() {
-    const update = await API.PRODUCT.UPDATE_IS_ACTIVE_BY_SKU(productSku);
-    console.log(update);
-  }
 
   return (
     <div className="w-full h-full flex flex-col justify-between items-center">
@@ -38,28 +32,37 @@ export default function CardSide({
       </div>
       <div>
         <div className="flex items-center space-x-2">
-          <Switch
-            checked={isToggleChecked}
+          {/* <Switch
+            checked={isActive}
             onCheckedChange={() => {
-              setIsToggleChecked(!isToggleChecked);
-
-              UPDATE_IS_ACTIVED();
-              if (isToggleChecked) {
+              // setIsToggleChecked(!isToggleChecked);
+              console.log("ini diklik");
+              console.log("is aktif", isActive);
+              if (isActive) {
                 setIsAktifModalView(true);
                 setIsNonaktifModalView(false);
               } else {
                 setIsAktifModalView(false);
                 setIsNonaktifModalView(true);
               }
+
+              console.log("aktif modal", isAktifModalView);
+              console.log("nonaktif modal", isAktifModalView);
             }}
             id="airplane-mode"
           />
-          <div className="w-0 h-0 overflow-hidden">
-            {isNonaktifModalView && <AktifProductModal />}
+          <div className="w-0 h-0 overflow-hidden"> 
+            {isNonaktifModalView && (
+              <AktifProductModal productSku={productSku} />
+            )} 
             {isAktifModalView && (
               <NonaktifProductModal productName={productName} />
             )}
-          </div>
+
+            <AktifProductModal productSku={productSku} /> 
+           </div>  */}
+
+           <SwitchModal isActive={isActive} productSku={productSku}/>
         </div>
       </div>
     </div>

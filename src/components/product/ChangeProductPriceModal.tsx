@@ -73,7 +73,7 @@ export default function ChangeProductPriceModal({
                       <p className="text-sm text-gray-500">
                         Ubah harga untuk produk{" "}
                         <span className="font-semibold uppercase">
-                          {productName}
+                          {productSku}
                         </span>
                       </p>
                       <form className="flex flex-col gap-1">
