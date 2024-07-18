@@ -111,7 +111,7 @@ function BuyerPage() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center w-full h-full mt-4">
+        <div className="flex flex-col items-center justify-center w-full h-full">
             <div className="flex justify-start w-4/5 py-4">
                 <Breadcrumb>
                     <BreadcrumbList>

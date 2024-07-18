@@ -79,10 +79,12 @@ function App() {
         if (roleChecker.isBuyer(loggedUser.role)) {
             return (
                 <Routes>
-                    <Route path="/" element={<h1>Home</h1>} />
-                    <Route path="/product/:id" element={<BuyerPage />} />
-                    <Route path="/checkout" index element={<CheckoutPage />} />
-                    <Route path="/reset" index element={<ResetPasswordPage />} />
+                    <Route path="/" element={<BuyerLayout />}>
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/product/:id" element={<BuyerPage />} />
+                        <Route path="/checkout" index element={<CheckoutPage />} />
+                        <Route path="/reset" index element={<ResetPasswordPage />} />
+                    </Route>
                 </Routes>
             )
         }
@@ -90,9 +92,12 @@ function App() {
 
     return (
         <Routes>
-            <Route path="/" index element={<LoginPage />} />
-            <Route path="/auth/register" index element={<RegisterPage />} />
-            <Route path="/forgot" index element={<ForgotPasswordPage />} />
+            <Route path="/" element={<BuyerLayout />}>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/auth/login" index element={<LoginPage />} />
+                <Route path="/auth/register" index element={<RegisterPage />} />
+                <Route path="/forgot" index element={<ForgotPasswordPage />} />
+            </Route>
         </Routes>
     )
 
