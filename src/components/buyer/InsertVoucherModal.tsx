@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
@@ -25,7 +25,7 @@ export default function InsertVoucherModal() {
           <FaMoneyCheckDollar fontSize={15} className="text-black mr-6" />
           <p className="text-md font-bold text-black">Gunakan / Masukan Voucher</p>
         </div>
-        <FaChevronRight fontSize={20} className="text-black"/>
+        <FaChevronRight fontSize={20} className="text-black" />
       </button>
 
       {/* Background Overlay */}
