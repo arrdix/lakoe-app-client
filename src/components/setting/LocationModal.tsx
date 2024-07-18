@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Button } from '@/components/ui/button'
 import { IoMdClose } from 'react-icons/io'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
+import { useForm } from 'react-hook-form'
+import ValidatedInput from '../utils/ValidatedInput'
+import ValidatedTextarea from '../utils/ValidatedTextarea'
+import ValidatedSelect from '../utils/ValidatedSelect'
+import { LocationDto } from '@/dtos/LocationDto' 
+
 interface LocationModalProps {
     isOpen: boolean
     onModalClose: () => void
@@ -16,6 +15,7 @@ interface LocationModalProps {
 
 export default function LocationModal({ isOpen, onModalClose }: LocationModalProps) {
     const [isModalOpen, setOpen] = useState(isOpen)
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<LocationDto>()
 
     useEffect(() => {
         if (!isModalOpen) {
@@ -23,15 +23,17 @@ export default function LocationModal({ isOpen, onModalClose }: LocationModalPro
         }
     }, [isModalOpen])
 
+    const onSubmit = (data: LocationDto) => {
+        console.log(data)
+        setOpen(false)
+    }
+
     return (
         <div className="bg-black">
-            {/* Tombol Pemicu */}
-
             <Button variant={'outline'} className="text-xs" onClick={() => setOpen(true)}>
                 Ubah Stok
             </Button>
 
-            {/* Background Overlay */}
             {isModalOpen && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
 
             <Dialog open={isModalOpen} onClose={() => setOpen(false)} className="relative z-50">
@@ -63,118 +65,77 @@ export default function LocationModal({ isOpen, onModalClose }: LocationModalPro
                                                 <IoMdClose />
                                             </Button>
                                         </DialogTitle>
-                                        <div className="flex flex-col gap-4 w-full h-full">
+                                        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full h-full">
                                             <div className="flex flex-col gap-1">
-                                                <label htmlFor="storeLocation" className="text-sm">
+                                                <label htmlFor="locationName" className="text-sm">
                                                     Nama Lokasi
                                                     <span className="text-red-500"> *</span>
                                                 </label>
-                                                <input
+                                                <ValidatedInput
+                                                    error={errors.locationName}
+                                                    name="locationName"
+                                                    register={register}
                                                     type="text"
-                                                    id="storeLocation"
+                                                    id="locationName"
                                                     placeholder="Toko Dumbways"
-                                                    className="border border-gray-200 rounded-md h-10 pl-2 text-sm"
                                                 />
                                             </div>
                                             <div className="flex flex-col gap-1">
-                                                <label htmlFor="storeDistrict" className="text-sm">
+                                                <label htmlFor="city" className="text-sm">
                                                     Kota/Kecamatan
                                                     <span className="text-red-500"> *</span>
                                                 </label>
-                                                <Select>
-                                                    <SelectTrigger className="w-full text-gray">
-                                                        <SelectValue placeholder="Ciputat" />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem
-                                                            value="Ciputat"
-                                                            className="pl-3"
-                                                        >
-                                                            Ciputat
-                                                        </SelectItem>
-                                                        <SelectItem
-                                                            value="Ciputat"
-                                                            className="pl-3"
-                                                        >
-                                                            Ciputat
-                                                        </SelectItem>
-                                                        <SelectItem
-                                                            value="Ciputat"
-                                                            className="pl-3"
-                                                        >
-                                                            Ciputat
-                                                        </SelectItem>
-                                                        <SelectItem
-                                                            value="Ciputat"
-                                                            className="pl-3"
-                                                        >
-                                                            Ciputat
-                                                        </SelectItem>
-                                                    </SelectContent>
-                                                </Select>
+                                                <ValidatedSelect
+                                                    name="city"
+                                                    setValue={setValue}
+                                                    error={errors.city}
+                                                    options={["Ciputat", "Jakarta", "Bandung"]}
+                                                />
                                             </div>
                                             <div className="flex flex-col gap-1">
-                                                <label
-                                                    htmlFor="storePostalCode"
-                                                    className="text-sm"
-                                                >
+                                                <label htmlFor="codePost" className="text-sm">
                                                     Kode Pos
                                                     <span className="text-red-500"> *</span>
                                                 </label>
-                                                <Select>
-                                                    <SelectTrigger className="w-full text-gray">
-                                                        <SelectValue placeholder="12345" />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="12345" className="pl-3">
-                                                            12345
-                                                        </SelectItem>
-                                                        <SelectItem value="12345" className="pl-3">
-                                                            12345
-                                                        </SelectItem>
-                                                        <SelectItem value="12345" className="pl-3">
-                                                            12345
-                                                        </SelectItem>
-                                                        <SelectItem value="12345" className="pl-3">
-                                                            12345
-                                                        </SelectItem>
-                                                    </SelectContent>
-                                                </Select>
+                                                <ValidatedSelect
+                                                    name="codePost"
+                                                    setValue={setValue}
+                                                    error={errors.codePost}
+                                                    options={["123", "234", "345"]}
+                                                />
                                             </div>
                                             <div className="flex flex-col gap-1">
-                                                <label htmlFor="storeAddress" className="text-sm">
+                                                <label htmlFor="address" className="text-sm">
                                                     Alamat Lengkap
                                                     <span className="text-red-500"> *</span>
                                                 </label>
-                                                <textarea
-                                                    id="storeAddress"
+                                                <ValidatedTextarea
+                                                    error={errors.address}
+                                                    name="address"
+                                                    id="address"
+                                                    register={register}
                                                     placeholder="Jl. Dumbways no. ID"
-                                                    className="border border-gray-200 rounded-md h-24 pl-2 py-2 text-sm resize-none"
                                                 />
                                             </div>
-                                        </div>
+                                            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                                <Button
+                                                    type="submit"
+                                                    variant="outline"
+                                                    className="bg-cyan text-white px-5 py-0"
+                                                >
+                                                    Simpan
+                                                </Button>
+                                                <Button
+                                                    variant="outline"
+                                                    className="px-5 mx-2"
+                                                    onClick={() => setOpen(false)}
+                                                >
+                                                    Batalkan
+                                                </Button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <Button
-                                    variant="outline"
-                                    className="bg-cyan text-white px-5 py-0"
-                                    onClick={() => {
-                                        setOpen(false)
-                                    }}
-                                >
-                                    Simpan
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    className="px-5 mx-2"
-                                    onClick={() => {
-                                        setOpen(false)
-                                    }}
-                                >
-                                    Batalkan
-                                </Button>
                             </div>
                         </DialogPanel>
                     </div>

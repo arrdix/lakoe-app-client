@@ -11,6 +11,6 @@ export type Product = {
     storeId: string
     category: string
     carts?: Cart
-    variant?: Variant
+    variant?: Variant | null
     
 }

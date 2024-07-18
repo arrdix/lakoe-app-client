@@ -29,13 +29,13 @@ export default function ForgotPasswordPage() {
                         <div className="flex flex-row gap-1 items-center">
                             <p className="text-base font-medium">You can
                             </p>
-                            <Link to="/auth/login">
+                            <Link to="/">
                                 <span className="text-base font-medium text-cyan">Login here!</span>
                             </Link>
                         </div>
                     </div>
                     <div className="w-full">
-                        <img className="w-96" src="persontwo.png" alt="" />
+                        <img className="w-96" src="../../public/persontwo.png" alt="" />
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@ export default function ForgotPasswordPage() {
                     />
                 </div>
                 <div className="w-full flex flex-col gap-7">
-                    <button className="bg-cyan hover:bg-transparent hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full" type="submit" onClick={onSubmitLogin}>Submit</button>
+                    <button className="bg-cyan hover:bg-transparent hover:text-cyan hover:border-cyan hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full" type="submit" onClick={onSubmitLogin}>Submit</button>
                     <div className="flex items-center justify-center">
                         <div className="flex-grow border-t border-gray"></div>
                         <span className="px-1 text-gray-500">or continue with</span>

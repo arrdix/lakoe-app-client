@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Button } from '@/components/ui/button'
 import { IoMdClose } from 'react-icons/io'
+import ValidatedInput from '../utils/ValidatedInput'
+import ValidatedTextarea from '../utils/ValidatedTextarea'
+import { MessageTemplateDto } from '@/dtos/messageTemplateDto'
+import { useForm } from 'react-hook-form'
 
 interface MessageTemplateModalProps {
     isOpen: boolean
@@ -10,12 +14,18 @@ interface MessageTemplateModalProps {
 
 export default function MessageTemplateModal({ isOpen, onModalClose }: MessageTemplateModalProps) {
     const [isModalOpen, setOpen] = useState(isOpen)
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<MessageTemplateDto>()
 
     useEffect(() => {
         if (!isModalOpen) {
             onModalClose()
         }
     }, [isModalOpen])
+
+    const onSubmit = (data: MessageTemplateDto) => {
+        console.log(data)
+        setOpen(false)
+    }
 
     return (
         <div className="z-90">
@@ -57,71 +67,78 @@ export default function MessageTemplateModal({ isOpen, onModalClose }: MessageTe
                                                 <IoMdClose />
                                             </Button>
                                         </DialogTitle>
-                                        <div className="flex flex-col gap-4 w-full h-full">
-                                            <div className="flex flex-col gap-1">
-                                                <label
-                                                    htmlFor="storeMessageTitle"
-                                                    className="text-sm"
-                                                >
-                                                    Judul Pesan
-                                                    <span className="text-red-500"> *</span>
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="storeMessageTitle"
-                                                    placeholder="Judul Pesan"
-                                                    className="border border-gray-200 rounded-md h-10 pl-2 text-sm"
-                                                />
-                                            </div>
-                                            <div className="flex flex-col gap-1">
-                                                <label
-                                                    htmlFor="storeMessageBody"
-                                                    className="text-sm"
-                                                >
-                                                    Detail Isi Pesan
-                                                    <span className="text-red-500"> *</span>
-                                                </label>
-                                                <div className="flex gap-1 mb-1">
-                                                    <Button className="bg-transparent border border-lightGray text-black hover:text-white">
-                                                        Nama Pembeli
-                                                    </Button>
-                                                    <Button className="bg-transparent border border-lightGray text-black hover:text-white">
-                                                        Nama Produk
-                                                    </Button>
-                                                    <Button className="bg-transparent border border-lightGray text-black hover:text-white">
-                                                        Nama Toko
-                                                    </Button>
+                                        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full h-full">
+                                            <div className="flex flex-col gap-4 w-full h-full">
+                                                <div className="flex flex-col gap-1">
+                                                    <label
+                                                        htmlFor="storeMessageTitle"
+                                                        className="text-sm"
+                                                    >
+                                                        Judul Pesan
+                                                        <span className="text-red-500"> *</span>
+                                                    </label>
+                                                    <ValidatedInput
+                                                        error={errors.messageContent}
+                                                        name="messageContent"
+                                                        register={register}
+                                                        type="text"
+                                                        id="messageContent"
+                                                        placeholder="Toko Dumbways"
+                                                    />
                                                 </div>
-                                                <textarea
-                                                    id="storeMessageBody"
-                                                    placeholder="Isi Pesan"
-                                                    className="border border-gray-200 rounded-md h-24 pl-2 py-2 text-sm resize-none"
-                                                />
+                                                <div className="flex flex-col gap-1">
+                                                    <label
+                                                        htmlFor="storeMessageBody"
+                                                        className="text-sm"
+                                                    >
+                                                        Detail Isi Pesan
+                                                        <span className="text-red-500"> *</span>
+                                                    </label>
+                                                    <div className="flex gap-1 mb-1">
+                                                        <Button className="bg-transparent border border-lightGray text-black hover:text-white">
+                                                            Nama Pembeli
+                                                        </Button>
+                                                        <Button className="bg-transparent border border-lightGray text-black hover:text-white">
+                                                            Nama Produk
+                                                        </Button>
+                                                        <Button className="bg-transparent border border-lightGray text-black hover:text-white">
+                                                            Nama Toko
+                                                        </Button>
+                                                    </div>
+                                                    <ValidatedTextarea
+                                                        error={errors.messageTitle}
+                                                        name="messageTitle"
+                                                        id="messageTitle"
+                                                        register={register}
+                                                        placeholder="message"
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
+                                            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                                <Button
+                                                    variant="outline"
+                                                    className="bg-cyan text-white px-5 py-0"
+                                                    onClick={() => {
+                                                        setOpen(false)
+                                                    }}
+                                                >
+                                                    Simpan
+                                                </Button>
+                                                <Button
+                                                    variant="outline"
+                                                    className="px-5 mx-2"
+                                                    onClick={() => {
+                                                        setOpen(false)
+                                                    }}
+                                                >
+                                                    Batalkan
+                                                </Button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <Button
-                                    variant="outline"
-                                    className="bg-cyan text-white px-5 py-0"
-                                    onClick={() => {
-                                        setOpen(false)
-                                    }}
-                                >
-                                    Simpan
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    className="px-5 mx-2"
-                                    onClick={() => {
-                                        setOpen(false)
-                                    }}
-                                >
-                                    Batalkan
-                                </Button>
-                            </div>
+
                         </DialogPanel>
                     </div>
                 </div>

@@ -5,5 +5,5 @@ export type Variant = {
     name: string
     isActive: boolean
     productId: number
-    variantOption?: VariantOption
+    variantOptions?: VariantOption[] // Perubahan disini untuk mengikuti tipe data dari VariantOption sebagai array
 }
