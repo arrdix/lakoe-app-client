@@ -60,6 +60,22 @@ export default function DetailOrderPage() {
     }
     const { id } = useParams()
 
+    const handleCopy = () => {
+        const textToCopy = `INV/${formattedDate}/MPL/${order?.invoiceNumber}`;
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                toast('Nomor Invoice berhasil disalin', {
+                    action: {
+                        label: 'OK',
+                        onClick: () => console.log('Undo'),
+                    },
+                });
+            })
+            .catch((error) => {
+                console.error('Error copying text: ', error);
+            });
+    };
+
     function formatDate(date: Date): string {
         const year = date.getFullYear()
         const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -167,7 +183,7 @@ export default function DetailOrderPage() {
                         <div>
                             <div className="flex flex-col gap-1 text-sm">
                                 <p
-                                    className={`${labelColor}  w-fit font-semibold rounded-lg p-1 text-sm`}
+                                    className={`${labelColor}  w-fit font-semibold rounded-lg px-4 py-1 text-sm`}
                                 >
                                     {order.status}
                                 </p>
@@ -237,14 +253,7 @@ export default function DetailOrderPage() {
                                 <Button
                                     className="border-none hover:bg-transparent p-0"
                                     variant="ghost"
-                                    onClick={() =>
-                                        toast('Nomor Invoice berhasil disalin', {
-                                            action: {
-                                                label: 'OK',
-                                                onClick: () => console.log('Undo'),
-                                            },
-                                        })
-                                    }
+                                    onClick={handleCopy}
                                 >
                                     <PiCopySimpleLight className="mr-2 size-5" />
                                 </Button>
@@ -276,20 +285,10 @@ export default function DetailOrderPage() {
                             <div className="flex flex-col border p-2 rounded-lg">
                                 <div className="flex flex-row justify-between">
                                     <div className="flex flex-row">
-                                        <div className="w-14 mr-2">
-                                            <img
-                                                className="w-full"
-                                                src="../../public/tshirt.png"
-                                                alt=""
-                                            />
-                                        </div>
+                                        <img className="w-20 h-20 mr-2 flex-shrink-0" src={product.attachments[0]} alt="" />
                                         <div className="flex flex-col justify-center">
                                             <h1>
                                                 {product.name}
-                                                <span className="mx-1">|</span>
-                                                {product.description}
-                                                <span className="mx-1">-</span>
-                                                {variantOption?.name}
                                             </h1>
                                             <p>
                                                 {order?.carts?.cartItems?.[0]?.qty} x Rp {order.price}
@@ -297,8 +296,8 @@ export default function DetailOrderPage() {
                                         </div>
                                     </div>
                                     <div className="flex flex-col justify-center items-end">
-                                        <p className="text-gray">Total Belanja</p>
-                                        <p>Rp. {totalBeforeDiscount}</p>
+                                        <p className="text-gray text-sm font-normal">Total Belanja</p>
+                                        <p className='font-medium text-sm'>Rp. {totalBeforeDiscount}</p>
                                     </div>
                                 </div>
                             </div>

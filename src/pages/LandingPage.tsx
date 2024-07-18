@@ -11,6 +11,7 @@ import CardLanding from '@/components/landing-page/CardLanding'
 import { useEffect, useState } from 'react'
 import API from '@/networks/api'
 import { Product } from '@/types/ProductType'
+import CardCarousel from '@/components/landing-page/CardCarousel'
 
 export default function LandingPage() {
     const [products, setProducts] = useState<Product[]>()
@@ -62,21 +63,13 @@ export default function LandingPage() {
                     <Carousel>
                         <CarouselContent>
                             <CarouselItem>
-                                <CardLanding product="Suit Black Panther Cusszz" price={100000} />
+                                <CardCarousel attachment='https://mediaslide-us.storage.googleapis.com/imgmodels/news_pictures/2022/10/large-1666270672-7760e9757bb20409006827097590db63.jpg' name="Suit Black Panther Cusszz" />
                             </CarouselItem>
                             <CarouselItem>
-                                <img
-                                    className="object-cover w-full h-96 flex flex-col rounded-xl shadow"
-                                    src="https://mediaslide-us.storage.googleapis.com/imgmodels/news_pictures/2022/10/large-1666270672-7760e9757bb20409006827097590db63.jpg"
-                                    alt=""
-                                />
+                                <CardCarousel attachment='https://mediaslide-us.storage.googleapis.com/imgmodels/news_pictures/2022/10/large-1666270672-7760e9757bb20409006827097590db63.jpg' name="Suit Black Panther Cusszz" />
                             </CarouselItem>
                             <CarouselItem>
-                                <img
-                                    className="object-cover w-full h-96 flex flex-col rounded-xl shadow"
-                                    src="https://mediaslide-us.storage.googleapis.com/imgmodels/news_pictures/2022/10/large-1666270672-7760e9757bb20409006827097590db63.jpg"
-                                    alt=""
-                                />
+                                <CardCarousel attachment='https://mediaslide-us.storage.googleapis.com/imgmodels/news_pictures/2022/10/large-1666270672-7760e9757bb20409006827097590db63.jpg' name="Suit Black Panther Cusszz" />
                             </CarouselItem>
                         </CarouselContent>
                         <CarouselPrevious />
@@ -161,10 +154,9 @@ export default function LandingPage() {
                 <h1 className="text-4xl font-medium pb-5">Produk</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                     {products && products.map((product) => {
-                        // console.log(product.variant && product.variant.variantOptions && product.variant.variantOptions[0] && typeof product.variant.variantOptions[0].variantOptionValue?.price);
                         const price = product.variant && product.variant.variantOptions && product.variant.variantOptions[0] && product.variant.variantOptions[0].variantOptionValue && +product.variant.variantOptions[0].variantOptionValue.price
                         if (price) {
-                            return <CardLanding product={product.name} price={price} />
+                            return <CardLanding attachment={product.attachments[0]} name={product.name} price={price} />
                         }
                     })}
                 </div>
