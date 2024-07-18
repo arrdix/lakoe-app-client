@@ -2,98 +2,23 @@ import CardHeader from "./CardHeader";
 import CardBody from "./CardBody";
 import CardFooter from "./CardFooter";
 import CardSide from "./CardSide";
-import { ProductType } from "@/dummy/productDummy";
 import { useEffect, useState } from "react";
 import { useProductCheckedContext } from "@/context/checkedProductContext";
-import { Product } from "@/types/ProductType";
-import { Variant } from "@/types/VariantType";
-import { VariantOption } from "@/types/VariantOptionType";
-import { VariantOptionValue } from "@/types/VariantOptionValueType";
+import { ProductBySku } from "@/types/ProductBySkuType";
 
 interface CardProductProps {
-  realProduct: Product;
-  product?: ProductType | Product;
+  product: ProductBySku;
   isCheckedDefault: boolean;
   onCheckedChanges: () => void;
 }
 
 export default function CardProduct({
-  realProduct,
+  product,
   isCheckedDefault,
   onCheckedChanges,
 }: CardProductProps) {
   const [isChecked, setIsChecked] = useState<boolean>(isCheckedDefault);
-  const {setProductSkuChecked, sku} = useProductCheckedContext();
-
-  // useEffect(() => {
-  //     onCheckedChanges()
-  // }, [isChecked])
-
-  // useEffect(() => {
-  //     setIsChecked(isCheckedDefault)
-  //     let listIdChecked = id
-
-  //     if (isCheckedDefault === true) {
-  //         if (isChecked) {
-  //             const index = listIdChecked.indexOf(product.id)
-  //             if (index !== -1) {
-  //                 listIdChecked.splice(index, 1)
-  //             }
-  //         } else {
-  //             const isProductInArray = listIdChecked.some((id) => id == product.id)
-  //             if (!isProductInArray) {
-  //                 listIdChecked.push(product.id)
-  //             }
-  //         }
-  //     } else {
-  //         listIdChecked = []
-  //     }
-
-  //     setProductIdChecked(listIdChecked)
-  // }, [isCheckedDefault])
-
-  // useEffect(() => {
-  //     setIsChecked(isCheckedDefault)
-  // }, [])
-
-  // function onCheckedChange() {
-  //     setIsChecked(!isChecked)
-  //     const listIdChecked = id
-
-  //     if (isChecked) {
-  //         const index = listIdChecked.indexOf(product.id)
-  //         if (index !== -1) {
-  //             listIdChecked.splice(index, 1)
-  //         }
-  //     } else {
-  //         const isProductInArray = listIdChecked.some((id) => id == product.id)
-  //         if (!isProductInArray) {
-  //             listIdChecked.push(product.id)
-  //         }
-  //     }
-
-  //     setProductIdChecked(listIdChecked)
-  // }
-
-  const [variant, setVariant] = useState<Variant | null>(null);
-  const [variantOption, setVariantOption] = useState<VariantOption | null>(
-    null
-  );
-  const [variantOptionValue, setVariantOptionValue] =
-    useState<VariantOptionValue | null>(null);
-
-  useEffect(() => {
-    setVariant((realProduct.variant && realProduct.variant) || null);
-    setVariantOption(
-      (realProduct.variant && realProduct.variant.variantOption) || null
-    );
-    setVariantOptionValue(
-      (realProduct.variant &&
-        realProduct.variant.variantOption &&
-        realProduct.variant.variantOption.variantOptionValue) ||
-        null
-    );
-  }, []);
+  const { setProductSkuChecked, sku } = useProductCheckedContext();
 
   useEffect(() => {
     onCheckedChanges();
@@ -105,9 +30,16 @@ export default function CardProduct({
     let listSkuChecked = sku;
 
     if (isCheckedDefault === true) {
-      const isProductInArray = listSkuChecked.some((sku) => sku ==variantOptionValue?.sku );
-      if (!isProductInArray && variantOptionValue?.sku ) {
-        listSkuChecked.push(variantOptionValue?.sku);
+      const isProductInArray = listSkuChecked.some(
+        (sku) => sku == product.variant?.variantOption?.variantOptionValue?.sku
+      );
+      if (
+        !isProductInArray &&
+        product.variant?.variantOption?.variantOptionValue?.sku
+      ) {
+        listSkuChecked.push(
+          product.variant?.variantOption?.variantOptionValue?.sku
+        );
       }
     } else {
       listSkuChecked = [];
@@ -124,46 +56,64 @@ export default function CardProduct({
     setIsChecked(!isChecked);
     const listSkuChecked = sku;
 
-    if (isChecked && variantOptionValue?.sku ) {
-      const index = listSkuChecked.indexOf(variantOptionValue?.sku);
+    if (isChecked && product.variant?.variantOption?.variantOptionValue?.sku) {
+      const index = listSkuChecked.indexOf(
+        product.variant?.variantOption?.variantOptionValue?.sku
+      );
       if (index !== -1) {
         listSkuChecked.splice(index, 1);
       }
     } else {
-      const isProductInArray = listSkuChecked.some((sku) => sku == variantOptionValue?.sku);
-      if (!isProductInArray && variantOptionValue?.sku) {
-        listSkuChecked.push(variantOptionValue?.sku);
+      const isProductInArray = listSkuChecked.some(
+        (sku) => sku == product.variant?.variantOption?.variantOptionValue?.sku
+      );
+      if (
+        !isProductInArray &&
+        product.variant?.variantOption?.variantOptionValue?.sku
+      ) {
+        listSkuChecked.push(
+          product.variant?.variantOption?.variantOptionValue?.sku
+        );
       }
     }
 
     setProductSkuChecked(listSkuChecked);
   }
 
-  // console.log('PRODUCT:', realProduct)
-  // console.log('VARIANT:', variant)
-  // console.log('VARIANT OPTION', variantOption)
-  // console.log('VARIANT OPTION VALUE', variantOptionValue)\
-
   return (
     <div className="flex flex-row gap-6 rounded-md shadow p-3 w-full">
       <div
         className="w-32 h-24 bg-cover"
-        style={{ backgroundImage: `url(${realProduct.attachments[0]})` }}
+        style={{ backgroundImage: `url(${product.attachments[0]})` }}
       />
       <div className="flex flex-col gap-1 w-full">
-        <CardHeader text={realProduct.name} />
+        <CardHeader text={product.name} />
         <CardBody
-          price={variantOptionValue?.price || 0}
-          stock={variantOptionValue?.stock||0}
-          sku={variantOptionValue?.sku || ""}
+          price={
+            product.variant?.variantOption?.variantOptionValue?.price || 0
+          }
+          stock={
+            product.variant?.variantOption?.variantOptionValue?.stock || 0
+          }
+          sku={product.variant?.variantOption?.variantOptionValue?.sku || ""}
         ></CardBody>
-        <CardFooter productName={realProduct.name} productSku={variantOptionValue?.sku||""} />
+        <CardFooter
+          productName={product.name}
+          productSku={
+            product.variant?.variantOption?.variantOptionValue?.sku || ""
+          }
+        />
       </div>
       <div>
         <CardSide
-          productName={realProduct.name}
-          productSku = {variantOptionValue?.sku||''}
-          isActive={realProduct.variant?.variantOption?.variantOptionValue?.isActive||false}
+          productName={product.name}
+          productSku={
+            product.variant?.variantOption?.variantOptionValue?.sku || ""
+          }
+          isActive={
+            product.variant?.variantOption?.variantOptionValue?.isActive ||
+            false
+          }
           isChecked={isChecked}
           onCheckedChange={onCheckedChange}
         />

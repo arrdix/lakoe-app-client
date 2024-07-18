@@ -1,7 +1,7 @@
 import { Cart } from './CartType'
-import { Variant } from './VariantType'
+import { VariantTypeBySku } from './VariantTypeBySku'
 
-export type Product = {
+export type ProductBySku = {
     id: number
     name: string
     description: string
@@ -11,5 +11,5 @@ export type Product = {
     storeId: string
     category: string
     carts?: Cart
-    variant?: Variant | null
+    variant?: VariantTypeBySku | null
 }
