@@ -64,7 +64,7 @@ function App() {
                     <Route path="/product" element={<ProductPage />} />
                     <Route path="/product/new" element={<NewProductPage />} />
                     <Route path="/order" element={<OrderPage />} />
-                    <Route path="/order/detail" element={<DetailOrderPage />} />
+                    <Route path="/order/detail/:id" element={<DetailOrderPage />} />
                     <Route path="/store-setting" element={<SettingPage />} />
                 </Route>
             </Routes>

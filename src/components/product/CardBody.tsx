@@ -3,7 +3,7 @@ interface CardBodyProps {
   stock: number;
   sku: string;
 }
-import formatToIDR from "@/lib/idrUtils";
+import formatToIDR from "@/lib/IdrUtils";
 
 export default function CardBody({ price, stock, sku }: CardBodyProps) {
   return (

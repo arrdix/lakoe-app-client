@@ -17,7 +17,7 @@ function SelectCategory({ setValue }: SelectCategoryProps) {
     }
 
     function onSelectCategory(id: string) {
-        setValue('categoryId', +id)
+        setValue('categoryId', id)
         setSelectedCategory('Pakaian Pria / Atasan / Kaos')
     }
 
@@ -53,32 +53,32 @@ function SelectCategory({ setValue }: SelectCategoryProps) {
                         <ul className="flex flex-col items-start w-full">
                             <CategoryItem
                                 text="Descendant Category"
-                                value={1}
+                                value={666}
                                 onClick={onSelectCategory}
                                 noIcon
                             />
                             <CategoryItem
                                 text="Descendant Category"
-                                value={1}
+                                value={666}
                                 onClick={onSelectCategory}
                                 noIcon
                             />
                             <CategoryItem
                                 text="Descendant Category"
-                                value={1}
+                                value={666}
                                 onClick={onSelectCategory}
                                 noIcon
                             />
                             <CategoryItem
                                 text="Descendant Category"
-                                value={1}
+                                value={666}
                                 onClick={onSelectCategory}
                                 noIcon
                                 isActive
                             />
                             <CategoryItem
                                 text="Descendant Category"
-                                value={1}
+                                value={666}
                                 onClick={onSelectCategory}
                                 noIcon
                             />

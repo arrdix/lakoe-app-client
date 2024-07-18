@@ -1,6 +1,6 @@
 import axios from 'axios'
 import CONFIG from '@/configs/config'
-import { CreateProductDto, EditProductDto } from '@/dtos/ProductDto'
+import { CreateProductDto, EditProductDto, UpdateVariantOptionValueDto } from '@/dtos/ProductDto'
 import { CreateOrderDto, UpdateOrderDto } from '@/dtos/OrderDto'
 import { loginDto, registerDto } from '@/dtos/AuthDto'
 import LOCAL_STORAGE from '@/networks/storage'
@@ -20,7 +20,6 @@ const API = {
                 if (axios.isAxiosError(error)) {
                     throw error
                 }
-
                 throw error
             }
         },
@@ -79,11 +78,12 @@ const API = {
             }
         },
 
-        CREATE: async (data: CreateProductDto) => {
+        CREATE: async (data: FormData) => {
             try {
                 const response = await axios.post(`${CONFIG.BASE_URL}/product`, data, {
                     headers: {
                         Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                        'Content-Type': 'multipart/form-data',
                     },
                 })
 
@@ -122,6 +122,97 @@ const API = {
                         Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
                     },
                 })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+
+        DELETE_BY_SKU: async (sku: string) => {
+            try {
+                const response = await axios.delete(`${CONFIG.BASE_URL}/product/sku/${sku}`, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+
+        DELETE_MANY_BY_SKU: async (skus: string[]) => {
+            const payload = {
+                skus,
+            }
+            try {
+                const response = await axios.delete(`${CONFIG.BASE_URL}/product/delete/skus`, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                    data: payload,
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+
+        UPDATE_IS_ACTIVE_BY_SKU: async (sku: string) => {
+            try {
+                console.log('ini auth', `Bearer ${LOCAL_STORAGE.GET()}`)
+                const response = await axios.patch(
+                    `${CONFIG.BASE_URL}/product/update-isActive/${sku}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                        },
+                    }
+                )
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+
+        UPDATE_BY_SKU: async (sku: string, data: UpdateVariantOptionValueDto) => {
+            if (data.price) {
+                data.price = Number(data.price)
+            }
+            if (data.stock) {
+                data.stock = Number(data.stock)
+            }
+            try {
+                const response = await axios.patch(
+                    `${CONFIG.BASE_URL}/product/update-bySKU/${sku}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                        },
+                    }
+                )
 
                 return response.data
             } catch (error) {

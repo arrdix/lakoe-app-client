@@ -6,7 +6,7 @@ import { useProductCheckedContext } from '@/context/checkedProductContext'
 
 export default function NonaktifProductsModal() {
     const [open, setOpen] = useState(false)
-    const { id } = useProductCheckedContext()
+    const { sku } = useProductCheckedContext()
 
     return (
         <div>
@@ -47,7 +47,7 @@ export default function NonaktifProductsModal() {
                                             as="h3"
                                             className="text-base font-semibold leading-6 text-gray-900"
                                         >
-                                            Nonaktifkan {id.length} Produk
+                                            Nonaktifkan {sku.length} Produk
                                         </DialogTitle>
                                         <div className="mt-2">
                                             <p className="text-sm text-gray-500">

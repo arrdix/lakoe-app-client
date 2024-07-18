@@ -1,8 +1,14 @@
+import { CreateProductDto } from '@/dtos/ProductDto'
 import { useState } from 'react'
+import { UseFormSetValue } from 'react-hook-form'
 import { BiImageAdd } from 'react-icons/bi'
 import { IoIosClose } from 'react-icons/io'
 
-function ProductImageInputList() {
+interface ProductImageInputListProps {
+    setValue: UseFormSetValue<CreateProductDto>
+}
+
+function ProductImageInputList({ setValue }: ProductImageInputListProps) {
     const [imagePreviews, setimagePreviews] = useState<string[]>([])
 
     const maxImage = 5
@@ -10,6 +16,8 @@ function ProductImageInputList() {
     function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target.files
 
+        console.log(typeof files)
+        setValue('attachments', files)
         if (files?.length) {
             const imagePreviews = Array.from(files).map((file) => {
                 return URL.createObjectURL(file)
@@ -74,9 +82,9 @@ function ProductImageInputList() {
                             <span className="text-gray">Foto Produk</span>
                         </div>
                         <div className="flex flex-col gap-1">
-                            <h1 className="font-medium">Upload foto sekaligus, yuk!</h1>
+                            <h1 className="font-medium">Unggah foto sekaligus, yuk!</h1>
                             <p className="text-stone-400 text-sm">
-                                Kamu bisa meng-upload foto sekaligus <br />
+                                Kamu bisa mengunggah foto sekaligus <br />
                                 hingga maksimal 5 foto.
                             </p>
                         </div>
