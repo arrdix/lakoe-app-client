@@ -1,7 +1,17 @@
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { AiOutlineShopping } from 'react-icons/ai'
+import { useLakoeStore } from '@/store/store'
+import LOCAL_STORAGE from '@/networks/storage'
 
 function BuyerLayout() {
+    const loggedUser = useLakoeStore((state) => state.loggedUser)
+    const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
+
+    function onLogout() {
+        LOCAL_STORAGE.REMOVE()
+        setLoggedUser(null)
+    }
+
     return (
         <div className="h-screen">
             <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-full z-100">
@@ -12,46 +22,31 @@ function BuyerLayout() {
                         </span>
                     </a>
                     <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-5">
-                        <AiOutlineShopping className="size-5" />
-                        <button
-                            type="button"
-                            className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                            id="user-menu-button"
-                            aria-expanded="false"
-                            data-dropdown-toggle="user-dropdown"
-                            data-dropdown-placement="bottom"
-                        >
-                            <span className="sr-only">Open user menu</span>
-                            <img
-                                className="w-8 h-8 rounded-full"
-                                src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg"
-                                alt="user photo"
-                            />
-                        </button>
-                        <button
-                            data-collapse-toggle="navbar-user"
-                            type="button"
-                            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                            aria-controls="navbar-user"
-                            aria-expanded="false"
-                        >
-                            <span className="sr-only">Open main menu</span>
-                            <svg
-                                className="w-5 h-5"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 17 14"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M1 1h15M1 7h15M1 13h15"
-                                />
-                            </svg>
-                        </button>
+                        {loggedUser ? (
+                            <div className="flex items-center gap-3">
+                                <AiOutlineShopping className="size-5" />
+                                <button
+                                    type="button"
+                                    className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                    id="user-menu-button"
+                                    aria-expanded="false"
+                                    data-dropdown-toggle="user-dropdown"
+                                    data-dropdown-placement="bottom"
+                                    onClick={onLogout}
+                                >
+                                    <span className="sr-only">Open user menu</span>
+                                    <img
+                                        className="w-8 h-8 rounded-full"
+                                        src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg"
+                                        alt="user photo"
+                                    />
+                                </button>
+                            </div>
+                        ) : (
+                            <Link to="/auth/login">
+                                <h1 className="font-medium">Login</h1>
+                            </Link>
+                        )}
                     </div>
                     <div
                         className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
