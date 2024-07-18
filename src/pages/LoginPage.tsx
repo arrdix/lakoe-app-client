@@ -95,7 +95,7 @@ export default function LoginPage() {
                 </div>
                 <div className="w-full flex flex-col gap-7">
                     <button
-                        className="bg-cyan hover:bg-transparent hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full"
+                        className="bg-cyan hover:bg-transparent hover:bg-lightCyan hover:text-cyan border-2 border-cyan rounded-md text-white font-medium h-10 pl-2 text-sm w-full"
                         type="submit"
                         onClick={onLogin}
                     >
