@@ -1,35 +1,31 @@
-import { Button } from '@/components/ui/button'
-import { BiImageAdd } from 'react-icons/bi'
-import ValidatedInput from '../utils/ValidatedInput'
+import { Button } from '@/components/ui/button';
+import { BiImageAdd } from 'react-icons/bi';
+import ValidatedInput from '../utils/ValidatedInput';
 import { StoreInfoDto } from '@/dtos/StoreInfoDto';
 import { useForm } from 'react-hook-form';
 import ValidatedTextarea from '../utils/ValidatedTextarea';
 import { useState } from 'react';
+import { IoIosClose } from 'react-icons/io';
 
 function StoreInfo() {
-    const hookForm = useForm<StoreInfoDto>();
+    const { register, setValue, formState: { errors }, handleSubmit } = useForm<StoreInfoDto>();
 
-    // const [imagePreviews, setimagePreviews] = useState<string[]>([])
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    // const maxImage = 1
+    function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
 
-    // function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-    //     const files = e.target.files
+        if (file) {
+            const imagePreview = URL.createObjectURL(file);
+            setImagePreview(imagePreview);
+            setValue('logo', file);
+        }
+    }
 
-    //     if (files?.length) {
-    //         const imagePreviews = Array.from(files).map((file) => {
-    //             return URL.createObjectURL(file)
-    //         })
-
-    //         setimagePreviews(imagePreviews)
-    //     }
-    // }
-
-    const {
-        register,
-        formState: { errors }, 
-        handleSubmit
-    } = hookForm;
+    function removeImage() {
+        setImagePreview(null);
+        setValue('logo', null as any);
+    }
 
     return (
         <>
@@ -37,7 +33,7 @@ function StoreInfo() {
             <div className="flex gap-4 w-full">
                 <div className="flex flex-col gap-4 w-full">
                     <div className="flex flex-col gap-1">
-                        <label htmlFor="productName" className="text-sm">
+                        <label htmlFor="slogan" className="text-sm">
                             Slogan <span className="text-red-500">*</span>
                         </label>
                         <ValidatedInput
@@ -46,12 +42,11 @@ function StoreInfo() {
                             register={register}
                             type="text"
                             id="slogan"
-                            placeholder="Prediksi Jaya Jaya Jaya"
-
+                            placeholder="Slogan Toko"
                         />
                     </div>
                     <div className="flex flex-col gap-1">
-                        <label htmlFor="productName" className="text-sm">
+                        <label htmlFor="name" className="text-sm">
                             Nama Toko <span className="text-red-500">*</span>
                         </label>
                         <ValidatedInput
@@ -60,12 +55,12 @@ function StoreInfo() {
                             register={register}
                             type="text"
                             id="name"
-                            placeholder="Toko Haram"
+                            placeholder="Toko Dumbways"
                         />
                     </div>
                 </div>
                 <div className="flex flex-col gap-1 w-full">
-                    <label htmlFor="storeDescription" className="text-sm">
+                    <label htmlFor="description" className="text-sm">
                         Deskripsi Toko <span className="text-red-500">*</span>
                     </label>
                     <ValidatedTextarea
@@ -73,7 +68,7 @@ function StoreInfo() {
                         name='description'
                         id="description"
                         register={register}
-                        placeholder="Toko ini menj"
+                        placeholder="Toko ini menjual ?"
                     />
                 </div>
             </div>
@@ -82,17 +77,40 @@ function StoreInfo() {
             </div>
             <h2 className="text-black text-md font-bold">Logo Toko</h2>
             <div className="border border-gray border-dotted w-56 h-56 rounded-md relative">
-                <div className="absolute flex flex-col justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray">
-                    <BiImageAdd size={'4rem'} />
-                    <p className="text-sm">Unggah Foto</p>
-                </div>
+                {imagePreview ? (
+                    <div className="relative w-full h-full">
+                        <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-md" />
+                        <button
+                            className="flex justify-center items-center absolute top-1 right-1 w-6 h-6 bg-white rounded-full"
+                            onClick={removeImage}
+                        >
+                            <IoIosClose className="text-lg" />
+                        </button>
+                    </div>
+
+                ) : (
+                    <div className="absolute flex flex-col justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray">
+                        <label htmlFor="attachments" className="cursor-pointer">
+                            <BiImageAdd size={'4rem'} />
+                        </label>
+                        <span className="text-gray">Unggah Foto</span>
+
+                    </div>
+                )}
+                <input
+                    type="file"
+                    id="attachments"
+                    accept="image/*"
+                    onChange={onImageChange}
+                    className="hidden"
+                />
             </div>
             <p className="text-gray text-sm">
                 Ukuran optimal 300 x 300 piksel dengan Besar file: Maksimum 10 Megabytes. <br />
                 Ekstensi file yang diperbolehkan: JPG, JPEG, PNG
             </p>
         </>
-    )
+    );
 }
 
-export default StoreInfo
+export default StoreInfo;
