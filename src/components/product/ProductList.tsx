@@ -9,40 +9,61 @@ import { useEffect, useState } from "react";
 import { ProductBySku } from "@/types/ProductBySkuType";
 
 interface ProductListProps {
-  products?: ProductBySku[];
+  productsProps?: ProductBySku[];
   tabOptions: string;
 }
 
 export default function ProductList({
-  products,
+  productsProps,
   tabOptions,
 }: ProductListProps) {
   const { sku } = useProductCheckedContext();
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
   const [isCheckedChange, setIsCheckedChange] = useState(false);
+  const [products, setProducts] = useState<ProductBySku[] | undefined>(
+    productsProps
+  );
+  const [name, setName] = useState<string>("");
 
   const onCheckedChange = () => {
     setIsCheckedChange(!isCheckedChange);
   };
 
   // real product edit
-  useEffect(() => {
-    if (sku.length < 1) {
-      setIsAllChecked(false);
-    }
-  }, [sku]);
+  // useEffect(() => {
+  //   if (sku.length < 1) {
+  //     setIsAllChecked(false);
+  //   }
+  // }, [sku]);
 
-  console.log("id", sku);
-  console.log("product from product list", products)
+  useEffect(() => {
+    if (name!="" && productsProps) {
+      const filteredProduct: ProductBySku[] = productsProps?.filter((product) => {
+        return (
+          product.name.toLowerCase() === name.toLowerCase() ||
+          product.variant?.variantOption?.variantOptionValue?.sku.toLocaleLowerCase() ===
+            name.toLowerCase()
+        );
+      });
+      setProducts(filteredProduct);
+    }
+    else {
+      setProducts(productsProps);
+    }
+  }, [name]);
+
+  const onChange = (dataInput: string) => {
+    setName(dataInput);
+  };
   return (
     <div>
+      <ProductFilter onChange={onChange} />
       {products?.length === 0 ? (
         <div>
           <NoResultProduct tabOptions={tabOptions} />
         </div>
       ) : (
         <div>
-          <ProductFilter />
           <div className="w-full bg-white rounded-lg flex justify-between">
             <h3 className="font-semibold">{products?.length} produk</h3>
             <div className="flex items-center gap-4 mb-4">
