@@ -1,5 +1,7 @@
+import API from "@/networks/api";
 import CardOrder from "./CardOrder";
 import { Order } from "@/types/OrderType";
+import { Product } from "@/types/ProductType";
 import { BiSearchAlt } from 'react-icons/bi';
 
 interface CardOrderListProps {
@@ -11,8 +13,22 @@ interface CardOrderListProps {
 export default function CardOrderList({ orders, status, searchTerm }: CardOrderListProps) {
     const filteredOrders = orders
         .filter(order => status === 'Semua' || order.status === status)
+        .filter(order => {
+            return order.carts?.cartItems?.some(async (cartItem) => {
 
-    console.log(orders);
+                const productSKU = cartItem.variantOptionValues?.sku
+                if (productSKU) {
+                    const product: Product = await API.PRODUCT.GET_ONE_BY_SKU(productSKU)
+
+                    const reqProduct = product
+                    const variantOption = product.variant && product.variant.variantOption
+
+                    return reqProduct.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        reqProduct.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        variantOption?.name.toLowerCase().includes(searchTerm.toLowerCase())
+                }
+            })
+        });
 
     return (
         <div>
