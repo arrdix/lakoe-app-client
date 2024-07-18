@@ -72,7 +72,7 @@ function ProductPage() {
 
       <ProductList
         key={activeTab}
-        products={realProductsFiltered}
+        productsProps={realProductsFiltered}
         tabOptions={activeTab}
       />
     </div>
