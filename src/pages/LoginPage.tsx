@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { FaGoogle, FaApple, FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { loginDto } from '@/dtos/AuthDto'
 import ValidateInput from '@/components/utils/ValidatedInput'
 import { useState } from 'react'
@@ -21,6 +21,7 @@ export default function LoginPage() {
         formState: { errors },
     } = hookForm
     const [visible, setVisible] = useState(false)
+    const navigate = useNavigate()
 
     function onLogin() {
         handleSubmit(async (data) => {
@@ -36,6 +37,7 @@ export default function LoginPage() {
 
             const loggedUser: User = await API.USER.GET_LOGGED_USER()
             setLoggedUser(loggedUser)
+            navigate('/')
         })()
     }
 
