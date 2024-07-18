@@ -157,11 +157,12 @@ export default function CardProduct({
           stock={variantOptionValue?.stock||0}
           sku={variantOptionValue?.sku || ""}
         ></CardBody>
-        <CardFooter productName={realProduct.name} productSku={realProduct.variant?.variantOption?.variantOptionValue?.sku||""} />
+        <CardFooter productName={realProduct.name} productSku={variantOptionValue?.sku||""} />
       </div>
       <div>
         <CardSide
           productName={realProduct.name}
+          productSku = {variantOptionValue?.sku||''}
           isActive={realProduct.variant?.variantOption?.variantOptionValue?.isActive||false}
           isChecked={isChecked}
           onCheckedChange={onCheckedChange}
