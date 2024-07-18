@@ -11,8 +11,10 @@ import DeleteProductModal from "./DeleteProductModal";
 
 export default function ProductDevelopmentsModal({
   productName,
+  productSku,
 }: {
   productName: string;
+  productSku: string;
 }) {
   const [isDeleteProductModalView, setIsDeleteProductModalView] =
     useState<boolean>(false);
@@ -42,6 +44,7 @@ export default function ProductDevelopmentsModal({
       <div>
         {isDeleteProductModalView && (
           <DeleteProductModal
+          productSku={productSku}
             productName={productName}
             onModalClose={onModalClose}
           />

@@ -1,6 +1,7 @@
 import Navigation from '@/components/Navigation'
 import { Toaster } from '@/components/ui/sonner'
 import { Outlet } from 'react-router-dom'
+import { Toaster as BigToaster } from '@/components/ui/toaster'
 
 function Layout() {
     return (
@@ -26,6 +27,7 @@ function Layout() {
                 </div>
             </div>
             <Toaster className="bottom-81.5% left-1/2 -translate-x-1/2" />
+            <BigToaster />
         </div>
     )
 }

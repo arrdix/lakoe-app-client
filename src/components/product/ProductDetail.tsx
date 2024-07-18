@@ -1,7 +1,6 @@
 import { CreateProductDto } from '@/dtos/ProductDto'
 import { UseFormReturn } from 'react-hook-form'
 import ValidatedTextarea from '@/components/utils/ValidatedTextarea'
-import ProductImageInput from '@/components/product/ProductImageInput'
 import ProductImageInputList from '@/components/product/ProductImageInputList'
 
 interface DetailProductProps {
@@ -13,6 +12,7 @@ export default function DetailProduct({ hookForm }: DetailProductProps) {
     const {
         register,
         formState: { errors },
+        setValue,
     } = hookForm
 
     return (
@@ -39,7 +39,7 @@ export default function DetailProduct({ hookForm }: DetailProductProps) {
                         Foto Produk <span className="text-red-500">*</span>
                     </label>
                     <div className="flex flex-row gap-2 w-full h-max">
-                        <ProductImageInputList />
+                        <ProductImageInputList setValue={setValue} />
                     </div>
                 </div>
             </div>

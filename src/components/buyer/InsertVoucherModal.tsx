@@ -16,15 +16,17 @@ export default function InsertVoucherModal() {
   return (
     <div>
       {/* Tombol Pemicu */}
-      <Button
+      <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-md p-1 bg-blue-50 text-black px-4 py-6 border w-full hover:bg-blue-100"
+        className="flex items-center justify-between rounded-lg p-2 bg-gradient-to-r from-blue-200 via-blue-300 to-blue-300 text-white px-5 py-3 w-full"
       >
-        <FaMoneyCheckDollar fontSize={20} className="text-cyan" />
-        <p className="text-md font-bold ml-4 mr-7">Gunakan / Masukan Voucher</p>
-        <FaChevronRight />
-      </Button>
+        <div className="flex items-center">
+          <FaMoneyCheckDollar fontSize={15} className="text-black mr-6" />
+          <p className="text-md font-bold text-black">Gunakan / Masukan Voucher</p>
+        </div>
+        <FaChevronRight fontSize={20} className="text-black"/>
+      </button>
 
       {/* Background Overlay */}
       {open && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
