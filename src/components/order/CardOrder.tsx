@@ -68,7 +68,7 @@ export default function CardOrder({ order }: CardOrderProps) {
                 <div className="border border-lightGray rounded-md flex flex-col gap-3">
                     <div className="flex justify-between border-b p-3">
                         <div className="flex flex-col gap-1">
-                            <p className={`${labelColor} w-fit font-semibold rounded p-1 text-sm`}>
+                            <p className={`${labelColor} w-fit font-semibold rounded px-4 py-1 text-sm`}>
                                 {order.status}
                             </p>
                             <p className="text-gray text-sm">
@@ -81,14 +81,14 @@ export default function CardOrder({ order }: CardOrderProps) {
                     </div>
                     <Link to={`/order/detail/${order.id}`}>
                         <div className="w-full flex flex-row px-3 pb-3">
-                            <img className="w-14 mr-2" src="../../public/tshirt.png" alt="" />
+                            <img className="w-20 h-20 mr-2 flex-shrink-0" src="../../public/tshirt.png" alt="" />
                             <div className="w-full flex flex-row justify-between items-center">
-                                <div>
-                                    <h1 className="text-sm font-semibold">
-                                        {product.name} -{variantOption?.name}
-                                        <span className="mx-1">|</span>
-                                        {product.description}
-                                        <span className="mx-1">-</span>
+                                <div className="flex-grow">
+                                    <h1 className="text-xl font-bold whitespace-normal break-words">
+                                        {/* {product.name} */}
+                                        {"NIKE Dunk Low Black White Panda GS"}
+                                    </h1>
+                                    <h1 className='font-semibold'>
                                         {variant?.variantOption?.name}
                                     </h1>
                                     <div className="flex items-center text-gray text-sm">
@@ -104,6 +104,7 @@ export default function CardOrder({ order }: CardOrderProps) {
                                 </div>
                             </div>
                         </div>
+
                     </Link>
                 </div>
             </div>

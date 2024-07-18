@@ -18,6 +18,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage'
 import { useLakoeStore } from '@/store/store'
 import { useEffect, useState } from 'react'
 import API from '@/networks/api'
+import LandingPage from './pages/LandingPage'
 
 function App() {
     const [isPreloaded, setIsPreloaded] = useState<boolean>(true)
@@ -73,12 +74,15 @@ function App() {
 
     return (
         <Routes>
-            <Route path="/" index element={<LoginPage />} />
-            <Route path="/auth/register" index element={<RegisterPage />} />
-            <Route path="/forgot" index element={<ForgotPasswordPage />} />
-            <Route path="/reset" index element={<ResetPasswordPage />} />
-            <Route path="/checkout" index element={<CheckoutPage />} />
-            <Route path="/buy" element={<BuyerPage />} />
+            <Route path="/" element={<BuyerLayout />}>
+                <Route path="/" index element={<LandingPage />} />
+                <Route path="/auth/login" index element={<LoginPage />} />
+                <Route path="/auth/register" index element={<RegisterPage />} />
+                <Route path="/forgot" index element={<ForgotPasswordPage />} />
+                <Route path="/reset" index element={<ResetPasswordPage />} />
+                <Route path="/checkout" index element={<CheckoutPage />} />
+                <Route path="/buy" element={<BuyerPage />} />
+            </Route>
         </Routes>
     )
 
