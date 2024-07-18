@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { SiNike, SiAdidas, SiThenorthface, SiPuma, SiZara } from 'react-icons/si'
 import {
@@ -11,14 +10,14 @@ import {
 import CardLanding from '@/components/landing-page/CardLanding'
 import { useEffect, useState } from 'react'
 import API from '@/networks/api'
-import { ProductBySku } from '@/types/ProductBySkuType'
+import { Product } from '@/types/ProductType'
 
 export default function LandingPage() {
-    const [products, setProducts] = useState<ProductBySku>()
+    const [products, setProducts] = useState<Product[]>()
 
     useEffect(() => {
         async function GET_PRODUCTS() {
-            const products = await API.PRODUCT.GET_ALL_BY_SKU()
+            const products = await API.PRODUCT.GET_ALL_BY_ID()
             setProducts(products)
         }
 
@@ -161,10 +160,13 @@ export default function LandingPage() {
             <div className="flex flex-col" id="landing-product">
                 <h1 className="text-4xl font-medium pb-5">Produk</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                    <CardLanding product="Suit Black Panther Cusszz" price={100000} />
-                    <CardLanding product="Suit Black Panther Cusszz" price={100000} />
-                    <CardLanding product="Suit Black Panther Cusszz" price={100000} />
-                    <CardLanding product="Suit Black Panther Cusszz" price={100000} />
+                    {products && products.map((product) => {
+                        // console.log(product.variant && product.variant.variantOptions && product.variant.variantOptions[0] && typeof product.variant.variantOptions[0].variantOptionValue?.price);
+                        const price = product.variant && product.variant.variantOptions && product.variant.variantOptions[0] && product.variant.variantOptions[0].variantOptionValue && +product.variant.variantOptions[0].variantOptionValue.price
+                        if (price) {
+                            return <CardLanding product={product.name} price={price} />
+                        }
+                    })}
                 </div>
             </div>
         </div>

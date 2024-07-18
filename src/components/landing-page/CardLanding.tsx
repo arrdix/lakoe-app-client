@@ -5,6 +5,7 @@ interface CardLandingProps {
     price?: number
 }
 export default function CardLanding({ product, price }: CardLandingProps) {
+
     return (
         <div className="max-w-xs rounded-lg dark:bg-gray-800 dark:border-gray-700">
             <div className="overflow-hidden rounded-xl">
