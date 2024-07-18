@@ -12,52 +12,84 @@ import Price from '@/components/product/ProductPrice'
 import ProductDevelopment from '@/components/product/ProductDevelopment'
 import WeightAndDelivery from '@/components/product/WeightAndDelivery'
 import ProductSize from '@/components/product/ProductSize'
+import { ToastAction } from '@/components/ui/toast'
+import { useToast } from '@/components/ui/use-toast'
+import Spinner from '@/components/utils/Spinner'
+import { useNavigate } from 'react-router-dom'
 
 function NewProductPage() {
+    const navigate = useNavigate()
+    const { toast } = useToast()
     const hookForm = useForm<CreateProductDto>()
     const { handleSubmit } = hookForm
 
     function onSubmitNewProduct() {
         handleSubmit(async (data) => {
-            const submitedProduct = {
-                name: data.name,
-                description: data.description,
-                attachments: ['example.jpg'],
-                minimumOrder: +data.minimumOrder,
-                storeId: 1, // TODO: use real store id
-                categoryId: data.categoryId,
-                url: data.url,
-                variant: {
-                    name: data.variant && data.variant.name,
-                    variantOptions:
-                        data.variant &&
-                        data.variant.variantOptions &&
-                        data.variant.variantOptions.map((option) => ({
-                            name: option.name,
-                            variantOptionValue: {
-                                sku: option.variantOptionValue && option.variantOptionValue.sku,
-                                weight:
-                                    option.variantOptionValue &&
-                                    option.variantOptionValue.weight &&
-                                    +option.variantOptionValue.weight,
-                                stock:
-                                    option.variantOptionValue &&
-                                    option.variantOptionValue.stock &&
-                                    +option.variantOptionValue.stock,
-                                price:
-                                    option.variantOptionValue &&
-                                    option.variantOptionValue.price &&
-                                    +option.variantOptionValue.price,
-                                isActive:
-                                    option.variantOptionValue && option.variantOptionValue.isActive,
-                            },
-                        })),
-                },
-            }
-            console.log(submitedProduct)
+            toast({
+                title: 'Membuat Produk!',
+                description: 'Kami sedang membuat produk kamu.',
+                action: <Spinner size={6} />,
+            })
 
-            const product = await API.PRODUCT.CREATE(submitedProduct)
-            console.log(product)
+            const formData = new FormData()
+            for (let i = 0; i < data.attachments.length; i++) {
+                formData.append('attachments', data.attachments[i])
+            }
+
+            formData.append('name', data.name)
+            formData.append('description', data.description)
+            formData.append('minimumOrder', data.minimumOrder)
+            formData.append('storeId', data.storeId)
+            formData.append('categoryId', data.categoryId)
+            formData.append('url', data.url)
+
+            if (data.variant) {
+                formData.append('variant[name]', data.variant.name)
+                if (data.variant.variantOptions) {
+                    data.variant.variantOptions.forEach((option, index) => {
+                        formData.append(`variant[variantOptions][${index}][name]`, option.name)
+                        if (option.variantOptionValue) {
+                            formData.append(
+                                `variant[variantOptions][${index}][variantOptionValue][sku]`,
+                                option.variantOptionValue.sku
+                            )
+                            formData.append(
+                                `variant[variantOptions][${index}][variantOptionValue][weight]`,
+                                option.variantOptionValue.weight
+                            )
+                            formData.append(
+                                `variant[variantOptions][${index}][variantOptionValue][stock]`,
+                                option.variantOptionValue.stock
+                            )
+                            formData.append(
+                                `variant[variantOptions][${index}][variantOptionValue][price]`,
+                                option.variantOptionValue.price
+                            )
+                            formData.append(
+                                `variant[variantOptions][${index}][variantOptionValue][isActive]`,
+                                'true'
+                            )
+                        }
+                    })
+                }
+            }
+
+            try {
+                await API.PRODUCT.CREATE(formData)
+                navigate('/product')
+
+                toast({
+                    title: 'Produk Berhasil Dibuat!',
+                    description: 'Kami berhasil membuat produk kamu.',
+                    variant: 'success',
+                })
+            } catch (err) {
+                toast({
+                    title: 'Gagal Membuat Produk',
+                    description: 'Terjadi kesalahan saat membuat produk kamu.',
+                    variant: 'failed',
+                })
+            }
         })()
     }
 
