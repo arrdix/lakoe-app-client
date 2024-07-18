@@ -196,6 +196,28 @@ const API = {
             }
         },
 
+
+        NONACTIVED_MANY_BY_SKU: async (skus: string[]) => {
+            const payload = {
+                skus,
+            }
+            try {
+                const response = await axios.patch(`${CONFIG.BASE_URL}/product/nonActived/skus`,payload, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+
         UPDATE_BY_SKU: async (sku: string, data: UpdateVariantOptionValueDto) => {
             if (data.price) {
                 data.price = Number(data.price)

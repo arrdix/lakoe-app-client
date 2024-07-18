@@ -3,10 +3,17 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { Button } from '../ui/button'
 import { useProductCheckedContext } from '@/context/checkedProductContext'
+import API from '@/networks/api'
 
 export default function NonaktifProductsModal() {
     const [open, setOpen] = useState(false)
     const { sku } = useProductCheckedContext()
+    async function NONACTIVED_BY_SKU(sku:string[]) {
+        const products = await API.PRODUCT.NONACTIVED_MANY_BY_SKU(
+          sku
+        );
+        console.log(products);
+      }
 
     return (
         <div>
@@ -64,6 +71,7 @@ export default function NonaktifProductsModal() {
                                     className="bg-cyan text-white px-5 py-0"
                                     onClick={() => {
                                         setOpen(false)
+                                        NONACTIVED_BY_SKU(sku)
                                     }}
                                 >
                                     Ya, Nonaktifkan
