@@ -1,6 +1,6 @@
 import axios from 'axios'
 import CONFIG from '@/configs/config'
-import { CreateProductDto, EditProductDto } from '@/dtos/ProductDto'
+import { EditProductDto } from '@/dtos/ProductDto'
 import { CreateOrderDto, UpdateOrderDto } from '@/dtos/OrderDto'
 import { loginDto, registerDto } from '@/dtos/AuthDto'
 import LOCAL_STORAGE from '@/networks/storage'
@@ -79,11 +79,12 @@ const API = {
             }
         },
 
-        CREATE: async (data: CreateProductDto) => {
+        CREATE: async (data: FormData) => {
             try {
                 const response = await axios.post(`${CONFIG.BASE_URL}/product`, data, {
                     headers: {
                         Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                        'Content-Type': 'multipart/form-data',
                     },
                 })
 
