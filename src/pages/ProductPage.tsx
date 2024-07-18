@@ -4,37 +4,36 @@ import Tabs from "@/components/product/Tabs";
 import { Link } from "react-router-dom";
 import ProductList from "@/components/product/ProductList";
 import { useEffect, useState } from "react";
-import dummyProduct from "@/dummy/productDummy";
 import { useProductCheckedContext } from "@/context/checkedProductContext";
 import API from "@/networks/api";
-import { Product } from "@/types/ProductType";
+import { ProductBySku } from "@/types/ProductBySkuType";
 
 function ProductPage() {
-  const [realProducts, setRealProducts] = useState<Product[] | null>(null);
-  const [realProductsFiltered, setRealProductsFiltered] = useState<Product[] | null>(null);
-  const [products, setProducts] = useState(dummyProduct);
+  const [realProducts, setRealProducts] = useState<ProductBySku[] | undefined>(undefined);
+  const [realProductsFiltered, setRealProductsFiltered] = useState<
+    ProductBySku[] | undefined
+  >(realProducts);
   const [activeTab, setactiveTabOption] = useState<string>("semua");
   const { setProductSkuChecked } = useProductCheckedContext();
 
   function onTabChange(activeTab: string) {
     setProductSkuChecked([]);
 
-    if (activeTab === "Aktif") {
-      setProducts(() => {
-        return dummyProduct.filter((dummy) => dummy.status);
-      });
+    if (activeTab === "Aktif" && realProducts) {
       setRealProductsFiltered(() => {
-        return realProducts.filter((product) => product.variant?.variantOption?.variantOptionValue?.isActive);
+        return realProducts.filter(
+          (product) =>
+            product.variant?.variantOption?.variantOptionValue?.isActive
+        );
       });
-    } else if (activeTab === "Nonaktif") {
-      setProducts(() => {
-        return dummyProduct.filter((dummy) => !dummy.status);
-      });
+    } else if (activeTab === "Nonaktif" && realProducts) {
       setRealProductsFiltered(() => {
-        return realProducts.filter((product) => !product.variant?.variantOption?.variantOptionValue?.isActive);
+        return realProducts.filter(
+          (product) =>
+            !product.variant?.variantOption?.variantOptionValue?.isActive
+        );
       });
     } else {
-      setProducts(dummyProduct);
       setRealProductsFiltered(realProducts);
     }
 
@@ -45,6 +44,7 @@ function ProductPage() {
     async function GET_PRODUCTS() {
       const products = await API.PRODUCT.GET_ALL_BY_SKU();
       setRealProducts(products);
+      setRealProductsFiltered(products)
     }
 
     GET_PRODUCTS();
@@ -52,61 +52,31 @@ function ProductPage() {
 
   console.log("data produk", realProducts);
 
-  // if (products)
-  //     <div className="w-full h-full bg-white rounded-lg p-8">
-  //         {/* <div className="flex justify-between">
-  //             <h3 className="font-bold text-xl">Daftar Produk</h3>
-  //             <Link to="/product/new">
-  //                 <Button className="p-3 rounded-3xl bg-cyan">
-  //                     <BiPlus className="mr-1" /> Tambahkan Produk
-  //                 </Button>
-  //             </Link>
-  //         </div>
-
-  //         <Tabs
-  //             firstTab="Semua"
-  //             secondTab="Aktif"
-  //             thirdTab="Nonaktif"
-  //             onTabChange={onTabChange}
-  //         />
-
-  //         {activeTab === 'Semua' ? (
-  //             <ProductList key={1} tabOptions="semua" products={products} />
-  //         ) : activeTab === 'Aktif' ? (
-  //             <ProductList key={2} tabOptions="aktif" products={products} />
-  //         ) : (
-  //             <ProductList key={3} tabOptions="nonaktif" products={products} />
-  //         )} */}
-  //     </div>
-
-  // real product edit
-  if (realProducts)
-    return (
-      <div className="w-full bg-white rounded-lg p-8">
-        <div className="flex justify-between">
-          <h3 className="font-bold text-xl">Daftar Produk</h3>
-          <Link to="/product/new">
-            <Button className="p-3 rounded-3xl bg-cyan">
-              <BiPlus className="mr-1" /> Tambahkan Produk
-            </Button>
-          </Link>
-        </div>
-
-        <Tabs
-          firstTab="Semua"
-          secondTab="Aktif"
-          thirdTab="Nonaktif"
-          onTabChange={onTabChange}
-        />
-
-        <ProductList
-          key={activeTab}
-          realProducts={realProductsFiltered}
-          products={products}
-          tabOptions={activeTab}
-        />
+  return (
+    <div className="w-full bg-white rounded-lg p-8">
+      <div className="flex justify-between">
+        <h3 className="font-bold text-xl">Daftar Produk</h3>
+        <Link to="/product/new">
+          <Button className="p-3 rounded-3xl bg-cyan">
+            <BiPlus className="mr-1" /> Tambahkan Produk
+          </Button>
+        </Link>
       </div>
-    );
+
+      <Tabs
+        firstTab="Semua"
+        secondTab="Aktif"
+        thirdTab="Nonaktif"
+        onTabChange={onTabChange}
+      />
+
+      <ProductList
+        key={activeTab}
+        products={realProductsFiltered}
+        tabOptions={activeTab}
+      />
+    </div>
+  );
 }
 
 export default ProductPage;
