@@ -18,8 +18,9 @@ export default function LandingPage() {
 
     useEffect(() => {
         async function GET_PRODUCTS() {
-            const products = await API.PRODUCT.GET_ALL_BY_SKU()
+            const products = await API.PRODUCT.GET_ALL_BY_ID()
             setProducts(products)
+            console.log(products)
         }
 
         GET_PRODUCTS()
