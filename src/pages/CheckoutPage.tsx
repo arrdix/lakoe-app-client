@@ -12,6 +12,7 @@ import { CheckoutDto } from "@/dtos/CheckoutDto";
 import { CreateOrderDto } from "@/dtos/OrderDto";
 import axios from 'axios';
 import PaymentSummary from '@/components/buyer/PaymentSummary';
+import { useLocation } from 'react-router-dom';
 
 
 function CheckoutPage() {
@@ -41,6 +42,12 @@ function CheckoutPage() {
   };
 
   const { handleSubmit } = hookForm;
+
+  const loc = useLocation()
+  const { product, count, selectedVariant } = loc.state  
+
+
+console.log(product, count, selectedVariant)
 
   return (
     <div className=" w-full h-full bg-white px-20 py-14">
