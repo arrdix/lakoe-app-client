@@ -1,4 +1,4 @@
-import formatToIDR from "@/lib/IdrUtils"
+import formatToIDR from '@/lib/IdrUtils'
 
 interface CardLandingProps {
     name: string
@@ -8,7 +8,7 @@ interface CardLandingProps {
 export default function CardLanding({ name, price, attachment }: CardLandingProps) {
     const nameSplitted = name.split('')
     const namePrepared = []
-    const maxChar = 30
+    const maxChar = 28
 
     if (nameSplitted.length > maxChar) {
         for (let i = 0; i < maxChar; i++) {
