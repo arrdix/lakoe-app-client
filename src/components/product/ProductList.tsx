@@ -7,6 +7,7 @@ import NoResultProduct from "./NoResultProduct";
 import { useProductCheckedContext } from "@/context/checkedProductContext";
 import { useEffect, useState } from "react";
 import { ProductBySku } from "@/types/ProductBySkuType";
+import fuzzySkor from "@/lib/fuzzy";
 
 interface ProductListProps {
   productsProps?: ProductBySku[];
@@ -37,17 +38,43 @@ export default function ProductList({
   // }, [sku]);
 
   useEffect(() => {
-    if (name!="" && productsProps) {
-      const filteredProduct: ProductBySku[] = productsProps?.filter((product) => {
-        return (
-          product.name.toLowerCase() === name.toLowerCase() ||
-          product.variant?.variantOption?.variantOptionValue?.sku.toLocaleLowerCase() ===
-            name.toLowerCase()
-        );
-      });
+    const namaProduct = productsProps?.map((product) => {
+      return product.name;
+    }) as string[];
+    const namaSku = productsProps?.map((product) => {
+      return product.variant?.variantOption?.variantOptionValue?.sku || "";
+    }) as string[];
+
+    if (name != "" && productsProps) {
+      console.log("ini input", name);
+      const fuzzyOptionByProductName = fuzzySkor(namaProduct, name);
+      const fuzzyOptionBySku = fuzzySkor(namaSku, name);
+      console.log("nilai fuzzy per produk",fuzzyOptionByProductName)
+      console.log("nilai fuzzy per sku",fuzzyOptionBySku)
+      // Mengubah hasil fuzzy menjadi array string
+      const fuzzyOptionArrayByProductName = fuzzySkor(namaProduct, name).map(
+        (option) => option.original.toLowerCase()
+      );
+      const fuzzyOptionArrayBySku = fuzzySkor(namaSku, name).map((option) =>
+        option.original.toLowerCase()
+      );
+      console.log("ini fuzzy input 1", fuzzyOptionArrayByProductName);
+      console.log("ini fuzzy input 2", fuzzyOptionArrayBySku);
+      console.log("ini hasil filter", products);
+
+      const filteredProduct: ProductBySku[] = productsProps?.filter(
+        (product) => {
+          if (fuzzyOptionArrayByProductName.length != 0) {
+            return fuzzyOptionArrayByProductName.includes(
+              product.name.toLowerCase()
+            );
+          } else {
+            return fuzzyOptionArrayBySku.includes(product.variant?.variantOption?.variantOptionValue?.sku.toLowerCase()||"");
+          }
+        }
+      );
       setProducts(filteredProduct);
-    }
-    else {
+    } else {
       setProducts(productsProps);
     }
   }, [name]);
