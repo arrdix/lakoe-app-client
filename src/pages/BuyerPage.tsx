@@ -15,6 +15,7 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import Spinner from '@/components/utils/Spinner'
 
 function BuyerPage() {
     const [count, setCount] = useState<number>(0)
@@ -31,7 +32,7 @@ function BuyerPage() {
             try {
                 if (id) {
                     const response = await API.PRODUCT.GET_ONE_BY_ID(+id)
-                    console.log(response)
+
                     setProduct(response)
                     setSelectedVariant(response.variant?.variantOptions?.[0] ?? null)
                     setCurrentIndex(0)
@@ -97,8 +98,8 @@ function BuyerPage() {
             setError(null)
             navigate('/checkout', {
                 state: {
-                    product: {
-                        sku: selectedVariant.variantOptionValue?.sku,
+                    orderedProduct: {
+                        skus: [selectedVariant.variantOptionValue?.sku],
                         qty: count,
                     },
                 },
@@ -107,7 +108,7 @@ function BuyerPage() {
     }
 
     if (!product) {
-        return <div>Loading...</div>
+        return <Spinner size={14} />
     }
 
     return (

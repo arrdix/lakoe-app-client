@@ -46,8 +46,6 @@ function App() {
         isUserLogged()
     }, [])
 
-    console.log(loggedUser?.role)
-
     if (isPreloaded) {
         return (
             <div className="flex justify-center items-center w-full h-screen">
