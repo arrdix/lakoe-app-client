@@ -32,7 +32,7 @@ function BuyerPage() {
             try {
                 if (id) {
                     const response = await API.PRODUCT.GET_ONE_BY_ID(+id)
-
+                    console.log(response)
                     setProduct(response)
                     setSelectedVariant(response.variant?.variantOptions?.[0] ?? null)
                     setCurrentIndex(0)
@@ -101,6 +101,7 @@ function BuyerPage() {
                     orderedProduct: {
                         skus: [selectedVariant.variantOptionValue?.sku],
                         qty: count,
+                        storeId: product?.storeId,
                     },
                 },
             })

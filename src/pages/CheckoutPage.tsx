@@ -1,5 +1,4 @@
-import React from 'react'
-// import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react'
 import ContactInformation from '@/components/buyer/ContactInformation'
 import InsertVoucherModal from '@/components/buyer/InsertVoucherModal'
 import Note from '@/components/buyer/Note'
@@ -13,24 +12,54 @@ import { CreateOrderDto } from '@/dtos/OrderDto'
 import axios from 'axios'
 import PaymentSummary from '@/components/buyer/PaymentSummary'
 import { useLocation } from 'react-router-dom'
+import API from '@/networks/api'
+import { Cart } from '@/types/CartType'
 
 function CheckoutPage() {
+    const [storeId, setStoreId] = useState<number>(0)
+    const [productQty, setProductQty] = useState<number>(0)
+    const [productSKUs, setProductSKUs] = useState<string[]>([])
+
     const hookForm = useForm<CreateOrderDto>()
     const hookForm2 = useForm<CheckoutDto>()
-    const { setValue } = hookForm
 
-    setValue('invoiceNumber', '121233')
-    setValue('serviceCharge', 300)
-    setValue('receiverLatitude', 1)
-    setValue('receiverLongtitude', 3)
-    setValue('status', 'ini status')
-    setValue('price', 3000)
+    const location = useLocation()
+    const { state } = location
 
     const onCheckout = async (data: CreateOrderDto) => {
+        console.log(data)
+
         try {
-            console.log(data)
-            // const response = await axios.post('http://localhost:3000/order', data)
-            // return response.data
+            const cart: Cart = await API.CART.CREATE({
+                discount: 0,
+                storeId: storeId,
+            })
+
+            for (const sku of productSKUs) {
+                await API.CART_ITEM.CREATE({
+                    cartId: cart.id,
+                    qty: productQty,
+                    sku: sku,
+                    storeId: storeId,
+                })
+            }
+
+            const courier = await API.COURIER.CREATE({
+                courierCode: 'EXAMPLE_COURIER_CODE',
+                courierServiceCode: 'EXAMPLE_SERVICE_GJK',
+                courierServiceName: 'EXAMPLE_GOJEK',
+                price: 13000, // example courier price
+            })
+
+            const transaction = await API.ORDER.CREATE({
+                ...data,
+                status: 'BELUM DIBAYAR',
+                serviceCharge: courier.price,
+                courierId: courier.id,
+                cartId: cart.id,
+            })
+
+            window.snap.pay(transaction.token)
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 throw error
@@ -40,10 +69,15 @@ function CheckoutPage() {
         }
     }
 
-    const { handleSubmit } = hookForm
+    useEffect(() => {
+        const { state } = location
 
-    const location = useLocation()
-    const { state } = location
+        setStoreId(state.orderedProduct.storeId)
+        setProductQty(state.orderedProduct.qty)
+        setProductSKUs(state.orderedProduct.skus)
+    }, [])
+
+    const { handleSubmit } = hookForm
 
     return (
         <div className=" w-4/5 h-full bg-white px-8 py-8 mt-8">

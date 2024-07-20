@@ -14,7 +14,6 @@ const PaymentSummary: React.FC<PaymentSummaryProps> = ({ skus, qty }) => {
     const [totalPrice, setTotalPrice] = useState<number>(0)
 
     const deliveryPrice = 13000
-    const serviceCharge = 3500
 
     useEffect(() => {
         async function GET_PRODUCT() {
@@ -34,7 +33,7 @@ const PaymentSummary: React.FC<PaymentSummaryProps> = ({ skus, qty }) => {
 
             setProducts(requestedProducts)
             settotalProductPrice(currentTotalProductPrice)
-            setTotalPrice(currentTotalProductPrice + deliveryPrice + serviceCharge)
+            setTotalPrice(currentTotalProductPrice + deliveryPrice)
         }
         GET_PRODUCT()
     }, [])
@@ -83,11 +82,6 @@ const PaymentSummary: React.FC<PaymentSummaryProps> = ({ skus, qty }) => {
                 <div className="flex justify-between">
                     <p className="text-gray-700">Biaya Pengiriman</p>
                     <p className="font-semibold">{formatToIDR(deliveryPrice)}</p>
-                </div>
-                {/* biaya pembayaran */}
-                <div className="flex justify-between pb-4 -mt-2 border-b-2 border-gray-300">
-                    <p className="text-gray-700">Biaya Admin</p>
-                    <p className="font-semibold">{formatToIDR(serviceCharge)}</p>
                 </div>
                 {/* total pembayaran */}
                 <div className="flex justify-between mt-2">

@@ -1,6 +1,6 @@
 import Layout from '@/layouts/Layout'
 import './App.css'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import DashboardPage from '@/pages/DashboardPage'
 import ProductPage from '@/pages/ProductPage'
 import NewProductPage from '@/pages/NewProductPage'
@@ -19,12 +19,24 @@ import { useLakoeStore } from '@/store/store'
 import { useEffect, useState } from 'react'
 import API from '@/networks/api'
 import LandingPage from './pages/LandingPage'
+import { IStaticMethods } from 'preline/preline'
+declare global {
+    interface Window {
+        HSStaticMethods: IStaticMethods
+    }
+}
 
 function App() {
     const [isPreloaded, setIsPreloaded] = useState<boolean>(true)
 
     const loggedUser = useLakoeStore((state) => state.loggedUser)
     const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
+
+    const location = useLocation()
+
+    useEffect(() => {
+        window.HSStaticMethods.autoInit()
+    }, [location.pathname])
 
     useEffect(() => {
         async function isUserLogged() {
@@ -92,6 +104,7 @@ function App() {
         <Routes>
             <Route path="/" element={<BuyerLayout />}>
                 <Route path="/" element={<LandingPage />} />
+                <Route path="/product/:id" element={<BuyerPage />} />
                 <Route path="/auth/login" index element={<LoginPage />} />
                 <Route path="/auth/register" index element={<RegisterPage />} />
                 <Route path="/forgot" index element={<ForgotPasswordPage />} />
