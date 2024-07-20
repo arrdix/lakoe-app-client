@@ -94,7 +94,7 @@ export default function DetailOrderPage() {
                 (product.variant &&
                     product.variant &&
                     product.variant.variantOption &&
-                    product.variant.variantOption.variantOptionValue) ||
+                    product.variant.variantOption.variantOptionValues) ||
                 null
             )
         }

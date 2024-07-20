@@ -21,6 +21,7 @@ function Navigation() {
         PRODUK: 'product',
         PESANAN: 'order',
         PENGATURAN_TOKO: 'store-setting',
+        PENGATURAN_PENGIRIMAN: 'store-shipping',
     }
 
     useEffect(() => {
@@ -94,9 +95,19 @@ function Navigation() {
                                 </h1>
                             )}
                         </Link>
-                        <h1 className="flex items-center gap-2 px-4 py-2 text-lg font-light rounded-lg pl-12 hover:text-cyan hover:bg-lightergray cursor-pointer">
-                            Pengiriman
-                        </h1>
+
+                        <Link to="store-shipping">
+                            {activePath === availablePath.PENGATURAN_PENGIRIMAN ? (
+                                <h1 className="flex items-center gap-2 px-4 py-2 text-lg font-light rounded-lg pl-12 text-cyan bg-lightergray cursor-pointer">
+                                    Pengiriman
+                                </h1>
+                            ) : (
+                                <h1 className="flex items-center gap-2 px-4 py-2 text-lg font-light rounded-lg pl-12 hover:text-cyan hover:bg-lightergray cursor-pointer">
+                                    Pengiriman
+                                </h1>
+                            )}
+                        </Link>
+
                         <h1 className="flex items-center gap-2 px-4 py-2 text-lg font-light rounded-lg pl-12 hover:text-cyan hover:bg-lightergray cursor-pointer">
                             Metode Pembayaran
                         </h1>

@@ -20,7 +20,6 @@ export default function LandingPage() {
         async function GET_PRODUCTS() {
             const products = await API.PRODUCT.GET_ALL_BY_ID()
             setProducts(products)
-            console.log(products)
         }
 
         GET_PRODUCTS()
@@ -155,9 +154,10 @@ export default function LandingPage() {
                 <h1 className="text-4xl font-medium pb-5">Produk</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                     {products && products.map((product) => {
+                        console.log("test", product);
                         const price = product.variant && product.variant.variantOptions && product.variant.variantOptions[0] && product.variant.variantOptions[0].variantOptionValue && +product.variant.variantOptions[0].variantOptionValue.price
                         if (price) {
-                            return <CardLanding attachment={product.attachments[0]} name={product.name} price={price} />
+                            return <CardLanding key={product.id} attachment={product.attachments[0]} name={product.name} price={price} />
                         }
                     })}
                 </div>

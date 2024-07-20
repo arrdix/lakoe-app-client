@@ -19,6 +19,7 @@ import { useLakoeStore } from '@/store/store'
 import { useEffect, useState } from 'react'
 import API from '@/networks/api'
 import LandingPage from './pages/LandingPage'
+import ShippingPage from './pages/ShippingPage'
 
 function App() {
     const [isPreloaded, setIsPreloaded] = useState<boolean>(true)
@@ -70,6 +71,7 @@ function App() {
                         <Route path="/order" element={<OrderPage />} />
                         <Route path="/order/detail/:id" element={<DetailOrderPage />} />
                         <Route path="/store-setting" element={<SettingPage />} />
+                        <Route path="/store-shipping" element={<ShippingPage />} />
                         <Route path="/reset" index element={<ResetPasswordPage />} />
                     </Route>
                 </Routes>
