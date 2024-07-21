@@ -15,26 +15,55 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import Spinner from '@/components/utils/Spinner'
+import { useLakoeStore } from '@/store/store'
+import { useSpring, animated } from '@react-spring/web'
+import { BiPackage } from 'react-icons/bi'
+import { Cart } from '@/types/CartType'
 
 function BuyerPage() {
+    const loggedUser = useLakoeStore((state) => state.loggedUser)
+    const setCarts = useLakoeStore((state) => state.setCarts)
+    const carts = useLakoeStore((state) => state.carts)
+
     const [count, setCount] = useState<number>(0)
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [product, setProduct] = useState<Product | null>(null)
     const [selectedVariant, setSelectedVariant] = useState<VariantOption | null>(null)
+    const [storeId, setStoreId] = useState<number>()
+    const [productSku, setProductSku] = useState<string>()
     const [error, setError] = useState<string | null>(null)
+    const [activeCart, setActiveCart] = useState<Cart>()
+
     const { id } = useParams()
 
     const navigate = useNavigate()
+    const [springs, api] = useSpring(() => ({
+        from: { x: 0, y: 0, opacity: 1 },
+    }))
 
     useEffect(() => {
-        const fetchProduct = async () => {
+        async function GET_DATA() {
             try {
                 if (id) {
-                    const response = await API.PRODUCT.GET_ONE_BY_ID(+id)
-                    console.log(response)
-                    setProduct(response)
-                    setSelectedVariant(response.variant?.variantOptions?.[0] ?? null)
+                    const product: Product = await API.PRODUCT.GET_ONE_BY_ID(+id)
+                    const existingCart: Cart = await API.CART.FIND_ONE_UNCOMPLETE(
+                        (product && +product.storeId) || 0
+                    )
+
+                    setActiveCart(existingCart)
                     setCurrentIndex(0)
+                    setProduct(product)
+                    setStoreId(+product.storeId)
+                    setSelectedVariant(product.variant?.variantOptions?.[0] || null)
+                    setProductSku(
+                        (product.variant &&
+                            product.variant.variantOptions &&
+                            product.variant.variantOptions[0] &&
+                            product.variant.variantOptions[0].variantOptionValue &&
+                            product.variant.variantOptions[0].variantOptionValue.sku) ||
+                            ''
+                    )
                 }
             } catch (error) {
                 setProduct(null)
@@ -42,8 +71,8 @@ function BuyerPage() {
             }
         }
 
-        fetchProduct()
-    }, [id])
+        GET_DATA()
+    }, [id, carts])
 
     const handlePlusCount = () => {
         if (count < (selectedVariant?.variantOptionValue?.stock ?? 0)) setCount(count + 1)
@@ -81,33 +110,82 @@ function BuyerPage() {
 
     const handleVariantChange = (variant: VariantOption) => {
         setSelectedVariant(variant)
-        setCount(0) // Reset jumlah ketika varian berubah
+        setCount(0)
         setCurrentIndex(product?.variant?.variantOptions?.indexOf(variant) ?? 0)
     }
 
-    const handleBuyNow = () => {
+    function onBuyNow() {
         if (!selectedVariant) {
-            setError('Pilih varian produk terlebih dahulu')
-            return
+            return setError('Pilih varian produk terlebih dahulu')
+        }
+
+        if (!loggedUser) {
+            return navigate('/auth/login')
         }
 
         if (count < (product?.minimumOrder ?? 1)) {
-            setError(`Minimal pembelian adalah ${product?.minimumOrder}`)
-        } else {
-            setError(null)
-            navigate('/checkout', {
-                state: {
-                    product: {
-                        sku: selectedVariant.variantOptionValue?.sku,
+            return setError(`Minimal pembelian adalah ${product?.minimumOrder}`)
+        }
+
+        setError(null)
+        navigate('/checkout', {
+            state: {
+                orderedProducts: [
+                    {
+                        sku: productSku,
                         qty: count,
                     },
-                },
-            })
+                ],
+                storeId: storeId,
+            },
+        })
+    }
+
+    async function onAddToCart() {
+        if (count < (product?.minimumOrder ?? 1)) {
+            return setError(`Minimal pembelian adalah ${product?.minimumOrder}`)
         }
+
+        // bad practice i guess
+        let newCartId = 0
+
+        if (!activeCart) {
+            const newCart = await API.CART.CREATE({
+                discount: 0,
+                storeId: (product && +product.storeId) || 0,
+            })
+
+            newCartId = newCart.id
+        }
+
+        if (storeId && productSku) {
+            await API.CART_ITEM.CREATE({
+                qty: count,
+                storeId: storeId,
+                cartId: activeCart ? activeCart.id : newCartId,
+                sku: productSku,
+            })
+
+            const updatedCart = await API.CART.FIND_ALL_UNCOMPLETE()
+            setCarts(updatedCart)
+        }
+
+        api.start({
+            from: {
+                x: 0,
+                y: 0,
+                opacity: 1,
+            },
+            to: {
+                x: 100,
+                y: 200,
+                opacity: 0,
+            },
+        })
     }
 
     if (!product) {
-        return <div>Loading...</div>
+        return <Spinner size={14} />
     }
 
     return (
@@ -216,8 +294,8 @@ function BuyerPage() {
                                     onClick={() => handleVariantChange(variantOption)}
                                     className={` border px-6 py-2 rounded-md ${
                                         selectedVariant?.id === variantOption.id
-                                            ? 'bg-gray-200'
-                                            : ''
+                                            ? 'bg-cyan bg-opacity-20 border border-cyan'
+                                            : 'bg-transparent'
                                     }`}
                                 >
                                     <p>{variantOption.name}</p>
@@ -268,12 +346,23 @@ function BuyerPage() {
                     <div className="flex gap-2 w-80 mt-auto w-full">
                         <button
                             className="bg-white text-black py-3 w-44 rounded-md border border-gray ml-auto"
-                            onClick={handleBuyNow}
+                            onClick={onBuyNow}
                         >
                             Beli Langsung
                         </button>
-                        <button className="bg-cyan text-white py-3 w-44 rounded-md border border-gray">
+                        <button
+                            onClick={onAddToCart}
+                            className="bg-cyan text-white py-3 w-44 rounded-md border border-gray relative"
+                        >
                             Keranjang
+                            {count >= product?.minimumOrder && (
+                                <animated.h1
+                                    style={{ ...springs }}
+                                    className="absolute top-0 right-0"
+                                >
+                                    <BiPackage className="size-10 text-cyan" />
+                                </animated.h1>
+                            )}
                         </button>
                     </div>
                 </div>

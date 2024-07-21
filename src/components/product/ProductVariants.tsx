@@ -207,7 +207,7 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                             onCheckedChange={(state) => {
                                                 setValue(
                                                     `variant.variantOptions.${index}.variantOptionValue.isActive`,
-                                                    state
+                                                    JSON.stringify(state)
                                                 )
                                             }}
                                         />
