@@ -14,32 +14,34 @@ import PaymentSummary from '@/components/buyer/PaymentSummary'
 import { useLocation } from 'react-router-dom'
 import API from '@/networks/api'
 import { Cart } from '@/types/CartType'
+import { OrderedProduct } from '@/types/OrderedProductType'
 
 function CheckoutPage() {
     const [storeId, setStoreId] = useState<number>(0)
-    const [productQty, setProductQty] = useState<number>(0)
-    const [productSKUs, setProductSKUs] = useState<string[]>([])
+    const [orderedProducts, setOrderedProducts] = useState<OrderedProduct[]>([])
+    // const [productQty, setProductQty] = useState<number>(0)
+    // const [productSKUs, setProductSKUs] = useState<string[]>([])
 
     const hookForm = useForm<CreateOrderDto>()
     const hookForm2 = useForm<CheckoutDto>()
 
     const location = useLocation()
-    const { state } = location
 
     const onCheckout = async (data: CreateOrderDto) => {
         console.log(data)
 
         try {
+            // only if cartId isn't exist
             const cart: Cart = await API.CART.CREATE({
                 discount: 0,
                 storeId: storeId,
             })
 
-            for (const sku of productSKUs) {
+            for (const orderedProduct of orderedProducts) {
                 await API.CART_ITEM.CREATE({
                     cartId: cart.id,
-                    qty: productQty,
-                    sku: sku,
+                    qty: orderedProduct.qty,
+                    sku: orderedProduct.sku,
                     storeId: storeId,
                 })
             }
@@ -72,9 +74,10 @@ function CheckoutPage() {
     useEffect(() => {
         const { state } = location
 
-        setStoreId(state.orderedProduct.storeId)
-        setProductQty(state.orderedProduct.qty)
-        setProductSKUs(state.orderedProduct.skus)
+        setStoreId(state.storeId)
+        setOrderedProducts(state.orderedProducts)
+        // setProductQty(state.orderedProduct.qty)
+        // setProductSKUs(state.orderedProduct.skus)
     }, [])
 
     const { handleSubmit } = hookForm
@@ -95,10 +98,7 @@ function CheckoutPage() {
                 </div>
                 <div className="flex flex-col gap-2 w-2/6 relative top-6">
                     {/* <PaymentSummar2/> */}
-                    <PaymentSummary
-                        skus={state.orderedProduct.skus}
-                        qty={state.orderedProduct.qty}
-                    />
+                    <PaymentSummary orderedProducts={orderedProducts} />
 
                     <InsertVoucherModal />
                     <Note hookForm={hookForm} />

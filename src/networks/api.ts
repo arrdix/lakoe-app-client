@@ -1,6 +1,6 @@
 import axios from 'axios'
 import CONFIG from '@/configs/config'
-import { CreateProductDto, EditProductDto, UpdateVariantOptionValueDto } from '@/dtos/ProductDto'
+import { EditProductDto, UpdateVariantOptionValueDto } from '@/dtos/ProductDto'
 import { CreateOrderDto, UpdateOrderDto } from '@/dtos/OrderDto'
 import { loginDto, registerDto } from '@/dtos/AuthDto'
 import LOCAL_STORAGE from '@/networks/storage'
@@ -411,12 +411,66 @@ const API = {
                 throw error
             }
         },
+
+        FIND_ALL_UNCOMPLETE: async () => {
+            try {
+                const response = await axios.get(`${CONFIG.BASE_URL}/cart/uncomplete`, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+
+        FIND_ONE_UNCOMPLETE: async (storeId: number) => {
+            try {
+                const response = await axios.get(`${CONFIG.BASE_URL}/cart/uncomplete/${storeId}`, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
     },
 
     CART_ITEM: {
         CREATE: async (data: CartItemDto) => {
             try {
                 const response = await axios.post(`${CONFIG.BASE_URL}/cart-item`, data, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+
+        COUNT: async () => {
+            try {
+                const response = await axios.get(`${CONFIG.BASE_URL}/cart-item/count`, {
                     headers: {
                         Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
                     },

@@ -5,7 +5,6 @@ export const content = [
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-    './node_modules/preline/preline.js',
 ]
 export const prefix = ''
 export const theme = {
@@ -100,8 +99,4 @@ export const theme = {
 }
 
 // eslint-disable-next-line no-undef
-export const plugins = [
-    require('tailwind-scrollbar-hide'),
-    require('tailwindcss-animate'),
-    require('preline/plugin'),
-]
+export const plugins = [require('tailwind-scrollbar-hide'), require('tailwindcss-animate')]
