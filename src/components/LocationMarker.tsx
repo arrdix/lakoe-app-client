@@ -1,21 +1,29 @@
 import { LatLngExpression } from 'leaflet'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Marker, Popup, useMapEvents } from 'react-leaflet'
-import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch'
+import { CreateOrderDto } from '@/dtos/OrderDto'
+import { UseFormReturn } from 'react-hook-form'
 
-const LocationMarker = () => {
+interface LocationMarkerProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    hookForm: UseFormReturn<CreateOrderDto, any, undefined>
+}
+
+function LocationMarker({ hookForm }: LocationMarkerProps) {
     const [position, setPosition] = useState<LatLngExpression | null>(null)
+    const { setValue } = hookForm
 
     const map = useMapEvents({
         locationfound(e) {
-            map.flyTo(e.latlng, map.getZoom()) // Memindahkan tampilan peta ke lokasi pengguna
+            map.flyTo(e.latlng, map.getZoom())
         },
         click(e) {
-            setPosition(e.latlng) // Menyimpan posisi klik ke state
+            setValue('receiverLatitude', e.latlng.lat)
+            setValue('receiverLongtitude', e.latlng.lng)
+            setPosition(e.latlng)
         },
     })
 
-    // Meminta lokasi pengguna saat pertama kali komponen dimuat
     useEffect(() => {
         map.locate()
     }, [map])
