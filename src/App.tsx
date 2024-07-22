@@ -46,9 +46,10 @@ function App() {
         }
 
         async function getActiveCart() {
-            const carts: Cart[] = await API.CART.FIND_ALL_UNCOMPLETE()
-
-            setcarts(carts)
+            if (loggedUser) {
+                const carts: Cart[] = await API.CART.FIND_ALL_UNCOMPLETE()
+                setcarts(carts)
+            }
         }
 
         isUserLogged()
