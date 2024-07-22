@@ -6,10 +6,20 @@ import { FaGoogle, FaApple, FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom"
 import { forgotPassword } from "@/dtos/AuthDto"
 import ValidateInput from "@/components/utils/ValidatedInput";
-import { useCallback } from "react";
+import { useCallback } from "react"; import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const ForgotSchema = z.object({
+    email: z
+        .string()
+        .min(1, { message: "This field has to be filled." })
+        .email("This is not a valid email.")
+});
 
 export default function ForgotPasswordPage() {
-    const hookForm = useForm<forgotPassword>()
+    const hookForm = useForm<forgotPassword>({
+        resolver: zodResolver(ForgotSchema)
+    })
     const { handleSubmit, register, formState: { errors } } = hookForm
 
     const onSubmit = useCallback((data: forgotPassword) => {
