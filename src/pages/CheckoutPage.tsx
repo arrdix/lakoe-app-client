@@ -15,10 +15,12 @@ import { useLocation } from 'react-router-dom'
 import API from '@/networks/api'
 import { Cart } from '@/types/CartType'
 import { OrderedProduct } from '@/types/OrderedProductType'
+import { LatLngExpression } from 'leaflet'
 
 function CheckoutPage() {
     const [storeId, setStoreId] = useState<number>(0)
     const [orderedProducts, setOrderedProducts] = useState<OrderedProduct[]>([])
+    const [receiverLocation, setReceiverLocation] = useState<LatLngExpression | null>()
     // const [productQty, setProductQty] = useState<number>(0)
     // const [productSKUs, setProductSKUs] = useState<string[]>([])
 
@@ -71,6 +73,38 @@ function CheckoutPage() {
         }
     }
 
+    // on marker change
+    function onPositionChange(pos: LatLngExpression | null) {
+        setReceiverLocation(pos)
+        console.log(pos);
+    }
+
+    // on select delivery
+    async function onSelectDeliveryMethod() {
+        const selectDelivery = await API.COURIER.GET_RATES(
+            {
+                origin_latitude: -6.3031123,
+                origin_longitude: 106.7794934999,
+                destination_latitude: -6.2441792,
+                destination_longitude: 106.783529,
+                couriers: "grab,jne,tiki",
+                items: [
+                    {
+                        name: "Shoes",
+                        description: "Black colored size 45",
+                        value: 199000,
+                        length: 30,
+                        width: 15,
+                        height: 20,
+                        weight: 200,
+                        quantity: 2
+                    }
+                ]
+            }
+        )
+        console.log("res", selectDelivery);
+    }
+
     useEffect(() => {
         const { state } = location
 
@@ -92,8 +126,8 @@ function CheckoutPage() {
                     </div>
                     <div className="flex flex-col gap-2">
                         <ContactInformation hookForm={hookForm} />
-                        <ShippingAddress hookForm={hookForm} />
-                        <DeliveryMethods hookForm={hookForm2} />
+                        <ShippingAddress onPositionChange={onPositionChange} hookForm={hookForm} />
+                        <DeliveryMethods onSelectDeliveryMethod={onSelectDeliveryMethod} hookForm={hookForm2} />
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 w-2/6 relative top-6">

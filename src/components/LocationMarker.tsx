@@ -7,11 +7,16 @@ import { UseFormReturn } from 'react-hook-form'
 interface LocationMarkerProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     hookForm: UseFormReturn<CreateOrderDto, any, undefined>
+    onPositionChange: (pos: LatLngExpression | null) => void
 }
 
-function LocationMarker({ hookForm }: LocationMarkerProps) {
+function LocationMarker({ onPositionChange, hookForm }: LocationMarkerProps) {
     const [position, setPosition] = useState<LatLngExpression | null>(null)
     const { setValue } = hookForm
+
+    useEffect(() => {
+        onPositionChange(position)
+    }, [position])
 
     const map = useMapEvents({
         locationfound(e) {

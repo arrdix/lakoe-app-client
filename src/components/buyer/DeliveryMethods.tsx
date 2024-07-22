@@ -6,14 +6,15 @@ import { CheckoutDto } from "@/dtos/CheckoutDto";
 interface ValidatedInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   hookForm: UseFormReturn<CheckoutDto, any, undefined>;
+  onSelectDeliveryMethod: () => void
 }
 
-export default function DeliveryMethods({ hookForm }: ValidatedInputProps) {
+export default function DeliveryMethods({ onSelectDeliveryMethod, hookForm }: ValidatedInputProps) {
   return (
     <div className="w-full bg-white rounded-lg p-8 flex flex-col gap-4 border">
       <h1 className="text-black text-xl font-bold mb-4">Metode Pengiriman</h1>
 
-      <DeliveryMethodsModal hookForm={hookForm} />
+      <DeliveryMethodsModal onSelectDeliveryMethod={onSelectDeliveryMethod} hookForm={hookForm} />
     </div>
   );
 }

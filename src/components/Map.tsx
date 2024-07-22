@@ -3,13 +3,15 @@ import 'leaflet/dist/leaflet.css'
 import LocationMarker from './LocationMarker'
 import { CreateOrderDto } from '@/dtos/OrderDto'
 import { UseFormReturn } from 'react-hook-form'
+import { LatLngExpression } from 'leaflet'
 
 interface SimpleMapProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     hookForm: UseFormReturn<CreateOrderDto, any, undefined>
+    onPositionChange: (pos: LatLngExpression | null) => void
 }
 
-function SimpleMap({ hookForm }: SimpleMapProps) {
+function SimpleMap({ hookForm, onPositionChange }: SimpleMapProps) {
     return (
         <div style={{ height: '100%', width: '100%' }}>
             <MapContainer
@@ -21,7 +23,7 @@ function SimpleMap({ hookForm }: SimpleMapProps) {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <LocationMarker hookForm={hookForm} />
+                <LocationMarker onPositionChange={onPositionChange} hookForm={hookForm} />
             </MapContainer>
         </div>
     )
