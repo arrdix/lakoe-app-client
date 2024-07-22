@@ -49,7 +49,7 @@ export default function CardOrder({ order }: CardOrderProps) {
                     (product.variant &&
                         product.variant &&
                         product.variant.variantOption &&
-                        product.variant.variantOption.variantOptionValues) ||
+                        product.variant.variantOption.variantOptionValue) ||
                     null
                 )
             }
