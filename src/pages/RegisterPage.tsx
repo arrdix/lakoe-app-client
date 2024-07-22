@@ -2,24 +2,21 @@
 
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
-import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
-import { FaApple } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaGoogle, FaApple, FaFacebook } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import { registerDto } from "@/dtos/AuthDto"
-import ValidateInput from "@/components/utils/ValidatedInput";
-import { useState } from "react";
-import API from "@/networks/api";
+import ValidateInput from "@/components/utils/ValidatedInput"
+import { useState } from "react"
+import API from "@/networks/api"
 
 export default function RegisterPage() {
     const hookForm = useForm<registerDto>()
     const { handleSubmit, register, formState: { errors } } = hookForm
     const [visible, setVisible] = useState(false)
 
-    function onSubmitRegister() {
-        handleSubmit(async (data) => {
-            await API.AUTH.REGISTER(data)
-        })()
+    // Updated function to handle form submission
+    async function onSubmitRegister(data: registerDto) {
+        await API.AUTH.REGISTER(data)
     }
 
     return (
@@ -30,8 +27,7 @@ export default function RegisterPage() {
                     <div className="mt-10 w-96">
                         <p className="text-base font-medium">If you don't have an account</p>
                         <div className="flex flex-row gap-1 items-center">
-                            <p className="text-base font-medium">You can
-                            </p>
+                            <p className="text-base font-medium">You can</p>
                             <Link to="/">
                                 <span className="text-base font-medium text-cyan">Login here!</span>
                             </Link>
@@ -43,7 +39,8 @@ export default function RegisterPage() {
                 </div>
             </div>
             <div className="w-3/6 flex flex-col justify-start gap-5">
-                <div className="flex flex-col gap-3">
+                {/* Wrapped inputs and button in form */}
+                <form onSubmit={handleSubmit(onSubmitRegister)} className="flex flex-col gap-3">
                     <ValidateInput
                         error={errors.name}
                         name="name"
@@ -77,9 +74,11 @@ export default function RegisterPage() {
                             {visible ? <FaEyeSlash /> : <FaEye />}
                         </button>
                     </div>
-                </div>
+                    <button className="bg-cyan hover:bg-transparent hover:text-cyan hover:border-cyan hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full" type="submit">
+                        Sign Up
+                    </button>
+                </form>
                 <div className="w-full flex flex-col gap-7">
-                    <button className="bg-cyan hover:bg-transparent hover:text-cyan hover:border-cyan hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full" type="submit" onClick={onSubmitRegister}>Sign Up</button>
                     <div className="flex items-center justify-center">
                         <div className="flex-grow border-t border-gray"></div>
                         <span className="px-1 text-gray-500">or continue with</span>
@@ -88,7 +87,7 @@ export default function RegisterPage() {
                     <div className="flex flex-row gap-5 items-center justify-center">
                         <div className="rounded-full">
                             <Button
-                                type="submit"
+                                type="button"
                                 className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
                             >
                                 <FaGoogle className="text-orange-400 size-5" />
@@ -96,7 +95,7 @@ export default function RegisterPage() {
                         </div>
                         <div className="rounded-full">
                             <Button
-                                type="submit"
+                                type="button"
                                 className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
                             >
                                 <FaApple className="text-black size-5" />
@@ -104,7 +103,7 @@ export default function RegisterPage() {
                         </div>
                         <div className="rounded-full">
                             <Button
-                                type="submit"
+                                type="button"
                                 className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
                             >
                                 <FaFacebook className="text-blue-400 size-5" />

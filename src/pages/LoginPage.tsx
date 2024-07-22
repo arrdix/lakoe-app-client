@@ -26,48 +26,46 @@ export default function LoginPage() {
     const navigate = useNavigate()
     const { toast } = useToast()
 
-    function onLogin() {
-        handleSubmit(async (data) => {
-            // toast({
-            //     title: 'Login',
-            //     description: 'Kami sedang memverifikasi data kamu.',
-            //     action: <Spinner size={6} />,
-            // })
+    async function onLogin(data: loginDto) {
+        // toast({
+        //     title: 'Login',
+        //     description: 'Kami sedang memverifikasi data kamu.',
+        //     action: <Spinner size={6} />,
+        // })
 
-            try {
-                const response = await API.AUTH.LOGIN(data)
-                const token = response.token
+        try {
+            const response = await API.AUTH.LOGIN(data)
+            const token = response.token
 
-                if (token === undefined) {
-                    toast({
-                        title: 'Gagal Membuat Produk',
-                        description: 'Terjadi kesalahan saat membuat produk kamu.',
-                        variant: 'failed',
-                    })
-
-                    return
-                }
-
-                LOCAL_STORAGE.SET(token)
-
-                const loggedUser: User = await API.USER.GET_LOGGED_USER()
-                setLoggedUser(loggedUser)
-
-                toast({
-                    title: 'Login berhasil!',
-                    description: 'Selamat datang kembali.',
-                    variant: 'success',
-                })
-
-                navigate('/')
-            } catch (err) {
+            if (token === undefined) {
                 toast({
                     title: 'Gagal Membuat Produk',
                     description: 'Terjadi kesalahan saat membuat produk kamu.',
                     variant: 'failed',
                 })
+
+                return
             }
-        })()
+
+            LOCAL_STORAGE.SET(token)
+
+            const loggedUser: User = await API.USER.GET_LOGGED_USER()
+            setLoggedUser(loggedUser)
+
+            toast({
+                title: 'Login berhasil!',
+                description: 'Selamat datang kembali.',
+                variant: 'success',
+            })
+
+            navigate('/')
+        } catch (err) {
+            toast({
+                title: 'Gagal Membuat Produk',
+                description: 'Terjadi kesalahan saat membuat produk kamu.',
+                variant: 'failed',
+            })
+        }
     }
 
     return (
@@ -94,7 +92,7 @@ export default function LoginPage() {
                 </div>
             </div>
             <div className="w-3/6 flex flex-col justify-start gap-5">
-                <div className="flex flex-col gap-3">
+                <form onSubmit={handleSubmit(onLogin)} className="flex flex-col gap-3">
                     <ValidateInput
                         error={errors.email}
                         name="email"
@@ -123,47 +121,46 @@ export default function LoginPage() {
                     <div className="flex justify-end text-xs font-medium">
                         <Link to="/forgot">Forgot Password?</Link>
                     </div>
-                </div>
-                <div className="w-full flex flex-col gap-7">
-                    <button
-                        className="bg-cyan hover:bg-transparent hover:bg-lightCyan hover:text-cyan border-2 border-cyan rounded-md text-white font-medium h-10 pl-2 text-sm w-full"
-                        type="submit"
-                        onClick={onLogin}
-                    >
-                        Sign In
-                    </button>
-                    <div className="flex items-center justify-center">
-                        <div className="flex-grow border-t border-gray"></div>
-                        <span className="px-1 text-gray-500">or continue with</span>
-                        <div className="flex-grow border-t border-gray"></div>
+                    <div className="w-full flex flex-col gap-7">
+                        <button
+                            className="bg-cyan hover:bg-transparent hover:bg-lightCyan hover:text-cyan border-2 border-cyan rounded-md text-white font-medium h-10 pl-2 text-sm w-full"
+                            type="submit"
+                        >
+                            Sign In
+                        </button>
+                        <div className="flex items-center justify-center">
+                            <div className="flex-grow border-t border-gray"></div>
+                            <span className="px-1 text-gray-500">or continue with</span>
+                            <div className="flex-grow border-t border-gray"></div>
+                        </div>
+                        <div className="flex flex-row gap-5 items-center justify-center">
+                            <div className="rounded-full">
+                                <Button
+                                    type="button"
+                                    className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
+                                >
+                                    <FaGoogle className="text-orange-400 size-5" />
+                                </Button>
+                            </div>
+                            <div className="rounded-full">
+                                <Button
+                                    type="button"
+                                    className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
+                                >
+                                    <FaApple className="text-black size-5" />
+                                </Button>
+                            </div>
+                            <div className="rounded-full">
+                                <Button
+                                    type="button"
+                                    className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
+                                >
+                                    <FaFacebook className="text-blue-400 size-5" />
+                                </Button>
+                            </div>
+                        </div>
                     </div>
-                    <div className="flex flex-row gap-5 items-center justify-center">
-                        <div className="rounded-full">
-                            <Button
-                                type="button"
-                                className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
-                            >
-                                <FaGoogle className="text-orange-400 size-5" />
-                            </Button>
-                        </div>
-                        <div className="rounded-full">
-                            <Button
-                                type="button"
-                                className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
-                            >
-                                <FaApple className="text-black size-5" />
-                            </Button>
-                        </div>
-                        <div className="rounded-full">
-                            <Button
-                                type="button"
-                                className="w-12 h-12 rounded-full bg-white shadow hover:bg-transparent transform transition-transform duration-200 hover:scale-110"
-                            >
-                                <FaFacebook className="text-blue-400 size-5" />
-                            </Button>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     )
