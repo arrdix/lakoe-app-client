@@ -36,6 +36,9 @@ function App() {
 
                 if (loggedUser) {
                     setLoggedUser(loggedUser)
+
+                    const carts: Cart[] = await API.CART.FIND_ALL_UNCOMPLETE()
+                    setcarts(carts)
                 }
             } catch (error) {
                 setLoggedUser(null)
@@ -46,15 +49,7 @@ function App() {
             }
         }
 
-        async function getActiveCart() {
-            if (loggedUser) {
-                const carts: Cart[] = await API.CART.FIND_ALL_UNCOMPLETE()
-                setcarts(carts)
-            }
-        }
-
         isUserLogged()
-        getActiveCart()
     }, [])
 
     if (isPreloaded) {
