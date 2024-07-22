@@ -2,6 +2,8 @@ export type StoreInfoDto = {
     slogan: string
     name: string
     description: string
-    logo: string[]
+    domain: string
+    logo: File
+    banner: File
 
 }
