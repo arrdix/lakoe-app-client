@@ -1,22 +1,48 @@
-"use client"
+'use client'
 
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { FaEye, FaEyeSlash, FaGoogle, FaApple, FaFacebook } from "react-icons/fa"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { registerDto } from "@/dtos/AuthDto"
 import ValidateInput from "@/components/utils/ValidatedInput"
 import { useState } from "react"
+import { useToast } from '@/components/ui/use-toast'
 import API from "@/networks/api"
+import Spinner from '@/components/utils/Spinner'
 
 export default function RegisterPage() {
     const hookForm = useForm<registerDto>()
     const { handleSubmit, register, formState: { errors } } = hookForm
     const [visible, setVisible] = useState(false)
+    const { toast } = useToast()
+    const navigate = useNavigate()
 
     // Updated function to handle form submission
     async function onSubmitRegister(data: registerDto) {
-        await API.AUTH.REGISTER(data)
+        toast({
+            title: 'Register',
+            description: 'Kami sedang memverifikasi data kamu.',
+            action: <Spinner size={6} />,
+        })
+
+        try {
+            await API.AUTH.REGISTER(data)
+
+            toast({
+                title: 'Register berhasil!',
+                description: 'Silahkan login terlebih dahulu.',
+                variant: 'success',
+            })
+
+            navigate('/auth/login')
+        } catch (error) {
+            toast({
+                title: 'Registrasi gagal!',
+                description: 'Terjadi kesalahan saat melakukan registrasi. Silakan coba lagi.',
+                variant: 'failed',
+            })
+        }
     }
 
     return (
@@ -28,18 +54,17 @@ export default function RegisterPage() {
                         <p className="text-base font-medium">If you don't have an account</p>
                         <div className="flex flex-row gap-1 items-center">
                             <p className="text-base font-medium">You can</p>
-                            <Link to="/">
+                            <Link to="/auth/login">
                                 <span className="text-base font-medium text-cyan">Login here!</span>
                             </Link>
                         </div>
                     </div>
                     <div className="w-full">
-                        <img className="w-96" src="../../public/persontwo.png" alt="" />
+                        <img className="w-96" src="../../public/persontwo.png" alt="Person Image" />
                     </div>
                 </div>
             </div>
             <div className="w-3/6 flex flex-col justify-start gap-5">
-                {/* Wrapped inputs and button in form */}
                 <form onSubmit={handleSubmit(onSubmitRegister)} className="flex flex-col gap-3">
                     <ValidateInput
                         error={errors.name}

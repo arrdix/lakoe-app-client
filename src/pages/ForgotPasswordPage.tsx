@@ -37,7 +37,7 @@ export default function ForgotPasswordPage() {
                         <div className="flex flex-row gap-1 items-center">
                             <p className="text-base font-medium">You can
                             </p>
-                            <Link to="/">
+                            <Link to="/auth/login">
                                 <span className="text-base font-medium text-cyan">Login here!</span>
                             </Link>
                         </div>
@@ -48,7 +48,7 @@ export default function ForgotPasswordPage() {
                 </div>
             </div>
             <div className="w-3/6 flex flex-col justify-start gap-5">
-                <form onKeyDown={handleKeyDown}>
+                <form onKeyDown={handleKeyDown} className="flex flex-col gap-3">
                     <div className="flex flex-col gap-3">
                         <ValidateInput
                             error={errors.email}
@@ -100,7 +100,7 @@ export default function ForgotPasswordPage() {
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }

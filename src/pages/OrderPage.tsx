@@ -25,15 +25,6 @@ const sortOptions = [
     { value: "ResponsTerlama", text: "Respons Terlama" }
 ];
 
-interface StatusTab {
-    BELUM_DIBAYAR: number;
-    PESANAN_BARU: number;
-    SIAP_DIKIRIM: number;
-    DALAM_PENGIRIMAN: number;
-    PESANAN_SELESAI: number;
-    DIBATALKAN: number;
-}
-
 export default function OrderPage() {
     const [activeTab, setActiveTab] = useState<string>('Semua');
     const [orders, setOrders] = useState<Order[]>([]);
@@ -77,6 +68,9 @@ export default function OrderPage() {
 
     const sortedOrders = sortOrders(orders, sortOption);
 
+    // Calculate the length of orders for each status
+    const getStatusCount = (status: string) => orders.filter(order => order.status === status).length;
+
     return (
         <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
             <h1 className="text-xl font-bold">Daftar Pesanan</h1>
@@ -91,6 +85,13 @@ export default function OrderPage() {
                 fifthTab="Pesanan Selesai"
                 sixthTab="Dibatalkan"
                 onTabChange={onTabChange}
+                allTabLength={orders.length}
+                firstTabLength={getStatusCount("Belum Dibayar")}
+                secondTabLength={getStatusCount("Pesanan Baru")}
+                thirdTabLength={getStatusCount("Siap Dikirim")}
+                fourthTabLength={getStatusCount("Dalam Pengiriman")}
+                fifthTabLength={getStatusCount("Pesanan Selesai")}
+                sixthTabLength={getStatusCount("Dibatalkan")}
             />
 
             {/* Search and Input */}

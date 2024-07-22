@@ -27,20 +27,20 @@ export default function LoginPage() {
     const { toast } = useToast()
 
     async function onLogin(data: loginDto) {
-        // toast({
-        //     title: 'Login',
-        //     description: 'Kami sedang memverifikasi data kamu.',
-        //     action: <Spinner size={6} />,
-        // })
+        toast({
+            title: 'Login',
+            description: 'Kami sedang memverifikasi data kamu.',
+            action: <Spinner size={6} />,
+        })
 
         try {
             const response = await API.AUTH.LOGIN(data)
             const token = response.token
 
-            if (token === undefined) {
+            if (!token) {
                 toast({
-                    title: 'Gagal Membuat Produk',
-                    description: 'Terjadi kesalahan saat membuat produk kamu.',
+                    title: 'Login Tidak Berhasil!',
+                    description: 'Periksa kembali email dan kata sandi Anda.',
                     variant: 'failed',
                 })
 
@@ -53,18 +53,27 @@ export default function LoginPage() {
             setLoggedUser(loggedUser)
 
             toast({
-                title: 'Login berhasil!',
-                description: 'Selamat datang kembali.',
+                title: 'Login Berhasil!',
+                description: 'Selamat datang kembali di aplikasi kami.',
                 variant: 'success',
             })
 
             navigate('/')
         } catch (err) {
             toast({
-                title: 'Gagal Membuat Produk',
-                description: 'Terjadi kesalahan saat membuat produk kamu.',
+                title: 'Login Gagal!',
+                description: 'Terjadi kesalahan saat mencoba masuk. Silakan coba lagi nanti.',
                 variant: 'failed',
             })
+        }
+    }
+
+    function handleKeyDown(event: React.KeyboardEvent<HTMLFormElement>) {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleSubmit(async (data) => {
+                await onLogin(data)
+            })()
         }
     }
 
@@ -92,34 +101,36 @@ export default function LoginPage() {
                 </div>
             </div>
             <div className="w-3/6 flex flex-col justify-start gap-5">
-                <form onSubmit={handleSubmit(onLogin)} className="flex flex-col gap-3">
-                    <ValidateInput
-                        error={errors.email}
-                        name="email"
-                        id="email"
-                        placeholder="Email"
-                        register={register}
-                        type="text"
-                    />
-                    <div className="relative">
+                <form onSubmit={handleSubmit(async (data) => await onLogin(data))} onKeyDown={handleKeyDown}>
+                    <div className="flex flex-col gap-3">
                         <ValidateInput
-                            error={errors.password}
-                            name="password"
-                            id="password"
-                            placeholder="Password"
+                            error={errors.email}
+                            name="email"
+                            id="email"
+                            placeholder="Email"
                             register={register}
-                            type={visible ? 'text' : 'password'}
+                            type="text"
                         />
-                        <button
-                            type="button"
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                            onClick={() => setVisible(!visible)}
-                        >
-                            {visible ? <FaEyeSlash /> : <FaEye />}
-                        </button>
-                    </div>
-                    <div className="flex justify-end text-xs font-medium">
-                        <Link to="/forgot">Forgot Password?</Link>
+                        <div className="relative">
+                            <ValidateInput
+                                error={errors.password}
+                                name="password"
+                                id="password"
+                                placeholder="Password"
+                                register={register}
+                                type={visible ? 'text' : 'password'}
+                            />
+                            <button
+                                type="button"
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                                onClick={() => setVisible(!visible)}
+                            >
+                                {visible ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                        </div>
+                        <div className="flex justify-end text-xs font-medium mb-3">
+                            <Link to="/forgot">Forgot Password?</Link>
+                        </div>
                     </div>
                     <div className="w-full flex flex-col gap-7">
                         <button
