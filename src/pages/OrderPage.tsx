@@ -25,23 +25,12 @@ const sortOptions = [
     { value: "ResponsTerlama", text: "Respons Terlama" }
 ];
 
-interface StatusTab {
-    BELUM_DIBAYAR: number;
-    PESANAN_BARU: number;
-    SIAP_DIKIRIM: number;
-    DALAM_PENGIRIMAN: number;
-    PESANAN_SELESAI: number;
-    DIBATALKAN: number;
-}
-
 export default function OrderPage() {
     const [activeTab, setActiveTab] = useState<string>('Semua');
     const [orders, setOrders] = useState<Order[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [, setSelectedCourier] = useState<string>('');
-    const [, setSortOption] = useState<string>('');
-
-
+    const [selectedCourier, setSelectedCourier] = useState<string>('');
+    const [sortOption, setSortOption] = useState<string>('');
 
     function onTabChange(tab: string) {
         setActiveTab(tab);
@@ -66,6 +55,22 @@ export default function OrderPage() {
         console.log(`Selected sort option: ${value}`);
     };
 
+    const sortOrders = (orders: Order[], sortOption: string) => {
+        switch (sortOption) {
+            case "PalingBaru":
+                return [...orders].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+            case "PalingLama":
+                return [...orders].sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime());
+            default:
+                return orders;
+        }
+    };
+
+    const sortedOrders = sortOrders(orders, sortOption);
+
+    // Calculate the length of orders for each status
+    const getStatusCount = (status: string) => orders.filter(order => order.status === status).length;
+
     return (
         <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
             <h1 className="text-xl font-bold">Daftar Pesanan</h1>
@@ -80,6 +85,13 @@ export default function OrderPage() {
                 fifthTab="Pesanan Selesai"
                 sixthTab="Dibatalkan"
                 onTabChange={onTabChange}
+                allTabLength={orders.length}
+                firstTabLength={getStatusCount("Belum Dibayar")}
+                secondTabLength={getStatusCount("Pesanan Baru")}
+                thirdTabLength={getStatusCount("Siap Dikirim")}
+                fourthTabLength={getStatusCount("Dalam Pengiriman")}
+                fifthTabLength={getStatusCount("Pesanan Selesai")}
+                sixthTabLength={getStatusCount("Dibatalkan")}
             />
 
             {/* Search and Input */}
@@ -89,7 +101,7 @@ export default function OrderPage() {
                         <BiSearchAlt className="size-5" />
                     </div>
                     <div className="flex flex-row gap-3 w-full">
-                        <div className="w-2/4">
+                        <div className="w-4/5">
                             <Input
                                 className="pl-10 rounded-md w-full"
                                 placeholder="Cari Pesanan"
@@ -97,10 +109,10 @@ export default function OrderPage() {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <div className="w-1/4">
+                        {/* <div className="w-1/4">
                             <FilterOrder text="Kurir" items={courierOptions} onChange={handleCourierChange} />
-                        </div>
-                        <div className="w-1/4">
+                        </div> */}
+                        <div className="w-1/5">
                             <FilterOrder text="Urutkan" items={sortOptions} onChange={handleSortChange} />
                         </div>
                     </div>
@@ -108,7 +120,7 @@ export default function OrderPage() {
             </div>
 
             {/* Card Item */}
-            <CardOrderList orders={orders} status={activeTab} searchTerm={searchTerm} />
+            <CardOrderList orders={sortedOrders} status={activeTab} searchTerm={searchTerm} />
         </div>
     );
 }

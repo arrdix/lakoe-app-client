@@ -94,7 +94,7 @@ export default function DetailOrderPage() {
                 (product.variant &&
                     product.variant &&
                     product.variant.variantOption &&
-                    product.variant.variantOption.variantOptionValues) ||
+                    product.variant.variantOption.variantOptionValue) ||
                 null
             )
         }
@@ -146,7 +146,7 @@ export default function DetailOrderPage() {
         return (
             <div>
                 {/* Breadcrumb */}
-                <Breadcrumb>
+                <Breadcrumb className='mb-2'>
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink className="text-cyan font-semibold" href="/order">
@@ -183,7 +183,7 @@ export default function DetailOrderPage() {
                         <div>
                             <div className="flex flex-col gap-1 text-sm">
                                 <p
-                                    className={`${labelColor}  w-fit font-semibold rounded-lg px-4 py-1 text-sm`}
+                                    className={`${labelColor}  w-fit font-semibold rounded-lg p-1 text-sm`}
                                 >
                                     {order.status}
                                 </p>
@@ -269,10 +269,17 @@ export default function DetailOrderPage() {
                                 <p className="font-semibold">Pembeli</p>
                             </div>
                             <div className="flex flex-row items-center">
-                                <PiWhatsappLogoLight className="mr-2 size-6 text-green-600" />
+                                <a
+                                    href={`https://wa.me/${order.receiverPhone}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <PiWhatsappLogoLight className="mr-2 size-6 text-green-600" />
+                                </a>
                                 <p>{order.receiverName}</p>
                             </div>
                         </div>
+
                     </div>
 
                     {/* Detail Produk */}
@@ -472,7 +479,7 @@ export default function DetailOrderPage() {
                                     variant={'outline'}
                                     className="text-white bg-cyan hover:bg-white hover:text-cyan hover:border-cyan"
                                 >
-                                    Proses Pesanan
+                                    Request Pickup
                                 </Button>
                             </div>
                         </div>
