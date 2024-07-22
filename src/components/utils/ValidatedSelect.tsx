@@ -13,14 +13,14 @@ interface ValidatedSelecttProps<T extends FieldValues> {
   error: FieldError | undefined;
   setValue: UseFormSetValue<T>;
   name: Path<T>;
-
+  placeholder?: string;
   options: string[];
 }
 
 function ValidatedSelect<T extends FieldValues>(
   props: ValidatedSelecttProps<T>
 ) {
-  const { name, setValue, error, options } = props;
+  const { name, setValue, error, placeholder, options } = props;
 
   return (
     <div>
@@ -30,7 +30,7 @@ function ValidatedSelect<T extends FieldValues>(
         }}
       >
         <SelectTrigger className="w-full ml-auto">
-          <SelectValue />
+          <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

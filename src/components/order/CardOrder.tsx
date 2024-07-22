@@ -49,8 +49,8 @@ export default function CardOrder({ order }: CardOrderProps) {
                     (product.variant &&
                         product.variant &&
                         product.variant.variantOption &&
-                        product.variant.variantOption.variantOptionValues) ||
-                    null
+                        product.variant.variantOption.variantOptionValue) ||
+                        null
                 )
             }
         }
@@ -91,10 +91,10 @@ export default function CardOrder({ order }: CardOrderProps) {
                             />
                             <div className="w-full flex flex-row justify-between items-center">
                                 <div className="flex-grow">
-                                    <h1 className="text-xl font-bold whitespace-normal break-words">
+                                    <h1 className="text-md font-bold whitespace-normal break-words">
                                         {product.name}
                                     </h1>
-                                    <h1 className="font-semibold">
+                                    <h1 className="text-sm font-medium">
                                         {variant?.variantOption?.name}
                                     </h1>
                                     <div className="flex items-center text-gray text-sm">

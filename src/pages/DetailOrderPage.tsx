@@ -23,14 +23,7 @@ import {
     PiCopySimpleLight,
 } from 'react-icons/pi'
 import { Button } from '@/components/ui/button'
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { toast } from 'sonner'
 import AlertOrder from '@/components/order/AlertOrder'
 import { useEffect, useState } from 'react'
@@ -43,6 +36,7 @@ import API from '@/networks/api'
 import statusChecker from '@/utils/statusChecker'
 import { useParams } from 'react-router-dom'
 import { ProductBySku } from '@/types/ProductBySkuType'
+import ShippingModal from '@/components/order/ShippingModal'
 
 export default function DetailOrderPage() {
     const [isOpen, setIsOpen] = useState(false)
@@ -61,26 +55,80 @@ export default function DetailOrderPage() {
     const { id } = useParams()
 
     const handleCopy = () => {
-        const textToCopy = `INV/${formattedDate}/MPL/${order?.invoiceNumber}`;
-        navigator.clipboard.writeText(textToCopy)
+        const textToCopy = `${order?.invoiceNumber}`
+        navigator.clipboard
+            .writeText(textToCopy)
             .then(() => {
                 toast('Nomor Invoice berhasil disalin', {
                     action: {
                         label: 'OK',
                         onClick: () => console.log('Undo'),
                     },
-                });
+                })
             })
             .catch((error) => {
-                console.error('Error copying text: ', error);
-            });
-    };
+                console.error('Error copying text: ', error)
+            })
+    }
 
     function formatDate(date: Date): string {
         const year = date.getFullYear()
         const month = String(date.getMonth() + 1).padStart(2, '0')
         const day = String(date.getDate()).padStart(2, '0')
         return `${year}${month}${day}`
+    }
+
+    async function onProcessOrder() {
+        if (order) {
+            await API.ORDER.UPDATE(order?.id, {
+                status: 'Siap Dikirim',
+            })
+        }
+    }
+
+    async function onCancelOrder() {
+        if (order) {
+            await API.ORDER.UPDATE(order?.id, {
+                status: 'Dibatalkan',
+            })
+        }
+    }
+
+    async function onRequestPickup() {
+        if (order) {
+            const res = await API.COURIER.REQ_PICKUP({
+                invoice_id: order?.id,
+                origin_contact_name: 'Amir',
+                origin_contact_phone: '081740781720',
+                origin_address: 'Plaza Senayan, Jalan Asia Afrik...',
+                origin_coordinate: {
+                    latitude: -6.2253114,
+                    longitude: 106.7993735,
+                },
+                destination_contact_name: 'John Doe',
+                destination_contact_phone: '08170032123',
+                destination_contact_email: 'jon@test.com',
+                destination_address: 'Lebak Bulus MRT...',
+                destination_coordinate: {
+                    latitude: -6.28927,
+                    longitude: 106.77492000000007,
+                },
+                courier_company: 'jne',
+                courier_type: 'reg',
+                delivery_type: 'now',
+                items: [
+                    {
+                        name: 'Black L',
+                        description: 'White Shirt',
+                        value: 165000,
+                        quantity: 1,
+                        weight: 200,
+                    },
+                ],
+            })
+
+            console.log(res)
+        }
     }
 
     async function GET_PRODUCT() {
@@ -94,8 +142,8 @@ export default function DetailOrderPage() {
                 (product.variant &&
                     product.variant &&
                     product.variant.variantOption &&
-                    product.variant.variantOption.variantOptionValues) ||
-                null
+                    product.variant.variantOption.variantOptionValue) ||
+                    null
             )
         }
     }
@@ -111,7 +159,7 @@ export default function DetailOrderPage() {
                     order.variant &&
                     order.variant.variantOption &&
                     order.variant.variantOption.variantOptionValue) ||
-                null
+                    null
             )
 
             const productSKU =
@@ -146,7 +194,7 @@ export default function DetailOrderPage() {
         return (
             <div>
                 {/* Breadcrumb */}
-                <Breadcrumb>
+                <Breadcrumb className="mb-2">
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink className="text-cyan font-semibold" href="/order">
@@ -155,10 +203,7 @@ export default function DetailOrderPage() {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink
-                                className="text-black w-44 truncate"
-                                href="/components"
-                            >
+                            <BreadcrumbLink className="text-black w-44 truncate" href="/components">
                                 <h1>
                                     {product.name}
                                     <span className="mx-1">|</span>
@@ -183,7 +228,7 @@ export default function DetailOrderPage() {
                         <div>
                             <div className="flex flex-col gap-1 text-sm">
                                 <p
-                                    className={`${labelColor}  w-fit font-semibold rounded-lg px-4 py-1 text-sm`}
+                                    className={`${labelColor}  w-fit font-semibold rounded-lg p-1 text-sm`}
                                 >
                                     {order.status}
                                 </p>
@@ -212,10 +257,11 @@ export default function DetailOrderPage() {
                                                 )}
                                             </div>
                                             <AccordionContent
-                                                className={`transition-all duration-500 ease-in-out ${isOpen
-                                                    ? 'max-h-screen opacity-100'
-                                                    : 'max-h-0 opacity-0 overflow-hidden'
-                                                    }`}
+                                                className={`transition-all duration-500 ease-in-out ${
+                                                    isOpen
+                                                        ? 'max-h-screen opacity-100'
+                                                        : 'max-h-0 opacity-0 overflow-hidden'
+                                                }`}
                                             >
                                                 <div className="flex flex-col border rounded-lg bg-white">
                                                     <AlertOrder
@@ -269,7 +315,13 @@ export default function DetailOrderPage() {
                                 <p className="font-semibold">Pembeli</p>
                             </div>
                             <div className="flex flex-row items-center">
-                                <PiWhatsappLogoLight className="mr-2 size-6 text-green-600" />
+                                <a
+                                    href={`https://wa.me/${order.receiverPhone}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <PiWhatsappLogoLight className="mr-2 size-6 text-green-600" />
+                                </a>
                                 <p>{order.receiverName}</p>
                             </div>
                         </div>
@@ -285,19 +337,26 @@ export default function DetailOrderPage() {
                             <div className="flex flex-col border p-2 rounded-lg">
                                 <div className="flex flex-row justify-between">
                                     <div className="flex flex-row">
-                                        <img className="w-20 h-20 mr-2 flex-shrink-0" src={product.attachments[0]} alt="" />
+                                        <img
+                                            className="w-20 h-20 mr-2 flex-shrink-0"
+                                            src={product.attachments[0]}
+                                            alt=""
+                                        />
                                         <div className="flex flex-col justify-center">
-                                            <h1>
-                                                {product.name}
-                                            </h1>
+                                            <h1>{product.name}</h1>
                                             <p>
-                                                {order?.carts?.cartItems?.[0]?.qty} x Rp {order.price}
+                                                {order?.carts?.cartItems?.[0]?.qty} x Rp{' '}
+                                                {order.price}
                                             </p>
                                         </div>
                                     </div>
                                     <div className="flex flex-col justify-center items-end">
-                                        <p className="text-gray text-sm font-normal">Total Belanja</p>
-                                        <p className='font-medium text-sm'>Rp. {totalBeforeDiscount}</p>
+                                        <p className="text-gray text-sm font-normal">
+                                            Total Belanja
+                                        </p>
+                                        <p className="font-medium text-sm">
+                                            Rp. {totalBeforeDiscount}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -316,60 +375,7 @@ export default function DetailOrderPage() {
                                     <DialogTrigger className="text-cyan font-semibold">
                                         Lacak Pengiriman
                                     </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>Lacak Pengiriman</DialogTitle>
-                                            <DialogDescription className="text-black flex flex-col gap-1">
-                                                <div className="w-full flex flex-row justify-between p-2">
-                                                    <div className="w-96 flex flex-col gap-3">
-                                                        <div>
-                                                            <p>Kurir</p>
-                                                            <p className="font-semibold">
-                                                                J&T - Regular
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <div className="flex">
-                                                                <p>No.Resi</p>
-                                                            </div>
-                                                            <p className="font-semibold">
-                                                                JT6268865922
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p>Pengirim</p>
-                                                            <p className="font-semibold">
-                                                                Bakulan Store
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <p>Penerima</p>
-                                                        <p className="font-semibold">
-                                                            {order.receiverName}
-                                                        </p>
-                                                        <p>{order.receiverAddress}</p>
-                                                    </div>
-                                                </div>
-                                                <p>
-                                                    Status:{' '}
-                                                    <span className="font-semibold">
-                                                        Dalam Proses Pengiriman
-                                                    </span>
-                                                </p>
-                                                <div className="flex flex-col border rounded-lg bg-white">
-                                                    <AlertOrder
-                                                        status="DELIVERED TO [ | 17-03-2021 11:15 | JAKARTA ]"
-                                                        date="Sen, 12 Agu 2023 - 10:00 WIB"
-                                                    />
-                                                    <AlertOrder
-                                                        status="WITH DELIVERY COURIER [JAKARTA , HUB VETERAN BINTARO]"
-                                                        date="Sen, 12 Agu 2023 - 10:00 WIB"
-                                                    />
-                                                </div>
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                    </DialogContent>
+                                    <ShippingModal />
                                 </Dialog>
                             </div>
                             <div className="flex flex-col gap-3">
@@ -463,16 +469,31 @@ export default function DetailOrderPage() {
                         <div className="rounded-lg flex flex-row gap-2 py-2.5 px-3 bg-white">
                             <div className="w-full flex flex-row justify-between">
                                 <Button
+                                    onClick={onCancelOrder}
                                     variant={'outline'}
                                     className="text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
                                 >
                                     Tolak Pesanan
                                 </Button>
                                 <Button
+                                    onClick={onProcessOrder}
                                     variant={'outline'}
                                     className="text-white bg-cyan hover:bg-white hover:text-cyan hover:border-cyan"
                                 >
                                     Proses Pesanan
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                    {order.status === 'Siap Dikirim' && (
+                        <div className="rounded-lg flex flex-row gap-2 py-2.5 px-3 bg-white">
+                            <div className="w-full flex flex-row justify-end">
+                                <Button
+                                    onClick={onRequestPickup}
+                                    variant={'outline'}
+                                    className="text-white bg-cyan hover:bg-white hover:text-cyan hover:border-cyan"
+                                >
+                                    Request Pickup
                                 </Button>
                             </div>
                         </div>

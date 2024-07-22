@@ -58,7 +58,7 @@ function CheckoutPage() {
 
                 const transaction = await API.ORDER.CREATE({
                     ...data,
-                    status: 'BELUM DIBAYAR',
+                    status: 'Belum Dibayar',
                     serviceCharge: courier.price,
                     courierId: courier.id,
                     cartId: cart.id,

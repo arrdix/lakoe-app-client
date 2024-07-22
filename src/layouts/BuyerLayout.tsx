@@ -22,6 +22,7 @@ import {
 import CartList from '@/components/cart/CartList'
 import { Cart } from '@/types/CartType'
 import API from '@/networks/api'
+import { Toaster } from '@/components/ui/toaster'
 
 function BuyerLayout() {
     const loggedUser = useLakoeStore((state) => state.loggedUser)
@@ -154,6 +155,7 @@ function BuyerLayout() {
                     </SheetContent>
                 </Sheet>
             )}
+            <Toaster />
         </div>
     )
 }

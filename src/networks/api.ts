@@ -8,6 +8,7 @@ import { CartDto } from '@/dtos/CartDto'
 import { CartItemDto } from '@/dtos/CartItemDto'
 import { CourierDto } from '@/dtos/CourierDto'
 import { GetRatesDto } from '@/dtos/GetRatesDto'
+import { ReqPickupDto } from '@/dtos/ReqPickupDto'
 
 const API = {
     PRODUCT: {
@@ -510,6 +511,24 @@ const API = {
         GET_RATES: async (data: GetRatesDto) => {
             try {
                 const response = await axios.post(`${CONFIG.BASE_URL}/courier/rates`, data, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+
+        REQ_PICKUP: async (data: ReqPickupDto) => {
+            try {
+                const response = await axios.post(`${CONFIG.BASE_URL}/courier/pickup`, data, {
                     headers: {
                         Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
                     },
