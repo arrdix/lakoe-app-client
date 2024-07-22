@@ -43,6 +43,7 @@ import API from '@/networks/api'
 import statusChecker from '@/utils/statusChecker'
 import { useParams } from 'react-router-dom'
 import { ProductBySku } from '@/types/ProductBySkuType'
+import OrderModal from '@/components/order/OrderModal'
 
 export default function DetailOrderPage() {
     const [isOpen, setIsOpen] = useState(false)
@@ -312,73 +313,9 @@ export default function DetailOrderPage() {
                     </div>
 
                     {/* Detail Pengiriman */}
-                    <div className="rounded-lg flex flex-row gap-2 py-2.5 px-3 bg-white">
-                        <div>
-                            <CiDeliveryTruck className="mr-2 size-6 text-cyan" />
-                        </div>
-                        <div className="w-full flex-col gap-3">
-                            <div className="flex flex-row justify-between">
-                                <p className="font-semibold mb-2">Detail Pengiriman</p>
-                                <Dialog>
-                                    <DialogTrigger className="text-cyan font-semibold">
-                                        Lacak Pengiriman
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>Lacak Pengiriman</DialogTitle>
-                                            <DialogDescription className="text-black flex flex-col gap-1">
-                                                <div className="w-full flex flex-row justify-between p-2">
-                                                    <div className="w-96 flex flex-col gap-3">
-                                                        <div>
-                                                            <p>Kurir</p>
-                                                            <p className="font-semibold">
-                                                                J&T - Regular
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <div className="flex">
-                                                                <p>No.Resi</p>
-                                                            </div>
-                                                            <p className="font-semibold">
-                                                                JT6268865922
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            <p>Pengirim</p>
-                                                            <p className="font-semibold">
-                                                                Bakulan Store
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <p>Penerima</p>
-                                                        <p className="font-semibold">
-                                                            {order.receiverName}
-                                                        </p>
-                                                        <p>{order.receiverAddress}</p>
-                                                    </div>
-                                                </div>
-                                                <p>
-                                                    Status:{' '}
-                                                    <span className="font-semibold">
-                                                        Dalam Proses Pengiriman
-                                                    </span>
-                                                </p>
-                                                <div className="flex flex-col border rounded-lg bg-white">
-                                                    <AlertOrder
-                                                        status="DELIVERED TO [ | 17-03-2021 11:15 | JAKARTA ]"
-                                                        date="Sen, 12 Agu 2023 - 10:00 WIB"
-                                                    />
-                                                    <AlertOrder
-                                                        status="WITH DELIVERY COURIER [JAKARTA , HUB VETERAN BINTARO]"
-                                                        date="Sen, 12 Agu 2023 - 10:00 WIB"
-                                                    />
-                                                </div>
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                    </DialogContent>
-                                </Dialog>
-                            </div>
+                    <div className="rounded-lg flex flex-col gap-2 py-2.5 px-3 bg-white">
+                        <OrderModal courierName='JNE Express' wayBill='JT6268865922' storeName='Fesyen Store' shipperName='Petrus Handika' shipperFound='Jl. Elang IV, Sawah Lama, Kec. Ciputat, Kota Tangerang Selatan, Banten 15413' />
+                        <div className="rounded-lg flex flex-col px-8">
                             <div className="flex flex-col gap-3">
                                 <div className="flex flex-row">
                                     <p className="w-48">Kurir</p>

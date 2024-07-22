@@ -11,11 +11,30 @@ import { useToast } from '@/components/ui/use-toast'
 import API from "@/networks/api"
 import Spinner from '@/components/utils/Spinner'
 import ValidatedSelect from "@/components/utils/ValidatedSelect"
-import { error } from "console"
+import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
 
+const RegisterSchema = z.object({
+    role: z
+        .enum(["buyer", "seller"], { message: "Role must be either 'buyer' or 'seller'." }),
+    name: z
+        .string()
+        .min(3, { message: "Username must be at least 3 characters long." })
+        .max(20, { message: "Username must be at most 20 characters long." }),
+    email: z
+        .string()
+        .min(1, { message: "This field has to be filled." })
+        .email("This is not a valid email."),
+    password: z
+        .string()
+        .min(5, { message: "Password must be at least 5 characters long." })
+        .max(20, { message: "Password must be at most 20 characters long." })
+});
 
 export default function RegisterPage() {
-    const hookForm = useForm<registerDto>()
+    const hookForm = useForm<registerDto>({
+        resolver: zodResolver(RegisterSchema)
+    })
     const {
         handleSubmit,
         register,
