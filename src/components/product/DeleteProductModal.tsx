@@ -65,7 +65,7 @@ export default function DeleteProductModal({
                       <p className="text-sm text-gray-500">
                         Hapus produk{" "}
                         <span className="font-semibold uppercase">
-                          {productName}
+                          {productSku}
                         </span>
                       </p>
                     </div>

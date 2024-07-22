@@ -4,48 +4,95 @@ import NonaktifProductsModal from "./NonaktifProductsModal";
 import DeleteProductsModal from "./DeleteProductsModal";
 import { Checkbox } from "@/components/ui/checkbox";
 import NoResultProduct from "./NoResultProduct";
-import { ProductType } from "@/dummy/productDummy";
 import { useProductCheckedContext } from "@/context/checkedProductContext";
 import { useEffect, useState } from "react";
-import { Product } from "@/types/ProductType";
+import { ProductBySku } from "@/types/ProductBySkuType";
+import fuzzySkor from "@/lib/fuzzy";
 
 interface ProductListProps {
-  realProducts?: Product[];
-  products: ProductType[];
+  productsProps?: ProductBySku[];
   tabOptions: string;
 }
 
 export default function ProductList({
-  realProducts,
+  productsProps,
   tabOptions,
 }: ProductListProps) {
   const { sku } = useProductCheckedContext();
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
   const [isCheckedChange, setIsCheckedChange] = useState(false);
+  const [products, setProducts] = useState<ProductBySku[] | undefined>(
+    productsProps
+  );
+  const [name, setName] = useState<string>("");
 
   const onCheckedChange = () => {
     setIsCheckedChange(!isCheckedChange);
   };
 
   // real product edit
-  useEffect(() => {
-    if (sku.length < 1) {
-      setIsAllChecked(false);
-    }
-  }, [sku]);
+  // useEffect(() => {
+  //   if (sku.length < 1) {
+  //     setIsAllChecked(false);
+  //   }
+  // }, [sku]);
 
-  console.log("id",sku)
+  useEffect(() => {
+    const namaProduct = productsProps?.map((product) => {
+      return product.name;
+    }) as string[];
+    const namaSku = productsProps?.map((product) => {
+      return product.variant?.variantOption?.variantOptionValue?.sku || "";
+    }) as string[];
+
+    if (name != "" && productsProps) {
+      console.log("ini input", name);
+      const fuzzyOptionByProductName = fuzzySkor(namaProduct, name);
+      const fuzzyOptionBySku = fuzzySkor(namaSku, name);
+      console.log("nilai fuzzy per produk",fuzzyOptionByProductName)
+      console.log("nilai fuzzy per sku",fuzzyOptionBySku)
+      // Mengubah hasil fuzzy menjadi array string
+      const fuzzyOptionArrayByProductName = fuzzySkor(namaProduct, name).map(
+        (option) => option.original.toLowerCase()
+      );
+      const fuzzyOptionArrayBySku = fuzzySkor(namaSku, name).map((option) =>
+        option.original.toLowerCase()
+      );
+      console.log("ini fuzzy input 1", fuzzyOptionArrayByProductName);
+      console.log("ini fuzzy input 2", fuzzyOptionArrayBySku);
+      console.log("ini hasil filter", products);
+
+      const filteredProduct: ProductBySku[] = productsProps?.filter(
+        (product) => {
+          if (fuzzyOptionArrayByProductName.length != 0) {
+            return fuzzyOptionArrayByProductName.includes(
+              product.name.toLowerCase()
+            );
+          } else {
+            return fuzzyOptionArrayBySku.includes(product.variant?.variantOption?.variantOptionValue?.sku.toLowerCase()||"");
+          }
+        }
+      );
+      setProducts(filteredProduct);
+    } else {
+      setProducts(productsProps);
+    }
+  }, [name]);
+
+  const onChange = (dataInput: string) => {
+    setName(dataInput);
+  };
   return (
     <div>
-      {realProducts?.length === 0 ? (
+      <ProductFilter onChange={onChange} />
+      {products?.length === 0 ? (
         <div>
           <NoResultProduct tabOptions={tabOptions} />
         </div>
       ) : (
         <div>
-          <ProductFilter />
           <div className="w-full bg-white rounded-lg flex justify-between">
-            <h3 className="font-semibold">{realProducts?.length} produk</h3>
+            <h3 className="font-semibold">{products?.length} produk</h3>
             <div className="flex items-center gap-4 mb-4">
               {sku.length > 0 && (
                 <div className="flex gap-2 items-center">
@@ -72,19 +119,11 @@ export default function ProductList({
             </div>
           </div>
           <div className="flex flex-col gap-3">
-            {/* {products.map((product) => (
-                            <CardProduct
-                                key={product.id}
-                                product={product}
-                                isCheckedDefault={isAllChecked}
-                                onCheckedChanges={onCheckedChange}
-                            />
-                        ))} */}
-            {realProducts &&
-              realProducts.map((realProduct) => (
+            {products &&
+              products.map((product) => (
                 <CardProduct
-                  key={realProduct.variant?.variantOption?.variantOptionValue?.sku}
-                  realProduct={realProduct}
+                  key={product.variant?.variantOption?.variantOptionValue?.sku}
+                  product={product}
                   isCheckedDefault={isAllChecked}
                   onCheckedChanges={onCheckedChange}
                 />

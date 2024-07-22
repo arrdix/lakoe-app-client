@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { FaGoogle, FaApple, FaFacebook, FaEye, FaEyeSlash } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { loginDto } from '@/dtos/AuthDto'
 import ValidateInput from '@/components/utils/ValidatedInput'
 import { useState } from 'react'
@@ -11,6 +11,8 @@ import API from '@/networks/api'
 import { useLakoeStore } from '@/store/store'
 import { User } from '@/types/UserType'
 import LOCAL_STORAGE from '@/networks/storage'
+import { useToast } from '@/components/ui/use-toast'
+import Spinner from '@/components/utils/Spinner'
 
 export default function LoginPage() {
     const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
@@ -21,21 +23,50 @@ export default function LoginPage() {
         formState: { errors },
     } = hookForm
     const [visible, setVisible] = useState(false)
+    const navigate = useNavigate()
+    const { toast } = useToast()
 
     function onLogin() {
         handleSubmit(async (data) => {
-            const response = await API.AUTH.LOGIN(data)
-            const token = response.token
+            // toast({
+            //     title: 'Login',
+            //     description: 'Kami sedang memverifikasi data kamu.',
+            //     action: <Spinner size={6} />,
+            // })
 
-            if (token === undefined) {
-                console.log('Login Failed')
-                return
+            try {
+                const response = await API.AUTH.LOGIN(data)
+                const token = response.token
+
+                if (token === undefined) {
+                    toast({
+                        title: 'Gagal Membuat Produk',
+                        description: 'Terjadi kesalahan saat membuat produk kamu.',
+                        variant: 'failed',
+                    })
+
+                    return
+                }
+
+                LOCAL_STORAGE.SET(token)
+
+                const loggedUser: User = await API.USER.GET_LOGGED_USER()
+                setLoggedUser(loggedUser)
+
+                toast({
+                    title: 'Login berhasil!',
+                    description: 'Selamat datang kembali.',
+                    variant: 'success',
+                })
+
+                navigate('/')
+            } catch (err) {
+                toast({
+                    title: 'Gagal Membuat Produk',
+                    description: 'Terjadi kesalahan saat membuat produk kamu.',
+                    variant: 'failed',
+                })
             }
-
-            LOCAL_STORAGE.SET(token)
-
-            const loggedUser: User = await API.USER.GET_LOGGED_USER()
-            setLoggedUser(loggedUser)
         })()
     }
 

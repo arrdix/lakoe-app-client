@@ -1,98 +1,155 @@
-import React from 'react';
-// import { useLocation } from 'react-router-dom';
-import ContactInformation from "@/components/buyer/ContactInformation";
-import InsertVoucherModal from "@/components/buyer/InsertVoucherModal";
-import Note from "@/components/buyer/Note";
-import DeliveryMethods from "@/components/buyer/DeliveryMethods";
-import ShippingAddress from "@/components/buyer/ShippingAddress";
-import { Button } from "@/components/ui/button";
-import { FaArrowRight } from "react-icons/fa";
-import { useForm } from "react-hook-form";
-import { CheckoutDto } from "@/dtos/CheckoutDto";
-import { CreateOrderDto } from "@/dtos/OrderDto";
-import axios from 'axios';
-import PaymentSummary from '@/components/buyer/PaymentSummary';
-import { useLocation } from 'react-router-dom';
-
+import { useEffect, useState } from 'react'
+import ContactInformation from '@/components/buyer/ContactInformation'
+import InsertVoucherModal from '@/components/buyer/InsertVoucherModal'
+import Note from '@/components/buyer/Note'
+import DeliveryMethods from '@/components/buyer/DeliveryMethods'
+import ShippingAddress from '@/components/buyer/ShippingAddress'
+import { Button } from '@/components/ui/button'
+import { FaArrowRight } from 'react-icons/fa'
+import { useForm } from 'react-hook-form'
+import { CheckoutDto } from '@/dtos/CheckoutDto'
+import { CreateOrderDto } from '@/dtos/OrderDto'
+import axios from 'axios'
+import PaymentSummary from '@/components/buyer/PaymentSummary'
+import { useLocation } from 'react-router-dom'
+import API from '@/networks/api'
+import { Cart } from '@/types/CartType'
+import { OrderedProduct } from '@/types/OrderedProductType'
+import { LatLngExpression } from 'leaflet'
 
 function CheckoutPage() {
-  const hookForm = useForm<CreateOrderDto>();
-  const hookForm2 = useForm<CheckoutDto>();
-  const { setValue } = hookForm;
+    const [storeId, setStoreId] = useState<number>(0)
+    const [orderedProducts, setOrderedProducts] = useState<OrderedProduct[]>([])
+    const [receiverLocation, setReceiverLocation] = useState<LatLngExpression | null>()
+    // const [productQty, setProductQty] = useState<number>(0)
+    // const [productSKUs, setProductSKUs] = useState<string[]>([])
 
-  setValue("invoiceNumber", "121233");
-  setValue("serviceCharge", 300);
-  setValue("receiverLatitude", 1);
-  setValue("receiverLongtitude", 3);
-  setValue("status", "ini status");
-  setValue("price", 3000);
+    const hookForm = useForm<CreateOrderDto>()
+    const hookForm2 = useForm<CheckoutDto>()
 
-  const postCheckout = async (data: CreateOrderDto) => {
-    try {
-      const response = await axios.post("http://localhost:3000/order", data);
-      console.log(response);
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw error;
-      }
+    const location = useLocation()
 
-      throw error;
+    const onCheckout = async (data: CreateOrderDto) => {
+        console.log(data)
+
+        try {
+            // only if cartId isn't exist
+            const cart: Cart = await API.CART.CREATE({
+                discount: 0,
+                storeId: storeId,
+            })
+
+            for (const orderedProduct of orderedProducts) {
+                await API.CART_ITEM.CREATE({
+                    cartId: cart.id,
+                    qty: orderedProduct.qty,
+                    sku: orderedProduct.sku,
+                    storeId: storeId,
+                })
+            }
+
+            const courier = await API.COURIER.CREATE({
+                courierCode: 'EXAMPLE_COURIER_CODE',
+                courierServiceCode: 'EXAMPLE_SERVICE_GJK',
+                courierServiceName: 'EXAMPLE_GOJEK',
+                price: 13000, // example courier price
+            })
+
+            const transaction = await API.ORDER.CREATE({
+                ...data,
+                status: 'BELUM DIBAYAR',
+                serviceCharge: courier.price,
+                courierId: courier.id,
+                cartId: cart.id,
+            })
+
+            window.snap.pay(transaction.token)
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                throw error
+            }
+
+            throw error
+        }
     }
-  };
 
-  const { handleSubmit } = hookForm;
+    // on marker change
+    function onPositionChange(pos: LatLngExpression | null) {
+        setReceiverLocation(pos)
+        console.log(pos);
+    }
 
-  const loc = useLocation()
-  const { product, count, selectedVariant } = loc.state  
+    // on select delivery
+    async function onSelectDeliveryMethod() {
+        const selectDelivery = await API.COURIER.GET_RATES(
+            {
+                origin_latitude: -6.3031123,
+                origin_longitude: 106.7794934999,
+                destination_latitude: -6.2441792,
+                destination_longitude: 106.783529,
+                couriers: "grab,jne,tiki",
+                items: [
+                    {
+                        name: "Shoes",
+                        description: "Black colored size 45",
+                        value: 199000,
+                        length: 30,
+                        width: 15,
+                        height: 20,
+                        weight: 200,
+                        quantity: 2
+                    }
+                ]
+            }
+        )
+        console.log("res", selectDelivery);
+    }
 
+    useEffect(() => {
+        const { state } = location
 
-console.log(product, count, selectedVariant)
+        setStoreId(state.storeId)
+        setOrderedProducts(state.orderedProducts)
+        // setProductQty(state.orderedProduct.qty)
+        // setProductSKUs(state.orderedProduct.skus)
+    }, [])
 
-  return (
-    <div className=" w-full h-full bg-white px-20 py-14">
-      <div className="flex gap-10">
-        <div className="flex flex-col gap-2 w-4/6">
-          <div className="flex items-center gap-6">
-            <h1 className="font-semibold text-6xl mb-10 px-3">Checkout</h1>
-            <img
-              className="w-32 relative bottom-7"
-              src="Add to Cart-amico.png"
-              alt=""
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <ContactInformation hookForm={hookForm} />
-            <ShippingAddress hookForm={hookForm} />
-            <DeliveryMethods hookForm={hookForm2} />
-          </div>
+    const { handleSubmit } = hookForm
+
+    return (
+        <div className=" w-4/5 h-full bg-white px-8 py-8 mt-8">
+            <div className="flex gap-10">
+                <div className="flex flex-col gap-2 w-4/6">
+                    <div className="flex items-center gap-2">
+                        <h1 className="font-bold text-4xl">Checkout</h1>
+                        <img className="w-16 mb-3" src="Add to Cart-amico.png" alt="icon" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <ContactInformation hookForm={hookForm} />
+                        <ShippingAddress onPositionChange={onPositionChange} hookForm={hookForm} />
+                        <DeliveryMethods onSelectDeliveryMethod={onSelectDeliveryMethod} hookForm={hookForm2} />
+                    </div>
+                </div>
+                <div className="flex flex-col gap-2 w-2/6 relative top-6">
+                    {/* <PaymentSummar2/> */}
+                    <PaymentSummary orderedProducts={orderedProducts} />
+
+                    <InsertVoucherModal />
+                    <Note hookForm={hookForm} />
+                    <Button
+                        type="button"
+                        className="rounded-lg p-1 border=none bg-cyan px-14 py-6 w-full"
+                        onClick={handleSubmit((data) => {
+                            onCheckout(data)
+                        })}
+                    >
+                        <p className="mx-2 text-md font-semibold">Bayar sekarang</p>
+                        <FaArrowRight size={20} className="text-white mr-2" />
+                    </Button>
+                </div>
+            </div>
         </div>
-        <div className="flex flex-col gap-2 w-2/6 relative top-6">
-
-        {/* <PaymentSummar2/> */}
-        <PaymentSummary biayaPengiriman={2000} totalHarga={5453333} totalPembayaran={400000000}/>
-         
-          <InsertVoucherModal />
-          <Note hookForm={hookForm} />
-          <Button
-            type="button"
-            className="rounded-lg p-1 border=none bg-cyan px-14 py-6 w-full"
-            onClick={handleSubmit((data) => {
-              console.log(data);
-              postCheckout(data);
-            })}
-          >
-            <p className="mx-2 text-md font-semibold">Bayar sekarang</p>
-            <FaArrowRight size={20} className="text-white mr-2" />
-          </Button>
-
-          {/* <div className="w-96 h-96 bg-black">
-            <SimpleMap />
-          </div> */}
-        </div>
-      </div>
-    </div>
-  );
+    )
 }
 
-export default CheckoutPage;
+export default CheckoutPage

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { LiaTimesSolid } from "react-icons/lia";
