@@ -5,13 +5,15 @@ import ValidatedSelect from '../utils/ValidatedSelect'
 import { CreateOrderDto } from '@/dtos/OrderDto'
 import { IoIosWarning } from 'react-icons/io'
 import SimpleMap from '../Map'
+import { LatLngExpression } from 'leaflet'
 
 interface ShippingAddressProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     hookForm: UseFormReturn<CreateOrderDto, any, undefined>
+    onPositionChange: (pos: LatLngExpression | null) => void
 }
 
-export default function ShippingAddress({ hookForm }: ShippingAddressProps) {
+export default function ShippingAddress({ hookForm, onPositionChange }: ShippingAddressProps) {
     const {
         setValue,
         register,
@@ -118,7 +120,7 @@ export default function ShippingAddress({ hookForm }: ShippingAddressProps) {
                         </div>
                     </div>
                     <div className="h-72">
-                        <SimpleMap hookForm={hookForm} />
+                        <SimpleMap onPositionChange={onPositionChange} hookForm={hookForm} />
                     </div>
                 </div>
             </div>
