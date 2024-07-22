@@ -10,10 +10,18 @@ import { useState } from "react"
 import { useToast } from '@/components/ui/use-toast'
 import API from "@/networks/api"
 import Spinner from '@/components/utils/Spinner'
+import ValidatedSelect from "@/components/utils/ValidatedSelect"
+import { error } from "console"
+
 
 export default function RegisterPage() {
     const hookForm = useForm<registerDto>()
-    const { handleSubmit, register, formState: { errors } } = hookForm
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+        setValue
+    } = hookForm
     const [visible, setVisible] = useState(false)
     const { toast } = useToast()
     const navigate = useNavigate()
@@ -66,6 +74,7 @@ export default function RegisterPage() {
             </div>
             <div className="w-3/6 flex flex-col justify-start gap-5">
                 <form onSubmit={handleSubmit(onSubmitRegister)} className="flex flex-col gap-3">
+                    <ValidatedSelect name="role" options={["SELLER", "BUYER"]} setValue={setValue} error={errors.role} placeholder="Pilih Role" />
                     <ValidateInput
                         error={errors.name}
                         name="name"

@@ -4,6 +4,7 @@ export type loginDto = {
 };
 
 export type registerDto = {
+  role: string;
   name: string;
   email: string;
   password: string;

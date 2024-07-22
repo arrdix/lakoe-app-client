@@ -183,7 +183,7 @@ export default function DetailOrderPage() {
                         <div>
                             <div className="flex flex-col gap-1 text-sm">
                                 <p
-                                    className={`${labelColor}  w-fit font-semibold rounded-lg py-1 text-sm`}
+                                    className={`${labelColor}  w-fit font-semibold rounded-lg p-1 text-sm`}
                                 >
                                     {order.status}
                                 </p>
@@ -479,7 +479,7 @@ export default function DetailOrderPage() {
                                     variant={'outline'}
                                     className="text-white bg-cyan hover:bg-white hover:text-cyan hover:border-cyan"
                                 >
-                                    Proses Pesanan
+                                    Request Pickup
                                 </Button>
                             </div>
                         </div>
