@@ -19,12 +19,15 @@ import { useLakoeStore } from '@/store/store'
 import { useEffect, useState } from 'react'
 import API from '@/networks/api'
 import LandingPage from './pages/LandingPage'
+import { Cart } from '@/types/CartType'
+import ShippingPage from './pages/ShippingPage'
 
 function App() {
     const [isPreloaded, setIsPreloaded] = useState<boolean>(true)
 
     const loggedUser = useLakoeStore((state) => state.loggedUser)
     const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
+    const setcarts = useLakoeStore((state) => state.setCarts)
 
     useEffect(() => {
         async function isUserLogged() {
@@ -43,7 +46,14 @@ function App() {
             }
         }
 
+        async function getActiveCart() {
+            const carts: Cart[] = await API.CART.FIND_ALL_UNCOMPLETE()
+
+            setcarts(carts)
+        }
+
         isUserLogged()
+        getActiveCart()
     }, [])
 
     if (isPreloaded) {
@@ -68,6 +78,7 @@ function App() {
                         <Route path="/order" element={<OrderPage />} />
                         <Route path="/order/detail/:id" element={<DetailOrderPage />} />
                         <Route path="/store-setting" element={<SettingPage />} />
+                        <Route path="/store-shipping" element={<ShippingPage />} />
                         <Route path="/reset" index element={<ResetPasswordPage />} />
                     </Route>
                 </Routes>
@@ -92,6 +103,7 @@ function App() {
         <Routes>
             <Route path="/" element={<BuyerLayout />}>
                 <Route path="/" element={<LandingPage />} />
+                <Route path="/product/:id" element={<BuyerPage />} />
                 <Route path="/auth/login" index element={<LoginPage />} />
                 <Route path="/auth/register" index element={<RegisterPage />} />
                 <Route path="/forgot" index element={<ForgotPasswordPage />} />

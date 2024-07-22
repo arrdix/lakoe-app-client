@@ -10,6 +10,7 @@ import formatToIDR from '@/lib/IdrUtils'
 interface ValidatedInputProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     hookForm: UseFormReturn<CheckoutDto, any, undefined>
+    onSelectDeliveryMethod: () => void
 }
 
 interface opsiPengirimanType {
@@ -40,7 +41,7 @@ const opsiPengiriman: opsiPengirimanType[] = [
     },
 ]
 
-export default function DeliveryMethodsModal({ hookForm }: ValidatedInputProps) {
+export default function DeliveryMethodsModal({ onSelectDeliveryMethod, hookForm }: ValidatedInputProps) {
     const [open, setOpen] = useState(false)
     const { setValue } = hookForm
     const [deliveryMethod, setDeliveryMethod] = useState<opsiPengirimanType | undefined>(undefined)
@@ -52,7 +53,10 @@ export default function DeliveryMethodsModal({ hookForm }: ValidatedInputProps) 
             {!deliveryMethod ? (
                 <Button
                     type="button"
-                    onClick={() => setOpen(true)}
+                    onClick={() => {
+                        setOpen(true)
+                        onSelectDeliveryMethod()
+                    }}
                     className="rounded-lg p-1 border-none bg-cyan px-14 py-6"
                 >
                     <p className="mx-2 text-md font-semibold">Pilih Metode Pengiriman</p>
@@ -81,7 +85,8 @@ export default function DeliveryMethodsModal({ hookForm }: ValidatedInputProps) 
                         </p>
                     </div>
                 </Button>
-            )}
+            )
+            }
 
             {/* Background Overlay */}
             {open && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
@@ -104,6 +109,7 @@ export default function DeliveryMethodsModal({ hookForm }: ValidatedInputProps) 
                                     className="p-2 border-none hover:bg-white absolute top-0 right-2"
                                     onClick={() => {
                                         setOpen(false)
+                                        onSelectDeliveryMethod()
                                     }}
                                 >
                                     <LiaTimesSolid />
@@ -146,6 +152,6 @@ export default function DeliveryMethodsModal({ hookForm }: ValidatedInputProps) 
                     </div>
                 </div>
             </Dialog>
-        </div>
+        </div >
     )
 }
