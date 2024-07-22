@@ -6,15 +6,16 @@ import { useForm } from 'react-hook-form';
 import ValidatedTextarea from '../utils/ValidatedTextarea';
 import { useState } from 'react';
 import { IoIosClose } from 'react-icons/io';
+import API from '@/networks/api';
 
 function StoreInfo() {
-    const { register, setValue, formState: { errors }, handleSubmit } = useForm<StoreInfoDto>();
+    const { register, setValue, formState: { errors }, handleSubmit, reset } = useForm<StoreInfoDto>();
 
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [bannerPreview, setBannerPreview] = useState<string | null>(null);
 
     function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
-
         if (file) {
             const imagePreview = URL.createObjectURL(file);
             setImagePreview(imagePreview);
@@ -26,6 +27,46 @@ function StoreInfo() {
         setImagePreview(null);
         setValue('logo', null as any);
     }
+
+    function onBannerChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
+        if (file) {
+            const bannerPreview = URL.createObjectURL(file);
+            setBannerPreview(bannerPreview);
+            setValue('banner', file);
+        }
+    }
+
+    function removeBanner() {
+        setBannerPreview(null);
+        setValue('banner', null as any);
+    }
+
+    const onSubmit = async (data: StoreInfoDto) => {
+        try {
+            const formData = new FormData();
+
+            // Tambahkan field dan file ke FormData
+            formData.append('name', data.name);
+            formData.append('slogan', data.slogan);
+            formData.append('description', data.description);
+            formData.append('domain', data.domain || '');
+            if (data.logo) formData.append('logoAttachment', data.logo);
+            if (data.banner) formData.append('bannerAttachment', data.banner);
+
+            // Kirim data ke server
+            const response = await API.STORE.CREATE(formData);
+            console.log('Response:', response);
+
+            // Reset form setelah submit berhasil
+            reset();
+            setImagePreview(null); // Reset preview image
+            setBannerPreview(null); // Reset preview banner
+
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
 
     return (
         <>
@@ -73,7 +114,7 @@ function StoreInfo() {
                 </div>
             </div>
             <div className="flex border-b border-lightGray pb-4">
-                <Button onClick={handleSubmit((data) => console.log(data))} className="ml-auto rounded-lg">Simpan</Button>
+                <Button onClick={handleSubmit(onSubmit)} className="ml-auto rounded-lg">Simpan</Button>
             </div>
             <h2 className="text-black text-md font-bold">Logo Toko</h2>
             <div className="border border-gray border-dotted w-56 h-56 rounded-md relative">
@@ -87,21 +128,47 @@ function StoreInfo() {
                             <IoIosClose className="text-lg" />
                         </button>
                     </div>
-
                 ) : (
                     <div className="absolute flex flex-col justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray">
-                        <label htmlFor="attachments" className="cursor-pointer">
+                        <label htmlFor="logo" className="cursor-pointer">
                             <BiImageAdd size={'4rem'} />
                         </label>
                         <span className="text-gray">Unggah Foto</span>
-
                     </div>
                 )}
                 <input
                     type="file"
-                    id="attachments"
+                    id="logo"
                     accept="image/*"
                     onChange={onImageChange}
+                    className="hidden"
+                />
+            </div>
+            <h2 className="text-black text-md font-bold">Banner Toko</h2>
+            <div className="border border-gray border-dotted w-56 h-56 rounded-md relative">
+                {bannerPreview ? (
+                    <div className="relative w-full h-full">
+                        <img src={bannerPreview} alt="Banner Preview" className="w-full h-full object-cover rounded-md" />
+                        <button
+                            className="flex justify-center items-center absolute top-1 right-1 w-6 h-6 bg-white rounded-full"
+                            onClick={removeBanner}
+                        >
+                            <IoIosClose className="text-lg" />
+                        </button>
+                    </div>
+                ) : (
+                    <div className="absolute flex flex-col justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray">
+                        <label htmlFor="banner" className="cursor-pointer">
+                            <BiImageAdd size={'4rem'} />
+                        </label>
+                        <span className="text-gray">Unggah Foto</span>
+                    </div>
+                )}
+                <input
+                    type="file"
+                    id="banner"
+                    accept="image/*"
+                    onChange={onBannerChange}
                     className="hidden"
                 />
             </div>
