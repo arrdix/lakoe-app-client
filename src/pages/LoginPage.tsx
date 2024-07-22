@@ -13,10 +13,25 @@ import { User } from '@/types/UserType'
 import LOCAL_STORAGE from '@/networks/storage'
 import { useToast } from '@/components/ui/use-toast'
 import Spinner from '@/components/utils/Spinner'
+import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const LoginSchema = z.object({
+    email: z
+        .string()
+        .min(1, { message: "This field has to be filled." })
+        .email("This is not a valid email."),
+    password: z
+        .string()
+        .min(5, { message: "Password must be at least 5 characters long." })
+        .max(20, { message: "Password must be at most 20 characters long." })
+});
 
 export default function LoginPage() {
     const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
-    const hookForm = useForm<loginDto>()
+    const hookForm = useForm<loginDto>({
+        resolver: zodResolver(LoginSchema)
+    })
     const {
         handleSubmit,
         register,

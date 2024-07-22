@@ -545,6 +545,26 @@ const API = {
         },
     },
 
+    CATEGORIES: {
+        GET_ALL: async () => {
+            try {
+                const response = await axios.get(`${CONFIG.BASE_URL}/categories`, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+    },
+
     LOCATION: {
         GET_PROVINCE: async () => {
             try {
