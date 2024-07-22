@@ -23,7 +23,7 @@ export default function ProductFilter({ onChange }: FilterProps) {
   useEffect(() => {
     onChange(dataInput);
   }, [dataInput]);
-  
+
   return (
     <div className="flex my-4 gap-2">
       <form className="w-80">
@@ -40,7 +40,6 @@ export default function ProductFilter({ onChange }: FilterProps) {
               const { value } = e.target;
               setValue("data", value);
               const data = getValues();
-              console.log(data.data);
               setDataInput(data.data);
             }}
           />

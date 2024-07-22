@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { Marker, Popup, useMapEvents } from 'react-leaflet'
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch'
 
-const LocationMarker = () => {
+interface 
+
+const LocationMarker = ({positionProps}:{position:LatLngExpression}) => {
     const [position, setPosition] = useState<LatLngExpression | null>(null)
 
     const map = useMapEvents({

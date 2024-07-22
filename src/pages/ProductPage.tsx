@@ -9,7 +9,9 @@ import API from "@/networks/api";
 import { ProductBySku } from "@/types/ProductBySkuType";
 
 function ProductPage() {
-  const [realProducts, setRealProducts] = useState<ProductBySku[] | undefined>(undefined);
+  const [realProducts, setRealProducts] = useState<ProductBySku[] | undefined>(
+    undefined
+  );
   const [realProductsFiltered, setRealProductsFiltered] = useState<
     ProductBySku[] | undefined
   >(realProducts);
@@ -39,14 +41,13 @@ function ProductPage() {
 
     setactiveTabOption(activeTab);
   }
+  async function GET_PRODUCTS() {
+    const products = await API.PRODUCT.GET_ALL_BY_SKU();
+    setRealProducts(products);
+    setRealProductsFiltered(products);
+  }
 
   useEffect(() => {
-    async function GET_PRODUCTS() {
-      const products = await API.PRODUCT.GET_ALL_BY_SKU();
-      setRealProducts(products);
-      setRealProductsFiltered(products)
-    }
-
     GET_PRODUCTS();
   }, []);
 
@@ -69,7 +70,7 @@ function ProductPage() {
         thirdTab="Nonaktif"
         onTabChange={onTabChange}
       />
-
+    
       <ProductList
         key={activeTab}
         productsProps={realProductsFiltered}
