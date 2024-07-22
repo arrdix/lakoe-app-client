@@ -8,19 +8,36 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Button } from "../ui/button";
 import API from "@/networks/api";
+import { useToast } from "../ui/use-toast";
 
 interface DeleteProductModalProps {
   onModalClose?: () => void;
-  productName: string;
   productSku: string;
 }
 
 export default function DeleteProductModal({
   onModalClose,
-  productName,
   productSku,
 }: DeleteProductModalProps) {
   const [open, setOpen] = useState(true);
+  const { toast } = useToast();
+  async function DELETE_BY_SKU() {
+    try {
+      const deleteProducts = await API.PRODUCT.DELETE_BY_SKU(productSku);
+      console.log(deleteProducts);
+      toast({
+        title: "Produk Berhasil Dihapus!",
+        description: "Kami berhasil menghapus produk kamu.",
+        variant: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "Gagal menghapus Produk",
+        description: "Terjadi kesalahan saat menghapus produk kamu.",
+        variant: "failed",
+      });
+    }
+  }
 
   // edit logic
   useEffect(() => {
@@ -78,14 +95,6 @@ export default function DeleteProductModal({
                   className="bg-cyan text-white px-5 py-0"
                   onClick={() => {
                     setOpen(false);
-                    async function DELETE_BY_SKU() {
-                      const products = await API.PRODUCT.DELETE_BY_SKU(
-                        productSku
-                      );
-                      console.log(products);
-
-                    }
-
                     DELETE_BY_SKU();
                   }}
                 >
