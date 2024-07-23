@@ -36,7 +36,7 @@ export default function OrderModal({ courierName, wayBill, storeName, shipperNam
                                 <DialogTitle>Lacak Pengiriman</DialogTitle>
                                 <DialogDescription className="text-black flex flex-col gap-1">
                                     <div className="w-full flex flex-row justify-between p-2">
-                                        <div className="w-96 flex flex-col gap-3">
+                                        <div className="w-1/2 flex flex-col gap-3">
                                             <div>
                                                 <p>Kurir</p>
                                                 <p className="font-semibold">
@@ -58,7 +58,7 @@ export default function OrderModal({ courierName, wayBill, storeName, shipperNam
                                                 </p>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div className='w-1/2'>
                                             <p>Penerima</p>
                                             <p className="font-semibold">
                                                 {shipperName}

@@ -16,11 +16,50 @@ import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import Spinner from '@/components/utils/Spinner'
 import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const ProductSchema = z.object({
+    name: z
+        .string()
+        .min(4, { message: "Nama produk harus minimal 4 karakter" })
+        .max(100, { message: "Nama produk maksimal 100 karakter" }),
+
+    url: z
+        .string()
+        .url({ message: "URL harus valid" }),
+
+    categoryId: z
+        .string()
+        .min(1, { message: "Kategori harus dipilih" }),
+
+    description: z
+        .string()
+        .min(4, { message: "Deskripsi harus minimal 4 karakter" })
+        .max(3000, { message: "Deskripsi maksimal 3000 karakter" }),
+
+    attachment: z
+        .string()
+        .min(1, { message: "Foto produk harus ada setidaknya 1 file" })
+        .max(5, { message: "Foto produk maksimal 5 file" }),
+
+    variantOptionName: z
+        .string()
+        .min(1, { message: "Opsi varian harus minimal 1 karakter" })
+        .max(100, { message: "Opsi varian maksimal 100 karakter" }),
+
+    minimumOrder: z
+        .string()
+        .min(1, { message: "Jumlah minimal pembelian adalah 1" })
+        .max(100, { message: "Jumlah maksimal pembelian adalah 100" }),
+});
 
 function NewProductPage() {
     const navigate = useNavigate()
     const { toast } = useToast()
-    const hookForm = useForm<CreateProductDto>()
+    const hookForm = useForm<CreateProductDto>({
+        resolver: zodResolver(ProductSchema)
+    })
     const { handleSubmit } = hookForm
 
     function onSubmitNewProduct() {

@@ -10,6 +10,17 @@ import ValidatedInput from "../utils/ValidatedInput";
 import { UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
 import { useForm } from "react-hook-form";
 import API from "@/networks/api";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const ChangePriceSchema = z.object({
+  price: z
+    .string()
+    .min(1, { message: "Harga satuan harus diisi" })
+    .refine(value => /^\d+$/.test(value), {
+      message: "Harga satuan harus berupa angka",
+    })
+})
 
 export default function ChangeProductPriceModal({
   productName,
@@ -19,7 +30,9 @@ export default function ChangeProductPriceModal({
   productSku: string;
 }) {
   const [open, setOpen] = useState(false);
-  const hookForm = useForm<UpdateVariantOptionValueDto>();
+  const hookForm = useForm<UpdateVariantOptionValueDto>({
+    resolver: zodResolver(ChangePriceSchema)
+  });
   const {
     register,
     handleSubmit,
@@ -102,8 +115,8 @@ export default function ChangeProductPriceModal({
                   className="bg-cyan text-white px-5 py-0"
                   onClick={handleSubmit((data) => {
                     setOpen(false);
-                     CHANGEPRICE(productSku, data);
-                    console.log('data frontend',data)
+                    CHANGEPRICE(productSku, data);
+                    console.log('data frontend', data)
                   })}
                 >
                   Simpan

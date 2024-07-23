@@ -12,8 +12,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 const ForgotSchema = z.object({
     email: z
         .string()
-        .min(1, { message: "This field has to be filled." })
-        .email("This is not a valid email.")
+        .min(1, { message: "Email harus diisi" })
+        .email({ message: "Format email tidak valid" })
 });
 
 export default function ForgotPasswordPage() {

@@ -5,9 +5,30 @@ import { StoreInfoDto } from '@/dtos/StoreInfoDto';
 import { useForm } from 'react-hook-form';
 import ValidatedTextarea from '../utils/ValidatedTextarea';
 import { useState } from 'react';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const StoreSchema = z.object({
+    slogan: z
+        .string()
+        .min(4, { message: "Slogan harus memiliki minimal 4 karakter" })
+        .max(100, { message: "Slogan maksimal 100 karakter" }),
+
+    name: z
+        .string()
+        .min(4, { message: "Nama toko harus memiliki minimal 4 karakter" })
+        .max(100, { message: "Nama toko maksimal 100 karakter" }),
+
+    description: z
+        .string()
+        .min(4, { message: "Deskripsi harus memiliki minimal 4 karakter" })
+        .max(3000, { message: "Deskripsi maksimal 3000 karakter" })
+});
 
 function StoreInfo() {
-    const hookForm = useForm<StoreInfoDto>();
+    const hookForm = useForm<StoreInfoDto>({
+        resolver: zodResolver(StoreSchema)
+    });
 
     // const [imagePreviews, setimagePreviews] = useState<string[]>([])
 
@@ -27,7 +48,7 @@ function StoreInfo() {
 
     const {
         register,
-        formState: { errors }, 
+        formState: { errors },
         handleSubmit
     } = hookForm;
 
