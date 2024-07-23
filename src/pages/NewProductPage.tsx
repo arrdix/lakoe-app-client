@@ -30,8 +30,7 @@ const ProductSchema = z.object({
         .url({ message: "URL harus valid" }),
 
     categoryId: z
-        .string()
-        .min(1, { message: "Kategori harus dipilih" }),
+        .string({ message: "Kategori harus dipilih" }),
 
     description: z
         .string()
@@ -52,6 +51,23 @@ const ProductSchema = z.object({
         .string()
         .min(1, { message: "Jumlah minimal pembelian adalah 1" })
         .max(100, { message: "Jumlah maksimal pembelian adalah 100" }),
+
+    variant: z.object({
+        name: z.string(),
+        isActive: z.boolean(),
+        variantOptions: z.array(
+            z.object({
+                name: z.string().min(1, { message: "Nama opsi varian harus diisi" }),
+                variantOptionValue: z.object({
+                    sku: z.string().min(1, { message: "SKU produk harus diisi" }),
+                    weight: z.coerce.number().positive({ message: "Berat produk harus diisi" }),
+                    stock: z.coerce.number().positive({ message: "Stok barang harus diisi" }),
+                    price: z.coerce.number().positive({ message: "Harga barang harus diisi" }),
+                    isActive: z.boolean(),
+                })
+            })
+        )
+    })
 });
 
 function NewProductPage() {

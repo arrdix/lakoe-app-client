@@ -47,7 +47,7 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <SelectCategory setValue={setValue} />
+                    <SelectCategory setValue={setValue} error={errors.categoryId} />
                 </div>
             </div>
         </div>

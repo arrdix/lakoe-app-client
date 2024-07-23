@@ -23,7 +23,7 @@ const LoginSchema = z.object({
         .email("Format email tidak valid"),
     password: z
         .string()
-        .min(5, { message: "Password harus terdiri dari minimal 5 karakter" })
+        .min(4, { message: "Password harus terdiri dari minimal 5 karakter" })
         .max(20, { message: "Password maksimal 20 karakter" })
 });
 

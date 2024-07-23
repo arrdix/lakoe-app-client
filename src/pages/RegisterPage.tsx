@@ -19,7 +19,7 @@ const RegisterSchema = z.object({
         .enum(["buyer", "seller"], { message: "Peran harus berupa 'buyer' atau 'seller'" }),
     name: z
         .string()
-        .min(3, { message: "Nama pengguna harus terdiri dari minimal 3 karakter" })
+        .min(4, { message: "Nama pengguna harus terdiri dari minimal 3 karakter" })
         .max(20, { message: "Nama pengguna maksimal 20 karakter" }),
     email: z
         .string()
@@ -27,7 +27,7 @@ const RegisterSchema = z.object({
         .email("Format email tidak valid"),
     password: z
         .string()
-        .min(5, { message: "Password harus terdiri dari minimal 5 karakter" })
+        .min(4, { message: "Password harus terdiri dari minimal 5 karakter" })
         .max(20, { message: "Password maksimal 20 karakter" })
 });
 

@@ -7,9 +7,20 @@ import { Link } from "react-router-dom"
 import { resetPassword } from "@/dtos/AuthDto"
 import ValidateInput from "@/components/utils/ValidatedInput";
 import { useState, useCallback } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const ResetSchema = z.object({
+    password: z
+        .string()
+        .min(4, { message: "Password harus terdiri dari minimal 5 karakter" })
+        .max(20, { message: "Password maksimal 20 karakter" })
+});
 
 export default function ResetPasswordPage() {
-    const hookForm = useForm<resetPassword>()
+    const hookForm = useForm<resetPassword>({
+        resolver: zodResolver(ResetSchema)
+    })
     const { handleSubmit, register, formState: { errors } } = hookForm
     const [visible, setVisible] = useState(false)
 
