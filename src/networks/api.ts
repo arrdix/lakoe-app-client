@@ -651,7 +651,43 @@ const API = {
         }
       }
     },
-  }
+
+    GET_STORE: async () => {
+      try {
+        const response = await axios.get(`${CONFIG.BASE_URL}/store/myStore`, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error('Unexpected error');
+        }
+      }
+    },
+
+    UPDATE_STORE: async (data: FormData) => {
+      try {
+        const response = await axios.patch(`${CONFIG.BASE_URL}/store/myStore`, data, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error('Unexpected error');
+        }
+      }
+    }
+  },
 }
 
 export default API;
