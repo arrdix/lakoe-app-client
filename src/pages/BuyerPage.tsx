@@ -45,6 +45,10 @@ function BuyerPage() {
     useEffect(() => {
         async function GET_DATA() {
             try {
+                if (!loggedUser) {
+                    navigate('/auth/login')
+                }
+
                 if (id) {
                     const product: Product = await API.PRODUCT.GET_ONE_BY_ID(+id)
                     const existingCart: Cart = await API.CART.FIND_ONE_UNCOMPLETE(

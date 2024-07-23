@@ -8,6 +8,7 @@ import { CartDto } from "@/dtos/CartDto";
 import { CartItemDto } from "@/dtos/CartItemDto";
 import { CourierDto } from "@/dtos/CourierDto";
 import { GetRatesDto } from "@/dtos/GetRatesDto";
+import { StoreInfoDto } from "@/dtos/StoreInfoDto";
 
 const API = {
   PRODUCT: {
@@ -631,6 +632,26 @@ const API = {
       }
     },
   },
-};
+
+  STORE: {
+    CREATE: async (data: FormData) => {
+      try {
+        const response = await axios.post(`${CONFIG.BASE_URL}/store`, data, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error('Unexpected error');
+        }
+      }
+    },
+  }
+}
 
 export default API;

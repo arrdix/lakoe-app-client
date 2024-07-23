@@ -10,11 +10,30 @@ import { BiTrash } from "react-icons/bi";
 import { Button } from "../ui/button";
 import { useProductCheckedContext } from "@/context/checkedProductContext";
 import API from "@/networks/api";
+import { useToast } from "../ui/use-toast";
 
 export default function DeleteProductsModal() {
   const [open, setOpen] = useState(false);
   const { sku } = useProductCheckedContext();
-  console.log("sku dari modal", sku);
+  const { toast } = useToast();
+
+  async function DELETE_BY_SKU() {
+    try {
+      const products = await API.PRODUCT.DELETE_MANY_BY_SKU(sku);
+      console.log(products);
+      toast({
+        title: "Produk Berhasil Dihapus!",
+        description: "Kami berhasil menghapus produk kamu.",
+        variant: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "Gagal menghapus Produk",
+        description: "Terjadi kesalahan saat menghapus produk kamu.",
+        variant: "failed",
+      });
+    }
+  }
 
   return (
     <div>
@@ -72,12 +91,6 @@ export default function DeleteProductsModal() {
                   className="bg-cyan text-white px-5 py-0"
                   onClick={() => {
                     setOpen(false);
-                    async function DELETE_BY_SKU() {
-                      const products = await API.PRODUCT.DELETE_MANY_BY_SKU(
-                        sku
-                      );
-                      console.log(products);
-                    }
 
                     DELETE_BY_SKU();
                   }}
