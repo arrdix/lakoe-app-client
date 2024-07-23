@@ -69,9 +69,9 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
                     {/* <SelectCategory setValue={setValue} /> */}
                     {categories && (
                         <ValidatedSelect
-                            error={errors.categoryId}
+                            error={errors.categoryName}
                             setValue={setValue}
-                            name="categoryId"
+                            name="categoryName"
                             placeholder="Pilih Kategori"
                             options={categories}
                         />

@@ -17,8 +17,10 @@ import { Cart } from '@/types/CartType'
 import { OrderedProduct } from '@/types/OrderedProductType'
 import { LatLngExpression } from 'leaflet'
 import { Courier } from '@/types/CourierType'
+import { CartItem } from '@/types/CartItemType'
 
 function CheckoutPage() {
+    const [targetCart, setTargetCart] = useState<Cart>()
     const [storeId, setStoreId] = useState<number>(0)
     const [orderedProducts, setOrderedProducts] = useState<OrderedProduct[]>([])
     const [receiverLocation, setReceiverLocation] = useState<LatLngExpression | null>()
@@ -33,37 +35,38 @@ function CheckoutPage() {
 
     const onCheckout = async (data: CreateOrderDto) => {
         try {
-            // only if cartId isn't exist
-            const cart: Cart = await API.CART.CREATE({
-                discount: 0,
-                storeId: storeId,
-            })
-
-            for (const orderedProduct of orderedProducts) {
-                await API.CART_ITEM.CREATE({
-                    cartId: cart.id,
-                    qty: orderedProduct.qty,
-                    sku: orderedProduct.sku,
+            if (!targetCart) {
+                const cart: Cart = await API.CART.CREATE({
+                    discount: 0,
                     storeId: storeId,
                 })
+
+                setTargetCart(cart)
+
+                for (const orderedProduct of orderedProducts) {
+                    await API.CART_ITEM.CREATE({
+                        cartId: cart.id,
+                        qty: orderedProduct.qty,
+                        sku: orderedProduct.sku,
+                        storeId: storeId,
+                    })
+                }
             }
 
-            if (selectedCourier) {
+            if (selectedCourier && targetCart) {
                 const courier = await API.COURIER.CREATE({
                     courierCode: selectedCourier.courierCode,
                     courierServiceCode: selectedCourier.serviceCode,
                     courierServiceName: selectedCourier.serviceName,
                     price: selectedCourier.courierPrice,
                 })
-
                 const transaction = await API.ORDER.CREATE({
                     ...data,
                     status: 'Belum Dibayar',
                     serviceCharge: courier.price,
                     courierId: courier.id,
-                    cartId: cart.id,
+                    cartId: targetCart.id,
                 })
-
                 window.snap.pay(transaction.token)
             }
         } catch (error) {
@@ -86,8 +89,33 @@ function CheckoutPage() {
     useEffect(() => {
         const { state } = location
 
+        // handle multiple product checkout
+        if (state.cart) {
+            const cart: Cart = state.cart
+            const cartItems: CartItem[] | null = cart.cartItems ? cart.cartItems : null
+
+            setTargetCart(cart)
+            setStoreId(cart.storeId)
+
+            if (cartItems && cartItems.length) {
+                const orderedProducts: OrderedProduct[] = cartItems.map((item) => {
+                    const sku = item.variantOptionValues ? item.variantOptionValues.sku : ''
+                    return {
+                        sku: sku,
+                        qty: item.qty,
+                    }
+                })
+
+                console.log(orderedProducts)
+                return setOrderedProducts(orderedProducts)
+            }
+        }
+
+        // handle single product checkout
         setStoreId(state.storeId)
         setOrderedProducts(state.orderedProducts)
+
+        // console.log(orderedProducts)
         // setProductQty(state.orderedProduct.qty)
         // setProductSKUs(state.orderedProduct.skus)
     }, [])

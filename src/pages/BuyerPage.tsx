@@ -115,7 +115,6 @@ function BuyerPage() {
     const handleVariantChange = (variant: VariantOption) => {
         setSelectedVariant(variant)
         setCount(0)
-        setCurrentIndex(product?.variant?.variantOptions?.indexOf(variant) ?? 0)
     }
 
     function onBuyNow() {
