@@ -9,6 +9,7 @@ import { CartItemDto } from "@/dtos/CartItemDto";
 import { CourierDto } from "@/dtos/CourierDto";
 import { GetRatesDto } from "@/dtos/GetRatesDto";
 import { StoreInfoDto } from "@/dtos/StoreInfoDto";
+import { LocationDto } from "@/dtos/LocationDto";
 
 const API = {
   PRODUCT: {
@@ -647,11 +648,88 @@ const API = {
         if (axios.isAxiosError(error)) {
           throw error;
         } else {
-          throw new Error('Unexpected error');
+          throw new Error("Unexpected error");
         }
       }
     },
-  }
-}
+
+    CREATE_LOCATION: async (data: LocationDto) => {
+      try {
+        if (data.postalCode) {
+          data.postalCode = Number(data.postalCode);
+        }
+        const response = await axios.post(`${CONFIG.BASE_URL}/store/create-location`, data, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error("Unexpected error");
+        }
+      }
+    },
+   
+    GET_STORE: async () => {
+      try {
+        const response = await axios.get(`${CONFIG.BASE_URL}/store/myStore`, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error("Unexpected error");
+        }
+      }
+    },
+
+    GET_STORE_LOCATION: async () => {
+      try {
+        const response = await axios.get(`${CONFIG.BASE_URL}/store/myStoreLocation`, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error("Unexpected error");
+        }
+      }
+    },
+
+    DELETE_STORE_LOCATION: async () => {
+      try {
+        const response = await axios.delete(`${CONFIG.BASE_URL}/store/myStoreLocation`, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error("Unexpected error");
+        }
+      }
+    },
+
+    
+  },
+};
 
 export default API;

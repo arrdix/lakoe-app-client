@@ -12,6 +12,7 @@ import { UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
 import API from "@/networks/api";
 import { Switch } from "../ui/switch";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { useToast } from "../ui/use-toast";
 
 export default function SwitchModal({
   productSku,
@@ -28,9 +29,24 @@ export default function SwitchModal({
     formState: { errors },
   } = hookForm;
 
+  const { toast } = useToast();
+
   async function UPDATE_IS_ACTIVED() {
-    const update = await API.PRODUCT.UPDATE_IS_ACTIVE_BY_SKU(productSku);
-    console.log(update);
+    try {
+      const update = await API.PRODUCT.UPDATE_IS_ACTIVE_BY_SKU(productSku);
+      console.log(update);
+      toast({
+        title: "Produk Berhasil diubah!",
+        description: "Kami berhasil mengubah produk kamu.",
+        variant: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "Gagal mengubah Produk",
+        description: "Terjadi kesalahan saat mengubah produk kamu.",
+        variant: "failed",
+      });
+    }
   }
 
   async function UPDATE_STOK_PRICE(data: UpdateVariantOptionValueDto) {
@@ -155,10 +171,6 @@ export default function SwitchModal({
                   <Button
                     variant="outline"
                     className="bg-cyan text-white px-5 py-0"
-                    //   onClick={() => {
-                    //     setOpen(false);
-                    //     UPDATE_IS_ACTIVED()
-                    //   }}
                     onClick={handleSubmit((data) => {
                       console.log("ini data mau dikirim", data);
                       setOpen(false);

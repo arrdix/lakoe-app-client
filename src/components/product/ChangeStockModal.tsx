@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
 import API from "@/networks/api";
 import ValidatedInput from "../utils/ValidatedInput";
+import { useToast } from "../ui/use-toast";
 
 export default function ChangeProductStockModal({
   productName,
@@ -26,13 +27,30 @@ export default function ChangeProductStockModal({
     formState: { errors },
   } = hookForm;
 
+  const { toast } = useToast();
+
   const CHANGESTOCK = async function DELETE_BY_SKU(
     sku: string,
     data: UpdateVariantOptionValueDto
   ) {
-    const products = await API.PRODUCT.UPDATE_BY_SKU(sku, data);
-    console.log(products);
+    try {
+      const products = await API.PRODUCT.UPDATE_BY_SKU(sku, data);
+      console.log(products);
+      toast({
+        title: "Produk Berhasil diubah!",
+        description: "Kami berhasil mengubah produk kamu.",
+        variant: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "Gagal mengubah Produk",
+        description: "Terjadi kesalahan saat mengubah produk kamu.",
+        variant: "failed",
+      });
+    }
+
   };
+
   return (
     <div>
       {/* Tombol Pemicu */}

@@ -37,7 +37,6 @@ export default function ProductDevelopmentsModal({
               Hapus Produk
             </button>
           </DropdownMenuItem>
-          <DropdownMenuItem>Edit Produk</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <div>

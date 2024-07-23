@@ -1,13 +1,12 @@
 import { MapContainer, TileLayer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import LocationMarker from './LocationMarker'
-import { CreateOrderDto } from '@/dtos/OrderDto'
 import { UseFormReturn } from 'react-hook-form'
 import { LatLngExpression } from 'leaflet'
 
 interface SimpleMapProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    hookForm: UseFormReturn<CreateOrderDto, any, undefined>
+    hookForm: UseFormReturn<any, undefined>
     onPositionChange: (pos: LatLngExpression | null) => void
 }
 
