@@ -49,9 +49,11 @@ export default function ProductList({
       console.log("ini input", name);
       const fuzzyOptionByProductName = fuzzySkor(namaProduct, name);
       const fuzzyOptionBySku = fuzzySkor(namaSku, name);
-      console.log("nilai fuzzy per produk",fuzzyOptionByProductName)
-      console.log("nilai fuzzy per sku",fuzzyOptionBySku)
+      console.log("nilai", productsProps);
+      console.log("nilai fuzzy per produk", fuzzyOptionByProductName);
+      console.log("nilai fuzzy per sku", fuzzyOptionBySku);
       // Mengubah hasil fuzzy menjadi array string
+
       const fuzzyOptionArrayByProductName = fuzzySkor(namaProduct, name).map(
         (option) => option.original.toLowerCase()
       );
@@ -69,7 +71,10 @@ export default function ProductList({
               product.name.toLowerCase()
             );
           } else {
-            return fuzzyOptionArrayBySku.includes(product.variant?.variantOption?.variantOptionValue?.sku.toLowerCase()||"");
+            return fuzzyOptionArrayBySku.includes(
+              product.variant?.variantOption?.variantOptionValue?.sku.toLowerCase() ||
+                ""
+            );
           }
         }
       );
@@ -77,12 +82,12 @@ export default function ProductList({
     } else {
       setProducts(productsProps);
     }
-  }, [name]);
+  }, [name, productsProps]);
 
   const onChange = (dataInput: string) => {
     setName(dataInput);
   };
-  return (
+  return productsProps ? (
     <div>
       <ProductFilter onChange={onChange} />
       {products?.length === 0 ? (
@@ -131,6 +136,13 @@ export default function ProductList({
           </div>
         </div>
       )}
+    </div>
+  ) : (
+    <div className="flex justify-center items-center w-full h-screen">
+      <div className="flex items-start">
+        <h1 className="text-3xl text-cyan font-black aniamte-spin">Lakoe.</h1>
+        <div className="inline-block h-2 w-2 animate-spin-fast rounded-full border-4 border-solid border-current border-e-transparent border-cyan mt-1 ml-1"></div>
+      </div>
     </div>
   );
 }

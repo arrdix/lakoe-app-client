@@ -15,7 +15,7 @@ function SimpleMap({ hookForm, onPositionChange }: SimpleMapProps) {
     return (
         <div style={{ height: '100%', width: '100%' }}>
             <MapContainer
-                center={[51.505, -0.09]}
+                center={[-6.2114, 106.8446]}
                 zoom={13}
                 style={{ height: '100%', width: '100%', zIndex: '10' }}
             >

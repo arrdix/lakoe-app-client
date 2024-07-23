@@ -22,11 +22,13 @@ import {
 import CartList from '@/components/cart/CartList'
 import { Cart } from '@/types/CartType'
 import API from '@/networks/api'
+import { Toaster } from '@/components/ui/toaster'
 
 function BuyerLayout() {
     const loggedUser = useLakoeStore((state) => state.loggedUser)
     const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
     const carts: Cart[] = useLakoeStore((state) => state.carts)
+    const setCarts = useLakoeStore((state) => state.setCarts)
 
     const [cartCount, setCartCount] = useState<number>(0)
     const [atLandingPage, setIsAtLandingPage] = useState<boolean>(true)
@@ -51,13 +53,28 @@ function BuyerLayout() {
 
     useEffect(() => {
         async function GET_CART_COUNT() {
-            const cartCount = await API.CART_ITEM.COUNT()
+            if (loggedUser) {
+                const cartCount = await API.CART_ITEM.COUNT()
 
-            setCartCount(cartCount)
+                setCartCount(cartCount)
+            }
         }
 
         GET_CART_COUNT()
     }, [carts])
+
+    useEffect(() => {
+        async function GET_CARTS() {
+            if (loggedUser) {
+                const carts: Cart[] = await API.CART.FIND_ALL_UNCOMPLETE()
+                setCarts(carts)
+            }
+        }
+
+        GET_CARTS()
+    }, [])
+
+    console.log(carts)
 
     return (
         <div className="h-screen">
@@ -154,6 +171,7 @@ function BuyerLayout() {
                     </SheetContent>
                 </Sheet>
             )}
+            <Toaster />
         </div>
     )
 }

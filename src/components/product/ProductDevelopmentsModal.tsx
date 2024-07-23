@@ -10,7 +10,6 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import DeleteProductModal from "./DeleteProductModal";
 
 export default function ProductDevelopmentsModal({
-  productName,
   productSku,
 }: {
   productName: string;
@@ -45,7 +44,6 @@ export default function ProductDevelopmentsModal({
         {isDeleteProductModalView && (
           <DeleteProductModal
           productSku={productSku}
-            productName={productName}
             onModalClose={onModalClose}
           />
         )}
