@@ -40,7 +40,7 @@ function NewProductPage() {
             formData.append('description', data.description)
             formData.append('minimumOrder', data.minimumOrder)
             formData.append('storeId', data.storeId)
-            formData.append('categoryId', data.categoryId)
+            formData.append('categoryName', data.categoryName)
             formData.append('url', data.url)
 
             if (data.variant) {

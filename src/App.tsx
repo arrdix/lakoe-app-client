@@ -27,7 +27,7 @@ function App() {
 
     const loggedUser = useLakoeStore((state) => state.loggedUser)
     const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
-    const setcarts = useLakoeStore((state) => state.setCarts)
+    const setCarts = useLakoeStore((state) => state.setCarts)
 
     useEffect(() => {
         async function isUserLogged() {
@@ -36,6 +36,9 @@ function App() {
 
                 if (loggedUser) {
                     setLoggedUser(loggedUser)
+
+                    const carts: Cart[] = await API.CART.FIND_ALL_UNCOMPLETE()
+                    setCarts(carts)
                 }
             } catch (error) {
                 setLoggedUser(null)
@@ -46,15 +49,7 @@ function App() {
             }
         }
 
-        async function getActiveCart() {
-            if (loggedUser) {
-                const carts: Cart[] = await API.CART.FIND_ALL_UNCOMPLETE()
-                setcarts(carts)
-            }
-        }
-
         isUserLogged()
-        getActiveCart()
     }, [])
 
     if (isPreloaded) {

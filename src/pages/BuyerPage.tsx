@@ -115,7 +115,6 @@ function BuyerPage() {
     const handleVariantChange = (variant: VariantOption) => {
         setSelectedVariant(variant)
         setCount(0)
-        setCurrentIndex(product?.variant?.variantOptions?.indexOf(variant) ?? 0)
     }
 
     function onBuyNow() {
@@ -162,12 +161,18 @@ function BuyerPage() {
             newCartId = newCart.id
         }
 
+        console.log('sku', productSku)
+
         if (storeId && productSku) {
             await API.CART_ITEM.CREATE({
                 qty: count,
                 storeId: storeId,
                 cartId: activeCart ? activeCart.id : newCartId,
-                sku: productSku,
+                sku:
+                    (selectedVariant &&
+                        selectedVariant.variantOptionValue &&
+                        selectedVariant.variantOptionValue.sku) ||
+                    '',
             })
 
             const updatedCart = await API.CART.FIND_ALL_UNCOMPLETE()
