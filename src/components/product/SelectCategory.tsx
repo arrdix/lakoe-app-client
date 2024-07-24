@@ -1,14 +1,15 @@
 import CategoryItem from '@/components/product/CategoryItem'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6'
 import { useState } from 'react'
-import { UseFormSetValue } from 'react-hook-form'
+import { FieldError, UseFormSetValue } from 'react-hook-form'
 import { CreateProductDto } from '@/dtos/ProductDto'
 
 interface SelectCategoryProps {
-    setValue: UseFormSetValue<CreateProductDto>
+    setValue: UseFormSetValue<CreateProductDto>,
+    error: FieldError | undefined
 }
 
-function SelectCategory({ setValue }: SelectCategoryProps) {
+function SelectCategory({ setValue, error }: SelectCategoryProps) {
     const [renderCategories, setrenderCategories] = useState<boolean>(false)
     const [selectedCategory, setSelectedCategory] = useState<string>('Kategori Produk')
 
@@ -86,6 +87,9 @@ function SelectCategory({ setValue }: SelectCategoryProps) {
                     </div>
                 )}
             </button>
+            <div>
+                {error && <span className="text-error">{error.message}</span>}
+            </div>
         </>
     )
 }

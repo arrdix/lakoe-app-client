@@ -4,12 +4,48 @@ import ValidatedInput from '../utils/ValidatedInput';
 import { StoreInfoDto } from '@/dtos/StoreInfoDto';
 import { useForm } from 'react-hook-form';
 import ValidatedTextarea from '../utils/ValidatedTextarea';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import API from '@/networks/api';
+import { GetStoreInfoDto } from '@/dtos/GetStoreInfoDto';
+import { ToastContainer, toast } from 'react-toastify';
+import { useToast } from '@/components/ui/use-toast'
+import 'react-toastify/dist/ReactToastify.css';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const StoreSchema = z.object({
+    slogan: z
+        .string()
+        .min(4, { message: "Slogan harus memiliki minimal 4 karakter" })
+        .max(100, { message: "Slogan maksimal 100 karakter" }),
+
+    name: z
+        .string()
+        .min(4, { message: "Nama toko harus memiliki minimal 4 karakter" })
+        .max(100, { message: "Nama toko maksimal 100 karakter" }),
+
+    description: z
+        .string()
+        .min(4, { message: "Deskripsi harus memiliki minimal 4 karakter" })
+        .max(3000, { message: "Deskripsi maksimal 3000 karakter" })
+});
 
 function StoreInfo() {
-    const { register, setValue, formState: { errors }, handleSubmit, reset } = useForm<StoreInfoDto>();
+    const [storeData, setStoreData] = useState<GetStoreInfoDto | null>(null);
+
+    const hookForm = useForm<StoreInfoDto>({
+        resolver: zodResolver(StoreSchema)
+    });
+
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        setValue
+    } = hookForm;
+
+    const { toast } = useToast()
 
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [bannerPreview, setBannerPreview] = useState<string | null>(null);
@@ -54,22 +90,66 @@ function StoreInfo() {
             if (data.logo) formData.append('logoAttachment', data.logo);
             if (data.banner) formData.append('bannerAttachment', data.banner);
 
-            // Kirim data ke server
-            const response = await API.STORE.CREATE(formData);
-            console.log('Response:', response);
+            if (storeData) {
+                // Update store yang sudah ada
+                const response = await API.STORE.UPDATE_STORE(formData);
+                console.log('Response:', response);
+                toast({
+                    title: 'Toko Berhasil Diubah',
+                    description: 'Selamat Perubaha kamu.',
+                    variant: 'success',
+                })
 
-            // Reset form setelah submit berhasil
-            reset();
-            setImagePreview(null); // Reset preview image
-            setBannerPreview(null); // Reset preview banner
+
+
+            } else {
+                // Buat store baru
+                const response = await API.STORE.CREATE(formData);
+                console.log('Response:', response);
+                toast({
+                    title: 'Berhasil Menambahkan Toko',
+                    description: 'Selamat Datang Di Toko Kamu.',
+                    variant: 'success',
+                })
+            }
 
         } catch (error) {
             console.error('Error submitting form:', error);
+            toast({
+                title: 'Gagal Membuat Toko',
+                description: 'Terjadi kesalahan saat membuat produk kamu.',
+                variant: 'failed',
+            })
         }
     };
 
+    useEffect(() => {
+        async function fetchStoreData() {
+            try {
+                const data = await API.STORE.GET_STORE();
+                setStoreData(data);
+
+                setValue("name", data.name);
+                setValue("slogan", data.slogan);
+                setValue("description", data.description);
+
+                if (data.logoAttachment) {
+                    setImagePreview(data.logoAttachment);
+                }
+                if (data.bannerAttachment) {
+                    setBannerPreview(data.bannerAttachment);
+                }
+            } catch (error) {
+                console.error('Error fetching store data:', error);
+            }
+        }
+
+        fetchStoreData();
+    }, [setValue]);
+
     return (
         <>
+            <ToastContainer position="top-center" />
             <h2 className="text-black text-lg font-bold mt-2">Informasi Toko</h2>
             <div className="flex gap-4 w-full">
                 <div className="flex flex-col gap-4 w-full">
