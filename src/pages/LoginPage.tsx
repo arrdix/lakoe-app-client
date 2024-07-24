@@ -19,12 +19,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 const LoginSchema = z.object({
     email: z
         .string()
-        .min(1, { message: "This field has to be filled." })
-        .email("This is not a valid email."),
+        .min(1, { message: "Email harus diisi" })
+        .email("Format email tidak valid"),
+
     password: z
         .string()
-        .min(5, { message: "Password must be at least 5 characters long." })
-        .max(20, { message: "Password must be at most 20 characters long." })
+        .min(4, { message: "Password harus terdiri dari minimal 5 karakter" })
+        .max(20, { message: "Password maksimal 20 karakter" })
 });
 
 export default function LoginPage() {

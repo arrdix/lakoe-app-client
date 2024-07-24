@@ -19,32 +19,35 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
-        throw error
+        throw error;
       }
     },
 
     GET_ONE_BY_ID: async (id: number) => {
       try {
-        const response = await axios.get(`${CONFIG.BASE_URL}/product/id/${id}`, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.get(
+          `${CONFIG.BASE_URL}/product/id/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -54,33 +57,36 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     GET_ONE_BY_SKU: async (sku: string) => {
       try {
-        const response = await axios.get(`${CONFIG.BASE_URL}/product/sku/${sku}`, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.get(
+          `${CONFIG.BASE_URL}/product/sku/${sku}`,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -89,99 +95,112 @@ const API = {
         const response = await axios.post(`${CONFIG.BASE_URL}/product`, data, {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     UPDATE: async (id: number, data: EditProductDto) => {
       try {
-        const response = await axios.patch(`${CONFIG.BASE_URL}/product/${id}`, data, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.patch(
+          `${CONFIG.BASE_URL}/product/${id}`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     DELETE: async (id: number) => {
       try {
-        const response = await axios.delete(`${CONFIG.BASE_URL}/product/${id}`, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.delete(
+          `${CONFIG.BASE_URL}/product/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     DELETE_BY_SKU: async (sku: string) => {
       try {
-        const response = await axios.delete(`${CONFIG.BASE_URL}/product/sku/${sku}`, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.delete(
+          `${CONFIG.BASE_URL}/product/sku/${sku}`,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     DELETE_MANY_BY_SKU: async (skus: string[]) => {
       const payload = {
         skus,
-      }
+      };
       try {
-        const response = await axios.delete(`${CONFIG.BASE_URL}/product/delete/skus`, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-          data: payload,
-        })
+        const response = await axios.delete(
+          `${CONFIG.BASE_URL}/product/delete/skus`,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+            data: payload,
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     UPDATE_IS_ACTIVE_BY_SKU: async (sku: string) => {
       try {
-        console.log('ini auth', `Bearer ${LOCAL_STORAGE.GET()}`)
+        console.log("ini auth", `Bearer ${LOCAL_STORAGE.GET()}`);
         const response = await axios.patch(
           `${CONFIG.BASE_URL}/product/update-isActive/${sku}`,
           {},
@@ -190,22 +209,22 @@ const API = {
               Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
             },
           }
-        )
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     NONACTIVED_MANY_BY_SKU: async (skus: string[]) => {
       const payload = {
         skus,
-      }
+      };
       try {
         const response = await axios.patch(
           `${CONFIG.BASE_URL}/product/nonActived/skus`,
@@ -215,24 +234,24 @@ const API = {
               Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
             },
           }
-        )
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     UPDATE_BY_SKU: async (sku: string, data: UpdateVariantOptionValueDto) => {
       if (data.price) {
-        data.price = Number(data.price)
+        data.price = Number(data.price);
       }
       if (data.stock) {
-        data.stock = Number(data.stock)
+        data.stock = Number(data.stock);
       }
       try {
         const response = await axios.patch(
@@ -243,15 +262,15 @@ const API = {
               Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
             },
           }
-        )
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
   },
@@ -263,15 +282,15 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -281,15 +300,15 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -299,33 +318,37 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     UPDATE: async (id: number, data: UpdateOrderDto) => {
       try {
-        const response = await axios.patch(`${CONFIG.BASE_URL}/order/${id}`, data, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.patch(
+          `${CONFIG.BASE_URL}/order/${id}`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -335,15 +358,15 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
   },
@@ -351,27 +374,33 @@ const API = {
   AUTH: {
     REGISTER: async (data: registerDto) => {
       try {
-        const response = await axios.post(`${CONFIG.BASE_URL}/auth/register`, data)
+        const response = await axios.post(
+          `${CONFIG.BASE_URL}/auth/register`,
+          data
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
-        throw error
+        throw error;
       }
     },
 
     LOGIN: async (data: loginDto) => {
       try {
-        const response = await axios.post(`${CONFIG.BASE_URL}/auth/login`, data)
+        const response = await axios.post(
+          `${CONFIG.BASE_URL}/auth/login`,
+          data
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
-        throw error
+        throw error;
       }
     },
   },
@@ -383,15 +412,15 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
   },
@@ -403,15 +432,15 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -421,33 +450,36 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     FIND_ONE_UNCOMPLETE: async (storeId: number) => {
       try {
-        const response = await axios.get(`${CONFIG.BASE_URL}/cart/uncomplete/${storeId}`, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.get(
+          `${CONFIG.BASE_URL}/cart/uncomplete/${storeId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
   },
@@ -455,19 +487,23 @@ const API = {
   CART_ITEM: {
     CREATE: async (data: CartItemDto) => {
       try {
-        const response = await axios.post(`${CONFIG.BASE_URL}/cart-item`, data, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.post(
+          `${CONFIG.BASE_URL}/cart-item`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -477,15 +513,15 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
   },
@@ -497,51 +533,59 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     GET_RATES: async (data: GetRatesDto) => {
       try {
-        const response = await axios.post(`${CONFIG.BASE_URL}/courier/rates`, data, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.post(
+          `${CONFIG.BASE_URL}/courier/rates`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
     REQ_PICKUP: async (data: ReqPickupDto) => {
       try {
-        const response = await axios.post(`${CONFIG.BASE_URL}/courier/pickup`, data, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        })
+        const response = await axios.post(
+          `${CONFIG.BASE_URL}/courier/pickup`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
   },
@@ -553,15 +597,15 @@ const API = {
           headers: {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
-        })
+        });
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
   },
@@ -571,15 +615,15 @@ const API = {
       try {
         const response = await axios.get(
           `https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`
-        )
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -587,15 +631,15 @@ const API = {
       try {
         const response = await axios.get(
           `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${id}.json`
-        )
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -603,15 +647,15 @@ const API = {
       try {
         const response = await axios.get(
           `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${id}.json`
-        )
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
 
@@ -619,15 +663,15 @@ const API = {
       try {
         const response = await axios.get(
           `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${id}.json`
-        )
+        );
 
-        return response.data
+        return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error
+          throw error;
         }
 
-        throw error
+        throw error;
       }
     },
   },
@@ -655,7 +699,7 @@ const API = {
     },
     CREATE_LOCATION: async (data: LocationDto) => {
       if (data.postalCode) {
-        data.postalCode = Number(data.postalCode)
+        data.postalCode = Number(data.postalCode);
       }
       try {
         const response = await axios.post(
@@ -710,7 +754,7 @@ const API = {
         if (axios.isAxiosError(error)) {
           throw error;
         } else {
-          throw new Error('Unexpected error');
+          throw new Error("Unexpected error");
         }
       }
     },
@@ -728,29 +772,33 @@ const API = {
         if (axios.isAxiosError(error)) {
           throw error;
         } else {
-          throw new Error('Unexpected error');
+          throw new Error("Unexpected error");
         }
       }
     },
 
     UPDATE_STORE: async (data: FormData) => {
       try {
-        const response = await axios.patch(`${CONFIG.BASE_URL}/store/myStore`, data, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        });
+        const response = await axios.patch(
+          `${CONFIG.BASE_URL}/store/myStore`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
         return response.data;
       } catch (error) {
         if (axios.isAxiosError(error)) {
           throw error;
         } else {
-          throw new Error('Unexpected error');
+          throw new Error("Unexpected error");
         }
       }
-    }
+    },
   },
-}
+};
 
-export default API
+export default API;

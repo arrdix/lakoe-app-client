@@ -1,36 +1,36 @@
-import CardOrder from "./CardOrder";
-import { Order } from "@/types/OrderType";
-import { BiSearchAlt } from 'react-icons/bi';
+import CardOrder from './CardOrder'
+import { Order } from '@/types/OrderType'
+import { BiSearchAlt } from 'react-icons/bi'
 
 interface CardOrderListProps {
-    orders: Order[];
-    status: string;
-    searchTerm: string;
+    orders: Order[]
+    status: string
+    searchTerm: string
 }
 
 export default function CardOrderList({ orders, status, searchTerm }: CardOrderListProps) {
     const filteredOrders = orders
-        .filter(order => status === 'Semua' || order.status === status)
-        .filter(order =>
-            order.carts?.cartItems?.some(cartItem => {
-                const productName = cartItem.variantOptionValues?.variantOptions.variant?.products?.name;
-                const productDescription = cartItem.variantOptionValues?.variantOptions?.variant?.products?.description;
-                const variantOptionName = cartItem.variantOptionValues?.variantOptions?.name;
+        .filter((order) => status === 'Semua' || order.status === status)
+        .filter((order) =>
+            order.carts?.cartItems?.some((cartItem) => {
+                const productName =
+                    cartItem.variantOptionValues?.variantOptions.variant?.products?.name
+                const productDescription =
+                    cartItem.variantOptionValues?.variantOptions?.variant?.products?.description
+                const variantOptionName = cartItem.variantOptionValues?.variantOptions?.name
 
                 return (
                     productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     productDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     variantOptionName.toLowerCase().includes(searchTerm.toLowerCase())
-                );
+                )
             })
-        );
+        )
 
     return (
         <div>
             {filteredOrders.length > 0 ? (
-                filteredOrders.map(order => (
-                    <CardOrder order={order} key={order.id} />
-                ))
+                filteredOrders.map((order) => <CardOrder order={order} key={order.id} />)
             ) : (
                 <div className="flex flex-row items-center justify-center gap-3 py-7">
                     <div>
@@ -43,5 +43,5 @@ export default function CardOrderList({ orders, status, searchTerm }: CardOrderL
                 </div>
             )}
         </div>
-    );
+    )
 }

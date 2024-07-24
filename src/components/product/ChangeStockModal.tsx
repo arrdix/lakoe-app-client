@@ -9,7 +9,18 @@ import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
 import ValidatedInput from "../utils/ValidatedInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import useProductsQuery from "@/hooks/useProductsQuery";
+
+const changeProductSchema = z.object({
+  stock: z
+    .string()
+    .min(1, { message: "Stok barang harus diisi" })
+    .refine(value => /^\d+$/.test(value), {
+      message: "Stock barang harus berupa angka",
+    })
+})
 
 export default function ChangeProductStockModal({
   productSku,
@@ -17,7 +28,9 @@ export default function ChangeProductStockModal({
   productSku: string;
 }) {
   const [open, setOpen] = useState(false);
-  const hookForm = useForm<UpdateVariantOptionValueDto>();
+  const hookForm = useForm<UpdateVariantOptionValueDto>({
+    resolver: zodResolver(changeProductSchema)
+  });
   const {
     register,
     handleSubmit,

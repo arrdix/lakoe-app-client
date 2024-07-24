@@ -1,50 +1,52 @@
-import { useState } from "react";
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
-} from "@headlessui/react";
-import { Button } from "../ui/button";
-import ValidatedInput from "../utils/ValidatedInput";
-import { UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
-import { useForm } from "react-hook-form";
-import useProductsQuery from "@/hooks/useProductsQuery";
+import { useState } from 'react'
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
+import { Button } from '../ui/button'
+import ValidatedInput from '../utils/ValidatedInput'
+import { UpdateVariantOptionValueDto } from '@/dtos/ProductDto'
+import { useForm } from 'react-hook-form'
+import useProductsQuery from '@/hooks/useProductsQuery'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 interface ChangeProductPriceModalProps {
-  productSku: string;
+  productSku: string
 }
 
-export default function ChangeProductPriceModal({
-  productSku,
-}: ChangeProductPriceModalProps) {
-  const { updateProduct } = useProductsQuery();
-  const [open, setOpen] = useState(false);
-  const hookForm = useForm<UpdateVariantOptionValueDto>();
+const ChangePriceSchema = z.object({
+  price: z
+    .string()
+    .min(1, { message: "Harga satuan harus diisi" })
+    .refine(value => /^\d+$/.test(value), {
+      message: "Harga satuan harus berupa angka",
+    })
+})
+
+export default function ChangeProductPriceModal({ productSku }: ChangeProductPriceModalProps) {
+  const { updateProduct } = useProductsQuery()
+  const [open, setOpen] = useState(false)
+  const hookForm = useForm<UpdateVariantOptionValueDto>({
+    resolver: zodResolver(ChangePriceSchema)
+  })
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = hookForm;
+  } = hookForm
 
   async function onChangePrice(sku: string, data: UpdateVariantOptionValueDto) {
-    const { mutateAsync } = updateProduct;
+    const { mutateAsync } = updateProduct
 
     await mutateAsync({
       sku: sku,
       data: data,
-    });
+    })
   }
 
   return (
     <div>
       {/* Tombol Pemicu */}
 
-      <Button
-        variant={"outline"}
-        className="text-xs"
-        onClick={() => setOpen(true)}
-      >
+      <Button variant={'outline'} className="text-xs" onClick={() => setOpen(true)}>
         Ubah Harga
       </Button>
 
@@ -74,7 +76,7 @@ export default function ChangeProductPriceModal({
                     </DialogTitle>
                     <div className="mt-2 flex flex-col gap-4">
                       <p className="text-sm text-gray-500">
-                        Ubah harga untuk produk{" "}
+                        Ubah harga untuk produk{' '}
                         <span className="font-semibold uppercase">
                           {productSku}
                         </span>
@@ -104,9 +106,9 @@ export default function ChangeProductPriceModal({
                   variant="outline"
                   className="bg-cyan text-white px-5 py-0"
                   onClick={handleSubmit((data) => {
-                    setOpen(false);
-                    onChangePrice(productSku, data);
-                    console.log("data frontend", data);
+                    setOpen(false)
+                    onChangePrice(productSku, data)
+                    console.log('data frontend', data)
                   })}
                 >
                   Simpan
@@ -115,7 +117,7 @@ export default function ChangeProductPriceModal({
                   variant="outline"
                   className="px-5 mx-2"
                   onClick={() => {
-                    setOpen(false);
+                    setOpen(false)
                   }}
                 >
                   Batalkan
@@ -126,5 +128,5 @@ export default function ChangeProductPriceModal({
         </div>
       </Dialog>
     </div>
-  );
+  )
 }

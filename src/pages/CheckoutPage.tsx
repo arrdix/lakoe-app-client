@@ -18,6 +18,44 @@ import { OrderedProduct } from '@/types/OrderedProductType'
 import { LatLngExpression } from 'leaflet'
 import { Courier } from '@/types/CourierType'
 import { CartItem } from '@/types/CartItemType'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const CheckoutSchema = z.object({
+    receiverName: z
+        .string()
+        .min(4, { message: "Nama penerima minimal 4 karakter" })
+        .max(100, { message: "Nama penerima minimal 100 karakter" }),
+
+    receiverEmail: z
+        .string()
+        .min(1, { message: "Email harus diisi" })
+        .email("Format email tidak valid"),
+
+    receiverPhone: z
+        .string()
+        .min(1, { message: "Nomor telepon harus diisi" })
+        .refine(value => /^\d+$/.test(value), {
+            message: "Nomor telepon harus berupa angka",
+        }),
+
+    receiverDistrict: z
+        .string()
+        .min(1, { message: "Kecamatan harus dipilih" }),
+
+    receiverVillage: z
+        .string()
+        .min(1, { message: "Kelurahan harus dipilih" }),
+
+    receiverAddress: z
+        .string()
+        .min(4, { message: "Deskripsi harus minimal 4 karakter" })
+        .max(3000, { message: "Deskripsi maksimal 3000 karakter" }),
+
+    notes: z
+        .string()
+        .max(3000, { message: "Deskripsi maksimal 3000 karakter" })
+})
 
 function CheckoutPage() {
     const [targetCart, setTargetCart] = useState<Cart>()
@@ -28,7 +66,9 @@ function CheckoutPage() {
     // const [productQty, setProductQty] = useState<number>(0)
     // const [productSKUs, setProductSKUs] = useState<string[]>([])
 
-    const hookForm = useForm<CreateOrderDto>()
+    const hookForm = useForm<CreateOrderDto>({
+        resolver: zodResolver(CheckoutSchema)
+    })
     const hookForm2 = useForm<CheckoutDto>()
 
     const location = useLocation()
@@ -106,7 +146,6 @@ function CheckoutPage() {
                     }
                 })
 
-                console.log(orderedProducts)
                 return setOrderedProducts(orderedProducts)
             }
         }
@@ -114,10 +153,6 @@ function CheckoutPage() {
         // handle single product checkout
         setStoreId(state.storeId)
         setOrderedProducts(state.orderedProducts)
-
-        // console.log(orderedProducts)
-        // setProductQty(state.orderedProduct.qty)
-        // setProductSKUs(state.orderedProduct.skus)
     }, [])
 
     const { handleSubmit } = hookForm
@@ -145,7 +180,10 @@ function CheckoutPage() {
                 </div>
                 <div className="flex flex-col gap-2 w-2/6 relative top-6">
                     {/* <PaymentSummar2/> */}
-                    <PaymentSummary orderedProducts={orderedProducts} />
+                    <PaymentSummary
+                        orderedProducts={orderedProducts}
+                        selectedCourier={selectedCourier}
+                    />
 
                     <InsertVoucherModal />
                     <Note hookForm={hookForm} />

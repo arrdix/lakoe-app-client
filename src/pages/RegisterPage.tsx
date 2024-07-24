@@ -16,19 +16,22 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 const RegisterSchema = z.object({
     role: z
-        .string(["buyer", "seller"], { message: "Role must be either 'buyer' or 'seller'." }),
+        .string({ message: "Peran harus berupa 'buyer' atau 'seller'" }),
+
     name: z
         .string()
-        .min(3, { message: "Username must be at least 3 characters long." })
-        .max(20, { message: "Username must be at most 20 characters long." }),
+        .min(4, { message: "Nama pengguna harus terdiri dari minimal 3 karakter" })
+        .max(100, { message: "Nama pengguna maksimal 20 karakter" }),
+
     email: z
         .string()
-        .min(1, { message: "This field has to be filled." })
-        .email("This is not a valid email."),
+        .min(1, { message: "Email harus diisi" })
+        .email("Format email tidak valid"),
+
     password: z
         .string()
-        .min(5, { message: "Password must be at least 5 characters long." })
-        .max(20, { message: "Password must be at most 20 characters long." })
+        .min(4, { message: "Password harus terdiri dari minimal 5 karakter" })
+        .max(50, { message: "Password maksimal 20 karakter" })
 });
 
 export default function RegisterPage() {

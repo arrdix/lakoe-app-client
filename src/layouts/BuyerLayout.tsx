@@ -74,8 +74,6 @@ function BuyerLayout() {
         GET_CARTS()
     }, [])
 
-    console.log(carts)
-
     return (
         <div className="h-screen">
             <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-full z-50">
