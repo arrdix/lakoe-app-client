@@ -1,48 +1,44 @@
 'use client'
 
-import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { FaEye, FaEyeSlash, FaGoogle, FaApple, FaFacebook } from "react-icons/fa"
-import { Link, useNavigate } from "react-router-dom"
-import { registerDto } from "@/dtos/AuthDto"
-import ValidateInput from "@/components/utils/ValidatedInput"
-import { useState } from "react"
+import { useForm } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { FaEye, FaEyeSlash, FaGoogle, FaApple, FaFacebook } from 'react-icons/fa'
+import { Link, useNavigate } from 'react-router-dom'
+import { registerDto } from '@/dtos/AuthDto'
+import ValidateInput from '@/components/utils/ValidatedInput'
+import { useState } from 'react'
 import { useToast } from '@/components/ui/use-toast'
-import API from "@/networks/api"
+import API from '@/networks/api'
 import Spinner from '@/components/utils/Spinner'
-import ValidatedSelect from "@/components/utils/ValidatedSelect"
-import { z } from "zod";
+import ValidatedSelect from '@/components/utils/ValidatedSelect'
+import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 const RegisterSchema = z.object({
-    role: z
-        .string({ message: "Peran harus berupa 'buyer' atau 'seller'" }),
+    role: z.string({ message: "Peran harus berupa 'buyer' atau 'seller'" }),
 
     name: z
         .string()
-        .min(4, { message: "Nama pengguna harus terdiri dari minimal 3 karakter" })
-        .max(100, { message: "Nama pengguna maksimal 20 karakter" }),
+        .min(4, { message: 'Nama pengguna harus terdiri dari minimal 3 karakter' })
+        .max(100, { message: 'Nama pengguna maksimal 20 karakter' }),
 
-    email: z
-        .string()
-        .min(1, { message: "Email harus diisi" })
-        .email("Format email tidak valid"),
+    email: z.string().min(1, { message: 'Email harus diisi' }).email('Format email tidak valid'),
 
     password: z
         .string()
-        .min(4, { message: "Password harus terdiri dari minimal 5 karakter" })
-        .max(50, { message: "Password maksimal 20 karakter" })
-});
+        .min(4, { message: 'Password harus terdiri dari minimal 5 karakter' })
+        .max(50, { message: 'Password maksimal 20 karakter' }),
+})
 
 export default function RegisterPage() {
     const hookForm = useForm<registerDto>({
-        resolver: zodResolver(RegisterSchema)
+        resolver: zodResolver(RegisterSchema),
     })
     const {
         handleSubmit,
         register,
         formState: { errors },
-        setValue
+        setValue,
     } = hookForm
     const [visible, setVisible] = useState(false)
     const { toast } = useToast()
@@ -78,7 +74,9 @@ export default function RegisterPage() {
     return (
         <div className="flex flex-row w-full justify-center items-center h-screen px-40">
             <div className="w-full flex flex-col justify-center">
-                <h1 className="text-4xl font-bold">Sign In to <span className="text-cyan">Lakoe</span></h1>
+                <h1 className="text-4xl font-bold">
+                    Sign In to <span className="text-cyan">Lakoe</span>
+                </h1>
                 <div className="flex flex-row gap-3">
                     <div className="mt-10 w-96">
                         <p className="text-base font-medium">If you don't have an account</p>
@@ -96,7 +94,13 @@ export default function RegisterPage() {
             </div>
             <div className="w-3/6 flex flex-col justify-start gap-5">
                 <form onSubmit={handleSubmit(onSubmitRegister)} className="flex flex-col gap-3">
-                    <ValidatedSelect name="role" options={["SELLER", "BUYER"]} setValue={setValue} error={errors.role} placeholder="Pilih Role" />
+                    <ValidatedSelect
+                        name="role"
+                        options={['SELLER', 'BUYER']}
+                        setValue={setValue}
+                        error={errors.role}
+                        placeholder="Pilih Role"
+                    />
                     <ValidateInput
                         error={errors.name}
                         name="name"
@@ -120,7 +124,7 @@ export default function RegisterPage() {
                             id="password"
                             placeholder="Password"
                             register={register}
-                            type={visible ? "text" : "password"}
+                            type={visible ? 'text' : 'password'}
                         />
                         <button
                             type="button"
@@ -130,7 +134,10 @@ export default function RegisterPage() {
                             {visible ? <FaEyeSlash /> : <FaEye />}
                         </button>
                     </div>
-                    <button className="bg-cyan hover:bg-transparent hover:text-cyan hover:border-cyan hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full" type="submit">
+                    <button
+                        className="bg-cyan hover:bg-transparent hover:text-cyan hover:border-cyan hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full"
+                        type="submit"
+                    >
                         Sign Up
                     </button>
                 </form>
