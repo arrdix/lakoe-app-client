@@ -83,12 +83,9 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                 <div className="flex flex-col mb-4">
                     <div className=" flex justify-between items-center">
                         <h1 className="text-black text-xl font-bold ">Varian Produk</h1>
-                        <Button className="p-3 rounded-3xl bg-cyan">
-                            <BiPlus className="mr-1" /> Tambahkan Varian
-                        </Button>
                     </div>
-                    <div className="text-stone-400 -mt-2">
-                        Tambah varian agar pembeli memilih produk yang sesuai, yuk!
+                    <div className="text-stone-400">
+                        Tambah varian agar pembeli memilih produk yang sesuai.
                     </div>
                 </div>
                 <div className="flex flex-col gap-4">
@@ -147,7 +144,7 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                     return (
                                         <div
                                             key={variantOption}
-                                            className="flex items-center gap-2 bg-lightGray py-1 px-3 rounded-md w-max"
+                                            className="flex items-center gap-2 text-cyan bg-cyan bg-opacity-10 border border-cyan py-1 px-3 rounded-md w-max"
                                         >
                                             {variantOption}
                                             <button
@@ -163,27 +160,6 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                         </div>
                     )}
                     {variantOptions.length > 0 && (
-                        <div className="mb-2">
-                            <div className="mt-4 flex gap-2">
-                                <Switch />
-                                Gunakan foto varian
-                            </div>
-                            <div className="flex flex-row gap-2 mt-2">
-                                {variantOptions.map((variantOption) => {
-                                    return (
-                                        <div
-                                            key={variantOption}
-                                            className="w-52 h-52 flex flex-col border-dashed border border-gray rounded items-center justify-center"
-                                        >
-                                            <BiImageAdd className="size-10 fill-gray" />
-                                            <span className="text-gray">Foto {variantOption}</span>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    )}
-                    {variantOptions.length > 0 && (
                         <div>
                             <div className="flex justify-between items-center mb-8">
                                 <div className="flex flex-col">
@@ -191,11 +167,6 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                     <p className="text-sm text-stone-400">
                                         Kamu dapat mengatur harga, stok dan SKU sekaligus.
                                     </p>
-                                </div>
-                                <div>
-                                    <Button className="p-3 rounded-3xl bg-cyan">
-                                        <GiSettingsKnobs className="mr-1" /> Atur Sekaligus
-                                    </Button>
                                 </div>
                             </div>
                             {variantOptions.map((variantOption, index) => (

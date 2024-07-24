@@ -13,7 +13,7 @@ import { CartDto } from "@/dtos/CartDto";
 import { CartItemDto } from "@/dtos/CartItemDto";
 import { CourierDto } from "@/dtos/CourierDto";
 import { GetRatesDto } from "@/dtos/GetRatesDto";
-import { StoreInfoDto } from "@/dtos/StoreInfoDto";
+import { ReqPickupDto } from "@/dtos/ReqPickupDto";
 
 const API = {
   PRODUCT: {
@@ -591,7 +591,7 @@ const API = {
     GET_RATES: async (data: GetRatesDto) => {
       try {
         const response = await axios.post(
-          `${CONFIG.BASE_URL}/courier/rateks`,
+          `${CONFIG.BASE_URL}/courier/rates`,
           data,
           {
             headers: {
@@ -599,6 +599,48 @@ const API = {
             },
           }
         );
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        }
+
+        throw error;
+      }
+    },
+
+    REQ_PICKUP: async (data: ReqPickupDto) => {
+      try {
+        const response = await axios.post(
+          `${CONFIG.BASE_URL}/courier/pickup`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        }
+
+        throw error;
+      }
+    },
+  },
+
+  CATEGORIES: {
+    GET_ALL: async () => {
+      try {
+        const response = await axios.get(`${CONFIG.BASE_URL}/categories`, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
 
         return response.data;
       } catch (error) {
@@ -685,6 +727,46 @@ const API = {
             Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
           },
         });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error("Unexpected error");
+        }
+      }
+    },
+
+    GET_STORE: async () => {
+      try {
+        const response = await axios.get(`${CONFIG.BASE_URL}/store/myStore`, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error("Unexpected error");
+        }
+      }
+    },
+
+    UPDATE_STORE: async (data: FormData) => {
+      try {
+        const response = await axios.patch(
+          `${CONFIG.BASE_URL}/store/myStore`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
         return response.data;
       } catch (error) {

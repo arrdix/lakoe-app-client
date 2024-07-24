@@ -1,6 +1,10 @@
 import SelectCategory from '@/components/product/SelectCategory'
 import ValidatedInput from '@/components/utils/ValidatedInput'
+import ValidatedSelect from '@/components/utils/ValidatedSelect'
 import { CreateProductDto } from '@/dtos/ProductDto'
+import API from '@/networks/api'
+import { Category } from '@/types/CategoryType'
+import { useEffect, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 
 interface ValidatedInputProps {
@@ -9,11 +13,26 @@ interface ValidatedInputProps {
 }
 
 export default function ProductInformation({ hookForm }: ValidatedInputProps) {
+    const [categories, setCategories] = useState<string[]>()
     const {
         register,
         formState: { errors },
         setValue,
     } = hookForm
+
+    useEffect(() => {
+        async function GET_CATEGORIES() {
+            const categories: Category[] = await API.CATEGORIES.GET_ALL()
+
+            const categoryNames = categories.map((category: Category) => {
+                return category.name
+            })
+
+            setCategories(categoryNames)
+        }
+
+        GET_CATEGORIES()
+    }, [])
 
     return (
         <div className="w-full bg-white rounded-lg p-8">
@@ -47,7 +66,16 @@ export default function ProductInformation({ hookForm }: ValidatedInputProps) {
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <SelectCategory setValue={setValue} error={errors.categoryId} />
+                    {/* <SelectCategory setValue={setValue} /> */}
+                    {categories && (
+                        <ValidatedSelect
+                            error={errors.categoryName}
+                            setValue={setValue}
+                            name="categoryName"
+                            placeholder="Pilih Kategori"
+                            options={categories}
+                        />
+                    )}
                 </div>
             </div>
         </div>

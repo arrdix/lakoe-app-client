@@ -13,9 +13,7 @@ function CartList({ carts }: CartListProps) {
                 const cartItem = cart.cartItems
 
                 if (cartItem) {
-                    return (
-                        <CartUnit storeName={store} cartItems={cartItem} cartPrice={cart.price} />
-                    )
+                    return <CartUnit storeName={store} cartItems={cartItem} cart={cart} />
                 }
             })}
         </>

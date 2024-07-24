@@ -16,6 +16,8 @@ import API from '@/networks/api'
 import { Cart } from '@/types/CartType'
 import { OrderedProduct } from '@/types/OrderedProductType'
 import { LatLngExpression } from 'leaflet'
+import { Courier } from '@/types/CourierType'
+import { CartItem } from '@/types/CartItemType'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -56,9 +58,11 @@ const CheckoutSchema = z.object({
 })
 
 function CheckoutPage() {
+    const [targetCart, setTargetCart] = useState<Cart>()
     const [storeId, setStoreId] = useState<number>(0)
     const [orderedProducts, setOrderedProducts] = useState<OrderedProduct[]>([])
     const [receiverLocation, setReceiverLocation] = useState<LatLngExpression | null>()
+    const [selectedCourier, setSelectedCourier] = useState<Courier>()
     // const [productQty, setProductQty] = useState<number>(0)
     // const [productSKUs, setProductSKUs] = useState<string[]>([])
 
@@ -70,40 +74,41 @@ function CheckoutPage() {
     const location = useLocation()
 
     const onCheckout = async (data: CreateOrderDto) => {
-        console.log(data)
-
         try {
-            // only if cartId isn't exist
-            const cart: Cart = await API.CART.CREATE({
-                discount: 0,
-                storeId: storeId,
-            })
-
-            for (const orderedProduct of orderedProducts) {
-                await API.CART_ITEM.CREATE({
-                    cartId: cart.id,
-                    qty: orderedProduct.qty,
-                    sku: orderedProduct.sku,
+            if (!targetCart) {
+                const cart: Cart = await API.CART.CREATE({
+                    discount: 0,
                     storeId: storeId,
                 })
+
+                setTargetCart(cart)
+
+                for (const orderedProduct of orderedProducts) {
+                    await API.CART_ITEM.CREATE({
+                        cartId: cart.id,
+                        qty: orderedProduct.qty,
+                        sku: orderedProduct.sku,
+                        storeId: storeId,
+                    })
+                }
             }
 
-            const courier = await API.COURIER.CREATE({
-                courierCode: 'EXAMPLE_COURIER_CODE',
-                courierServiceCode: 'EXAMPLE_SERVICE_GJK',
-                courierServiceName: 'EXAMPLE_GOJEK',
-                price: 13000, // example courier price
-            })
-
-            const transaction = await API.ORDER.CREATE({
-                ...data,
-                status: 'BELUM DIBAYAR',
-                serviceCharge: courier.price,
-                courierId: courier.id,
-                cartId: cart.id,
-            })
-
-            window.snap.pay(transaction.token)
+            if (selectedCourier && targetCart) {
+                const courier = await API.COURIER.CREATE({
+                    courierCode: selectedCourier.courierCode,
+                    courierServiceCode: selectedCourier.serviceCode,
+                    courierServiceName: selectedCourier.serviceName,
+                    price: selectedCourier.courierPrice,
+                })
+                const transaction = await API.ORDER.CREATE({
+                    ...data,
+                    status: 'Belum Dibayar',
+                    serviceCharge: courier.price,
+                    courierId: courier.id,
+                    cartId: targetCart.id,
+                })
+                window.snap.pay(transaction.token)
+            }
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 throw error
@@ -113,43 +118,44 @@ function CheckoutPage() {
         }
     }
 
-    // on marker change
     function onPositionChange(pos: LatLngExpression | null) {
         setReceiverLocation(pos)
-        console.log(pos);
     }
 
-    // on select delivery
-    async function onSelectDeliveryMethod() {
-        const selectDelivery = await API.COURIER.GET_RATES(
-            {
-                origin_latitude: -6.3031123,
-                origin_longitude: 106.7794934999,
-                destination_latitude: -6.2441792,
-                destination_longitude: 106.783529,
-                couriers: "grab,jne,tiki",
-                items: [
-                    {
-                        name: "Shoes",
-                        description: "Black colored size 45",
-                        value: 199000,
-                        length: 30,
-                        width: 15,
-                        height: 20,
-                        weight: 200,
-                        quantity: 2
-                    }
-                ]
-            }
-        )
-        console.log("res", selectDelivery);
+    function onPickCourier(courier: Courier) {
+        setSelectedCourier(courier)
     }
 
     useEffect(() => {
         const { state } = location
 
+        // handle multiple product checkout
+        if (state.cart) {
+            const cart: Cart = state.cart
+            const cartItems: CartItem[] | null = cart.cartItems ? cart.cartItems : null
+
+            setTargetCart(cart)
+            setStoreId(cart.storeId)
+
+            if (cartItems && cartItems.length) {
+                const orderedProducts: OrderedProduct[] = cartItems.map((item) => {
+                    const sku = item.variantOptionValues ? item.variantOptionValues.sku : ''
+                    return {
+                        sku: sku,
+                        qty: item.qty,
+                    }
+                })
+
+                console.log(orderedProducts)
+                return setOrderedProducts(orderedProducts)
+            }
+        }
+
+        // handle single product checkout
         setStoreId(state.storeId)
         setOrderedProducts(state.orderedProducts)
+
+        // console.log(orderedProducts)
         // setProductQty(state.orderedProduct.qty)
         // setProductSKUs(state.orderedProduct.skus)
     }, [])
@@ -167,7 +173,14 @@ function CheckoutPage() {
                     <div className="flex flex-col gap-2">
                         <ContactInformation hookForm={hookForm} />
                         <ShippingAddress onPositionChange={onPositionChange} hookForm={hookForm} />
-                        <DeliveryMethods onSelectDeliveryMethod={onSelectDeliveryMethod} hookForm={hookForm2} />
+                        {receiverLocation && (
+                            <DeliveryMethods
+                                orderedProducts={orderedProducts}
+                                receiverLocation={receiverLocation}
+                                hookForm={hookForm2}
+                                onPickCourier={onPickCourier}
+                            />
+                        )}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 w-2/6 relative top-6">
