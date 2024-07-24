@@ -1,6 +1,12 @@
 export type LocationDto = {
-    locationName: string
-    city: string
-    codePost: string
-    address: string
+    id?: number;
+    name: string;
+    address: string;
+    postalCode: number;
+    cityDistrict: string;
+    latitude: number;
+    longtitude: number;
+    isMainLocation: boolean;
+    storeId: number;
+    profileId: number;
 }

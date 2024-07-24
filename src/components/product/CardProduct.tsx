@@ -98,7 +98,6 @@ export default function CardProduct({
           sku={product.variant?.variantOption?.variantOptionValue?.sku || ""}
         ></CardBody>
         <CardFooter
-          productName={product.name}
           productSku={
             product.variant?.variantOption?.variantOptionValue?.sku || ""
           }

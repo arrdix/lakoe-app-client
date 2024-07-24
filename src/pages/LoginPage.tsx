@@ -13,25 +13,22 @@ import { User } from '@/types/UserType'
 import LOCAL_STORAGE from '@/networks/storage'
 import { useToast } from '@/components/ui/use-toast'
 import Spinner from '@/components/utils/Spinner'
-import { z } from "zod";
+import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 const LoginSchema = z.object({
-    email: z
-        .string()
-        .min(1, { message: "Email harus diisi" })
-        .email("Format email tidak valid"),
+    email: z.string().min(1, { message: 'Email harus diisi' }).email('Format email tidak valid'),
 
     password: z
         .string()
-        .min(4, { message: "Password harus terdiri dari minimal 5 karakter" })
-        .max(20, { message: "Password maksimal 20 karakter" })
-});
+        .min(4, { message: 'Password harus terdiri dari minimal 5 karakter' })
+        .max(20, { message: 'Password maksimal 20 karakter' }),
+})
 
 export default function LoginPage() {
     const setLoggedUser = useLakoeStore((state) => state.setLoggedUser)
     const hookForm = useForm<loginDto>({
-        resolver: zodResolver(LoginSchema)
+        resolver: zodResolver(LoginSchema),
     })
     const {
         handleSubmit,
@@ -97,16 +94,16 @@ export default function LoginPage() {
         <div className="flex flex-row w-full justify-center items-center h-screen px-40">
             <div className="w-full flex flex-col justify-center">
                 <h1 className="text-4xl font-bold">
-                    Sign In to <span className="text-cyan">Lakoe</span>
+                    Login ke <span className="text-cyan">Lakoe</span>
                 </h1>
                 <div className="flex flex-row gap-3">
                     <div className="mt-10 w-96">
-                        <p className="text-base font-medium">If you don't have an account</p>
+                        <p className="text-base font-medium">Jika kamu belum miliki akun</p>
                         <div className="flex flex-row gap-1 items-center">
-                            <p className="text-base font-medium">You can</p>
+                            <p className="text-base font-medium">kamu bisa</p>
                             <Link to="/auth/register">
                                 <span className="text-base font-medium text-cyan">
-                                    Register here!
+                                    Buat di sini!
                                 </span>
                             </Link>
                         </div>
@@ -117,7 +114,10 @@ export default function LoginPage() {
                 </div>
             </div>
             <div className="w-3/6 flex flex-col justify-start gap-5">
-                <form onSubmit={handleSubmit(async (data) => await onLogin(data))} onKeyDown={handleKeyDown}>
+                <form
+                    onSubmit={handleSubmit(async (data) => await onLogin(data))}
+                    onKeyDown={handleKeyDown}
+                >
                     <div className="flex flex-col gap-3">
                         <ValidateInput
                             error={errors.email}

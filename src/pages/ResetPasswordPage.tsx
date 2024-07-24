@@ -1,30 +1,34 @@
-"use client"
+'use client'
 
-import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { FaEyeSlash, FaEye, FaGoogle, FaApple, FaFacebook } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom"
-import { resetPasswordDto } from "@/dtos/AuthDto"
-import ValidateInput from "@/components/utils/ValidatedInput";
-import { useState, useEffect } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import API from "@/networks/api";
-import { useToast } from "@/components/ui/use-toast";
-import Spinner from "@/components/utils/Spinner";
+import { useForm } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { FaEyeSlash, FaEye, FaGoogle, FaApple, FaFacebook } from 'react-icons/fa'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { resetPasswordDto } from '@/dtos/AuthDto'
+import ValidateInput from '@/components/utils/ValidatedInput'
+import { useState, useEffect } from 'react'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import API from '@/networks/api'
+import { useToast } from '@/components/ui/use-toast'
+import Spinner from '@/components/utils/Spinner'
 
 const ResetSchema = z.object({
     password: z
         .string()
-        .min(4, { message: "Password harus terdiri dari minimal 5 karakter" })
-        .max(20, { message: "Password maksimal 20 karakter" })
-});
+        .min(4, { message: 'Password harus terdiri dari minimal 5 karakter' })
+        .max(20, { message: 'Password maksimal 20 karakter' }),
+})
 
 export default function ResetPasswordPage() {
     const hookForm = useForm<resetPasswordDto>({
-        resolver: zodResolver(ResetSchema)
+        resolver: zodResolver(ResetSchema),
     })
-    const { handleSubmit, register, formState: { errors } } = hookForm
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = hookForm
     const [visible, setVisible] = useState(false)
 
     const { toast } = useToast()
@@ -43,8 +47,7 @@ export default function ResetPasswordPage() {
                 variant: 'success',
             })
 
-            if (token)
-                await API.AUTH.RESET(data, token)
+            if (token) await API.AUTH.RESET(data, token)
         } catch (error) {
             toast({
                 title: 'Gagal mengatur ulang kata sandi!',
@@ -52,7 +55,7 @@ export default function ResetPasswordPage() {
                 variant: 'failed',
             })
         }
-    };
+    }
 
     const { token } = useParams()
 
@@ -62,28 +65,31 @@ export default function ResetPasswordPage() {
             navigate('/')
         }
 
-        console.log("test", token);
+        console.log('test', token)
     }, [navigate, token])
 
     function handleKeyDown(event: React.KeyboardEvent<HTMLFormElement>) {
         if (event.key === 'Enter') {
-            event.preventDefault();
-            handleSubmit(onReset)();
+            event.preventDefault()
+            handleSubmit(onReset)()
         }
     }
 
     return (
         <div className="flex flex-row w-full justify-center items-center h-screen px-40">
             <div className="w-full flex flex-col justify-center">
-                <h1 className="text-4xl font-bold">Sign In to <span className="text-cyan">Lakoe</span></h1>
+                <h1 className="text-4xl font-bold">
+                    Reset password <span className="text-cyan">Lakoe</span>
+                </h1>
                 <div className="flex flex-row gap-3">
                     <div className="mt-10 w-96">
-                        <p className="text-base font-medium">If you don't have an account</p>
+                        <p className="text-base font-medium">Kamu tidak ingin melanjutkan?</p>
                         <div className="flex flex-row gap-1 items-center">
-                            <p className="text-base font-medium">You can
-                            </p>
+                            <p className="text-base font-medium">Kamu bisa</p>
                             <Link to="/auth/login">
-                                <span className="text-base font-medium text-cyan">Login here!</span>
+                                <span className="text-base font-medium text-cyan">
+                                    Login di sini!
+                                </span>
                             </Link>
                         </div>
                     </div>
@@ -103,7 +109,7 @@ export default function ResetPasswordPage() {
                                 id="password"
                                 placeholder="Your Password"
                                 register={register}
-                                type={visible ? "text" : "password"}
+                                type={visible ? 'text' : 'password'}
                             />
                             <button
                                 type="button"

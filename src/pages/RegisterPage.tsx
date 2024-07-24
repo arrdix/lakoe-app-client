@@ -75,15 +75,17 @@ export default function RegisterPage() {
         <div className="flex flex-row w-full justify-center items-center h-screen px-40">
             <div className="w-full flex flex-col justify-center">
                 <h1 className="text-4xl font-bold">
-                    Sign In to <span className="text-cyan">Lakoe</span>
+                    Buat akun <span className="text-cyan">Lakoe</span>
                 </h1>
                 <div className="flex flex-row gap-3">
                     <div className="mt-10 w-96">
-                        <p className="text-base font-medium">If you don't have an account</p>
+                        <p className="text-base font-medium">Jika kamu sudah memiliki akun</p>
                         <div className="flex flex-row gap-1 items-center">
-                            <p className="text-base font-medium">You can</p>
+                            <p className="text-base font-medium">kamu bisa</p>
                             <Link to="/auth/login">
-                                <span className="text-base font-medium text-cyan">Login here!</span>
+                                <span className="text-base font-medium text-cyan">
+                                    Login di sini!
+                                </span>
                             </Link>
                         </div>
                     </div>

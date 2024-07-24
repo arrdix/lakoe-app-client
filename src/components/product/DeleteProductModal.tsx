@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -7,47 +7,37 @@ import {
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Button } from "../ui/button";
-import API from "@/networks/api";
-import { useToast } from "../ui/use-toast";
+import { BiTrash } from "react-icons/bi";
+import useProductsQuery from "@/hooks/useProductsQuery";
 
 interface DeleteProductModalProps {
-  onModalClose?: () => void;
   productSku: string;
 }
 
 export default function DeleteProductModal({
-  onModalClose,
   productSku,
 }: DeleteProductModalProps) {
-  const [open, setOpen] = useState(true);
-  const { toast } = useToast();
-  async function DELETE_BY_SKU() {
-    try {
-      const deleteProducts = await API.PRODUCT.DELETE_BY_SKU(productSku);
-      console.log(deleteProducts);
-      toast({
-        title: "Produk Berhasil Dihapus!",
-        description: "Kami berhasil menghapus produk kamu.",
-        variant: "success",
-      });
-    } catch (error) {
-      toast({
-        title: "Gagal menghapus Produk",
-        description: "Terjadi kesalahan saat menghapus produk kamu.",
-        variant: "failed",
-      });
-    }
-  }
+  const [open, setOpen] = useState(false);
+  const { deleteProduct } = useProductsQuery();
 
-  // edit logic
-  useEffect(() => {
-    if (onModalClose && open === false) {
-      onModalClose();
-    }
-  }, [open]);
+  async function deleteProductBySku(sku: string) {
+    const { mutateAsync } = deleteProduct;
+    await mutateAsync({
+      sku: sku,
+    });
+  }
 
   return (
     <div>
+      {/* Tombol Pemicu */}
+      <Button
+        variant={"outline"}
+        className="text-xs"
+        onClick={() => setOpen(true)}
+      >
+        <BiTrash className="mr-1" />
+        Hapus Produk
+      </Button>
       {/* Background Overlay */}
       {open && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
 
@@ -95,7 +85,7 @@ export default function DeleteProductModal({
                   className="bg-cyan text-white px-5 py-0"
                   onClick={() => {
                     setOpen(false);
-                    DELETE_BY_SKU();
+                    deleteProductBySku(productSku);
                   }}
                 >
                   Ya, Hapus

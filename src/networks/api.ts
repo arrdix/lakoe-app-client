@@ -2,13 +2,14 @@ import axios from 'axios'
 import CONFIG from '@/configs/config'
 import { EditProductDto, UpdateVariantOptionValueDto } from '@/dtos/ProductDto'
 import { CreateOrderDto, UpdateOrderDto } from '@/dtos/OrderDto'
-import { forgotPasswordDto, loginDto, registerDto, resetPasswordDto } from '@/dtos/AuthDto'
+import { loginDto, registerDto } from '@/dtos/AuthDto'
 import LOCAL_STORAGE from '@/networks/storage'
 import { CartDto } from '@/dtos/CartDto'
 import { CartItemDto } from '@/dtos/CartItemDto'
 import { CourierDto } from '@/dtos/CourierDto'
 import { GetRatesDto } from '@/dtos/GetRatesDto'
 import { ReqPickupDto } from '@/dtos/ReqPickupDto'
+import { LocationDto } from '@/dtos/LocationDto'
 
 const API = {
     PRODUCT: {
@@ -70,25 +71,6 @@ const API = {
                 const response = await axios.get(`${CONFIG.BASE_URL}/product/sku/${sku}`, {
                     headers: {
                         Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-                    },
-                })
-
-                return response.data
-            } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    throw error
-                }
-
-                throw error
-            }
-        },
-
-        CREATE: async (data: FormData) => {
-            try {
-                const response = await axios.post(`${CONFIG.BASE_URL}/product`, data, {
-                    headers: {
-                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-                        'Content-Type': 'multipart/form-data',
                     },
                 })
 
@@ -180,7 +162,6 @@ const API = {
 
         UPDATE_IS_ACTIVE_BY_SKU: async (sku: string) => {
             try {
-                console.log('ini auth', `Bearer ${LOCAL_STORAGE.GET()}`)
                 const response = await axios.patch(
                     `${CONFIG.BASE_URL}/product/update-isActive/${sku}`,
                     {},
@@ -382,38 +363,6 @@ const API = {
         LOGIN: async (data: loginDto) => {
             try {
                 const response = await axios.post(`${CONFIG.BASE_URL}/auth/login`, data)
-
-                return response.data
-            } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    throw error
-                }
-                throw error
-            }
-        },
-
-        FORGOT: async (data: forgotPasswordDto) => {
-            try {
-                const response = await axios.post(`${CONFIG.BASE_URL}/auth/forgot`, data)
-
-                return response.data
-            } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    throw error
-                }
-                throw error
-            }
-        },
-
-        RESET: async (data: resetPasswordDto, token: string) => {
-            console.log(data)
-            console.log(token)
-            try {
-                const response = await axios.patch(`${CONFIG.BASE_URL}/auth/reset`, data, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
 
                 return response.data
             } catch (error) {
@@ -682,6 +631,64 @@ const API = {
     },
 
     STORE: {
+        GET_STORE_LOCATION: async () => {
+            try {
+                const response = await axios.get(`${CONFIG.BASE_URL}/store/myStoreLocation`, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                } else {
+                    throw new Error('Unexpected error')
+                }
+            }
+        },
+        CREATE_LOCATION: async (data: LocationDto) => {
+            if (data.postalCode) {
+                data.postalCode = Number(data.postalCode)
+            }
+            try {
+                const response = await axios.post(
+                    `${CONFIG.BASE_URL}/store/create-location`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                        },
+                    }
+                )
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                } else {
+                    throw new Error('Unexpected error')
+                }
+            }
+        },
+        DELETE_STORE_LOCATION: async () => {
+            try {
+                const response = await axios.delete(`${CONFIG.BASE_URL}/store/myStoreLocation`, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                } else {
+                    throw new Error('Unexpected error')
+                }
+            }
+        },
         CREATE: async (data: FormData) => {
             try {
                 const response = await axios.post(`${CONFIG.BASE_URL}/store`, data, {

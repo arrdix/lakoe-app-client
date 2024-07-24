@@ -1,7 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 // import ValidatedInput from "@/components/utils/ValidatedInput";
 import ValidatedTextarea from "../utils/ValidatedTextarea";
-import ValidatedSelect from "../utils/ValidatedSelect";
 import { CreateOrderDto } from "@/dtos/OrderDto";
 import { IoIosWarning } from "react-icons/io";
 import SimpleMap from "../Map";

@@ -1,12 +1,11 @@
 import { LatLngExpression } from 'leaflet'
 import { useEffect, useState } from 'react'
 import { Marker, Popup, useMapEvents } from 'react-leaflet'
-import { CreateOrderDto } from '@/dtos/OrderDto'
 import { UseFormReturn } from 'react-hook-form'
 
 interface LocationMarkerProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    hookForm: UseFormReturn<CreateOrderDto, any, undefined>
+    hookForm: UseFormReturn<any, undefined>
     onPositionChange: (pos: LatLngExpression | null) => void
 }
 

@@ -8,18 +8,16 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { BiTrash } from "react-icons/bi";
 import { Button } from "../ui/button";
-import { useProductCheckedContext } from "@/context/checkedProductContext";
-import useProductsQuery from "@/hooks/useProductsQuery";
+import useStoreQuery from "@/hooks/useStoreQuery";
 
-export default function DeleteProductsModal() {
+export default function DeleteLocationModal() {
   const [open, setOpen] = useState(false);
-  const { sku } = useProductCheckedContext();
-  const { deleteProducts } = useProductsQuery();
-  async function deleteProductsBySku(skus: string[]) {
-    const { mutateAsync } = deleteProducts;
-    await mutateAsync({
-      skus,
-    });
+  const { deleteLocation } = useStoreQuery();
+
+  //   delete location
+  async function deleteLocationHandle() {
+    const { mutateAsync } = deleteLocation;
+    await mutateAsync();
   }
 
   return (
@@ -61,12 +59,11 @@ export default function DeleteProductsModal() {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Hapus {sku.length} Produk
+                      Hapus Lokasi
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Produk yang dihapus tidak akan bisa dibatalkan. Pastikan
-                        produk yang dipilih sudah benar!
+                        Lokasi yang dihapus tidak akan bisa dibatalkan!
                       </p>
                     </div>
                   </div>
@@ -79,7 +76,7 @@ export default function DeleteProductsModal() {
                   onClick={() => {
                     setOpen(false);
 
-                    deleteProductsBySku(sku);
+                    deleteLocationHandle();
                   }}
                 >
                   Ya, Hapus

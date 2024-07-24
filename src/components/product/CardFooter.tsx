@@ -1,23 +1,22 @@
-import { Button } from '@/components/ui/button'
-import { BiLink } from 'react-icons/bi'
-import ChangeProductPriceModal from './ChangeProductPriceModal'
-import ChangeProductStockModal from './ChangeStockModal'
-import ProductDevelopmentsModal from './ProductDevelopmentsModal'
+import ChangeProductPriceModal from "./ChangeProductPriceModal";
+import ChangeProductStockModal from "./ChangeStockModal";
+import DeleteProductModal from "./DeleteProductModal";
 
 interface CardFooterProps {
-    productName: string
-    productSku: string
+  productSku: string;
 }
-export default function CardFooter({ productName, productSku }: CardFooterProps) {
-    return (
-        <div className="flex flex-row gap-2">
-            <ChangeProductPriceModal productSku={productSku} />
-            <ChangeProductStockModal productName={productName} productSku={productSku} />
-            <Button variant={'outline'} className="text-xs">
-                <BiLink className="mr-1" />
-                Lihat Halaman
-            </Button>
-            <ProductDevelopmentsModal productName={productName} productSku={productSku} />
-        </div>
-    )
+export default function CardFooter({
+  productSku,
+}: CardFooterProps) {
+  return (
+    <div className="flex flex-row gap-2">
+      <ChangeProductPriceModal
+        productSku={productSku}
+      />
+      <ChangeProductStockModal
+        productSku={productSku}
+      />
+      <DeleteProductModal productSku={productSku} />
+    </div>
+  );
 }
