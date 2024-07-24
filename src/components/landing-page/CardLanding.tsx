@@ -1,11 +1,17 @@
 import formatToIDR from '@/lib/IdrUtils'
+import API from '@/networks/api'
+import { Store } from '@/types/StoreType'
+import { useEffect, useState } from 'react'
 
 interface CardLandingProps {
     name: string
     price?: number
     attachment?: string
+    storeId: number
 }
-export default function CardLanding({ name, price, attachment }: CardLandingProps) {
+export default function CardLanding({ name, price, attachment, storeId }: CardLandingProps) {
+    const [storeName, setStoreName] = useState<string>()
+
     const nameSplitted = name.split('')
     const namePrepared = []
     const maxChar = 28
@@ -20,6 +26,15 @@ export default function CardLanding({ name, price, attachment }: CardLandingProp
             namePrepared.push(nameSplitted[i])
         }
     }
+
+    useEffect(() => {
+        async function GET_STORE() {
+            const store: Store = await API.STORE.FIND_ONE_BY_ID(storeId)
+            setStoreName(store.name)
+        }
+
+        GET_STORE()
+    }, [storeId])
 
     return (
         <div className="rounded-lg dark:bg-gray-800 dark:border-gray-700">
@@ -37,7 +52,7 @@ export default function CardLanding({ name, price, attachment }: CardLandingProp
                 <h3 className="text-lg font-medium">{namePrepared.join('')}</h3>
                 <div className="flex justify-between items-center w-full">
                     <span className="text-base font-medium">{price && formatToIDR(price)}</span>
-                    <p className="text-sm">Lakoe Store</p>
+                    <p className="text-sm">{storeName}</p>
                 </div>
             </div>
         </div>

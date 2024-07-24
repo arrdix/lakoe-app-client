@@ -165,6 +165,7 @@ export default function LandingPage() {
                                             attachment={product.attachments[0]}
                                             name={product.name}
                                             price={price}
+                                            storeId={+product.storeId}
                                         />
                                     </Link>
                                 )

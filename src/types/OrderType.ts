@@ -11,6 +11,7 @@ export type Order = {
     receiverPhone: number
     receiverAddress: string
     receiverName: string
+    receiverEmail?: string
     invoiceNumber: number
     cartId: number
     userId: number
@@ -18,4 +19,5 @@ export type Order = {
     updatedAt: Date
     carts?: Cart
     waybill?: string
+    courierId: number
 }

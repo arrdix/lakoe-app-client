@@ -13,6 +13,7 @@ export default function CardOrderList({ orders, status, searchTerm }: CardOrderL
         .filter((order) => status === 'Semua' || order.status === status)
         .filter((order) =>
             order.carts?.cartItems?.some((cartItem) => {
+                return true
                 const productName =
                     cartItem.variantOptionValues?.variantOptions.variant?.products?.name
                 const productDescription =

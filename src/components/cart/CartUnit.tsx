@@ -15,12 +15,6 @@ function CartUnit({ storeName, cartItems, cart }: CartUnitProps) {
     const navigate = useNavigate()
 
     function onCartCheckout() {
-        console.log(cart)
-        const x = cart.cartItems.map((item) => {
-            return item.variantOptionValues?.sku
-        })
-
-        console.log(x)
         navigate('/checkout', {
             state: {
                 cart,

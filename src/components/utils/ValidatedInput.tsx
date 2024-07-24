@@ -29,21 +29,21 @@ function ValidatedInput<T extends FieldValues>(props: ValidatedInputProps<T>) {
     if (leftLabel) {
         return (
             <div className="flex flex-col">
-                <div className="flex items-center w-max h-10 border border-r-0 bg-slate-200 py-2 px-3 rounded-s-md text-sm">
-                    {leftLabel}
+                <div className="flex flex-row">
+                    <div className="flex items-center h-10 border border-r-0 bg-slate-200 py-2 px-3 rounded-s-md text-sm">
+                        {leftLabel}
+                    </div>
+                    <input
+                        onKeyDown={onKeyDown}
+                        className="border rounded-md rounded-s-none h-10 pl-2 text-sm w-full"
+                        id={name}
+                        placeholder={placeholder}
+                        autoFocus={autoFocus}
+                        type={type}
+                        {...register(name)}
+                    />
                 </div>
-                <input
-                    onKeyDown={onKeyDown}
-                    className="border rounded-md rounded-s-none h-10 pl-2 text-sm w-full"
-                    id={name}
-                    placeholder={placeholder}
-                    autoFocus={autoFocus}
-                    type={type}
-                    {...register(name)}
-                />
-                <div>
-                    {error && <span className="text-error">{error.message}</span>}
-                </div>
+                {error && <span className="text-error text-sm">{error.message}</span>}
             </div>
         )
     }
@@ -63,7 +63,7 @@ function ValidatedInput<T extends FieldValues>(props: ValidatedInputProps<T>) {
                 <div className="flex items-center w-max h-10 border bg-slate-200 border-l-0 py-2 px-3 rounded-e-md text-sm">
                     {rightLabel}
                 </div>
-                {error && <span className="text-error">{error.message}</span>}
+                {error && <span className="text-error text-sm">{error.message}</span>}
             </div>
         )
     }
@@ -79,7 +79,7 @@ function ValidatedInput<T extends FieldValues>(props: ValidatedInputProps<T>) {
                 type={type}
                 {...register(name)}
             />
-            {error && <span className="text-error">{error.message}</span>}
+            {error && <span className="text-error text-sm">{error.message}</span>}
         </div>
     )
 }
