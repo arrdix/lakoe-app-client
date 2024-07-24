@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 const RegisterSchema = z.object({
     role: z
-        .enum(["buyer", "seller"], { message: "Role must be either 'buyer' or 'seller'." }),
+        .string(["buyer", "seller"], { message: "Role must be either 'buyer' or 'seller'." }),
     name: z
         .string()
         .min(3, { message: "Username must be at least 3 characters long." })

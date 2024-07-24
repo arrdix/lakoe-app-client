@@ -37,6 +37,14 @@ interface UseStoreQuery {
  void,
  unknown
 >;
+editStore:UseMutationResult<
+void,
+Error,
+{
+  data: FormData;
+},
+unknown
+>;
 }
 
 function useStoreQuery(): UseStoreQuery {
@@ -73,6 +81,8 @@ function useStoreQuery(): UseStoreQuery {
         variant: "success",
       });
     },
+    
+    
 
     onError: () => {
       toast({
@@ -84,6 +94,33 @@ function useStoreQuery(): UseStoreQuery {
   });
 
 
+  const editStore = useMutation({
+    mutationFn: async ({
+      data,
+    }: {
+      data: FormData;
+    }) => {
+      await API.STORE.UPDATE_STORE(data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["store"] });
+      toast({
+        title: "Toko berhasil diedit!!",
+        description: "Kami berhasil edit toko kamu.",
+        variant: "success",
+      });
+    },
+    
+    
+
+    onError: () => {
+      toast({
+        title: "Gagal edit toko kamu",
+        description: "Terjadi kesalahan saat edit toko kamu.",
+        variant: "failed",
+      });
+    },
+  });
 
   const createLocation = useMutation({
     mutationFn: async ({
@@ -140,7 +177,8 @@ function useStoreQuery(): UseStoreQuery {
     isStoreLoading,
     createStore,
     createLocation,
-    deleteLocation
+    deleteLocation,
+    editStore
   };
 }
 
