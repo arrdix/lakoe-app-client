@@ -345,6 +345,24 @@ const API = {
                 throw error
             }
         },
+
+        SUMMARY: async () => {
+            try {
+                const response = await axios.get(`${CONFIG.BASE_URL}/order/summary`, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
     },
 
     AUTH: {

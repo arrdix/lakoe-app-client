@@ -1,42 +1,65 @@
 import formatToIDR from '@/lib/IdrUtils'
 import API from '@/networks/api'
+import { Courier } from '@/types/CourierType'
 import { OrderedProduct } from '@/types/OrderedProductType'
 import { ProductBySku } from '@/types/ProductBySkuType'
 import React, { useEffect, useState } from 'react'
 
 interface PaymentSummaryProps {
     orderedProducts: OrderedProduct[]
+    selectedCourier: Courier | undefined
 }
 
-const PaymentSummary: React.FC<PaymentSummaryProps> = ({ orderedProducts }) => {
+const PaymentSummary: React.FC<PaymentSummaryProps> = ({ orderedProducts, selectedCourier }) => {
     const [products, setProducts] = useState<ProductBySku[]>([])
-    const [totalProductPrice, settotalProductPrice] = useState<number>(0)
+    const [totalProductPrice, settotalProductPrice] = useState<number>()
     const [totalPrice, setTotalPrice] = useState<number>(0)
-
-    const deliveryPrice = 13000
+    const [deliveryPrice, setDeliveryPrice] = useState<number>(0)
 
     useEffect(() => {
         async function GET_PRODUCT() {
+            if (selectedCourier) {
+                setDeliveryPrice(selectedCourier.courierPrice)
+            }
+
             const requestedProducts: ProductBySku[] = []
-            let currentTotalProductPrice = 0
+            const currentTotalProductPrice: number[] = []
 
             for (const orderedProduct of orderedProducts) {
                 const product = await API.PRODUCT.GET_ONE_BY_SKU(orderedProduct.sku)
                 requestedProducts.push(product)
 
-                currentTotalProductPrice =
+                currentTotalProductPrice.push(
                     product.variant &&
-                    product.variant.variantOption &&
-                    product.variant.variantOption.variantOptionValue &&
-                    product.variant.variantOption.variantOptionValue.price * orderedProduct.qty
+                        product.variant.variantOption &&
+                        product.variant.variantOption.variantOptionValue &&
+                        product.variant.variantOption.variantOptionValue.price * orderedProduct.qty
+                )
             }
 
             setProducts(requestedProducts)
-            settotalProductPrice(currentTotalProductPrice)
-            setTotalPrice(currentTotalProductPrice + deliveryPrice)
+            settotalProductPrice(() => {
+                let total = 0
+
+                for (const price of currentTotalProductPrice) {
+                    total += price
+                }
+
+                return total
+            })
+            setTotalPrice(() => {
+                let total = selectedCourier ? selectedCourier.courierPrice : 0
+
+                for (const price of currentTotalProductPrice) {
+                    total += price
+                }
+
+                return total
+            })
         }
+
         GET_PRODUCT()
-    }, [orderedProducts])
+    }, [orderedProducts, selectedCourier])
 
     return (
         <div className="w-full bg-cyan bg-opacity-10 border border-cyan rounded-lg shadow p-7 flex flex-col gap-6">
@@ -65,7 +88,7 @@ const PaymentSummary: React.FC<PaymentSummaryProps> = ({ orderedProducts }) => {
                                         {orderedProducts[i].qty} Pc(s)
                                     </p>
                                     <p className="text-base font-semibold mt-auto">
-                                        {price && formatToIDR(price)}
+                                        {price && formatToIDR(price * orderedProducts[i].qty)}
                                     </p>
                                 </div>
                             </div>
@@ -78,7 +101,9 @@ const PaymentSummary: React.FC<PaymentSummaryProps> = ({ orderedProducts }) => {
                 {/* total harga */}
                 <div className="flex justify-between">
                     <p className="text-gray-700">Total Harga</p>
-                    <p className="text-lg font-semibold">{formatToIDR(totalProductPrice)}</p>
+                    <p className="text-lg font-semibold">
+                        {totalProductPrice && formatToIDR(totalProductPrice)}
+                    </p>
                 </div>
                 {/* biaya pengiriman */}
                 <div className="flex justify-between">
