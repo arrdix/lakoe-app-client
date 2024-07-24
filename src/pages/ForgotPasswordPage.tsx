@@ -1,29 +1,33 @@
-"use client"
+'use client'
 
-import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
-import { FaGoogle, FaApple, FaFacebook } from "react-icons/fa";
-import { Link } from "react-router-dom"
-import { forgotPasswordDto } from "@/dtos/AuthDto"
-import ValidateInput from "@/components/utils/ValidatedInput";
-import { z } from "zod";
+import { useForm } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { FaGoogle, FaApple, FaFacebook } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { forgotPasswordDto } from '@/dtos/AuthDto'
+import ValidateInput from '@/components/utils/ValidatedInput'
+import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import API from "@/networks/api";
-import { useToast } from "@/components/ui/use-toast";
+import API from '@/networks/api'
+import { useToast } from '@/components/ui/use-toast'
 import Spinner from '@/components/utils/Spinner'
 
 const ForgotSchema = z.object({
     email: z
         .string()
-        .min(1, { message: "Email harus diisi" })
-        .email({ message: "Format email tidak valid" })
-});
+        .min(1, { message: 'Email harus diisi' })
+        .email({ message: 'Format email tidak valid' }),
+})
 
 export default function ForgotPasswordPage() {
     const hookForm = useForm<forgotPasswordDto>({
-        resolver: zodResolver(ForgotSchema)
+        resolver: zodResolver(ForgotSchema),
     })
-    const { handleSubmit, register, formState: { errors } } = hookForm
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = hookForm
 
     const { toast } = useToast()
 
@@ -42,7 +46,6 @@ export default function ForgotPasswordPage() {
                 description: 'Silakan periksa email Anda untuk tautan ubah password',
                 variant: 'success',
             })
-
         } catch (error) {
             toast({
                 title: 'Gagal Mengatur Ulang Kata Sandi!',
@@ -50,32 +53,35 @@ export default function ForgotPasswordPage() {
                 variant: 'failed',
             })
         }
-    };
+    }
 
     function onForgotForgot(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        event.preventDefault();
-        handleSubmit(onForgot)();
+        event.preventDefault()
+        handleSubmit(onForgot)()
     }
 
     function handleKeyDown(event: React.KeyboardEvent<HTMLFormElement>) {
         if (event.key === 'Enter') {
-            event.preventDefault();
-            onForgotForgot(event as any);
+            event.preventDefault()
+            onForgotForgot(event as any)
         }
     }
 
     return (
         <div className="flex flex-row w-full justify-center items-center h-screen px-40">
             <div className="w-full flex flex-col justify-center">
-                <h1 className="text-4xl font-bold">Sign In to <span className="text-cyan">Lakoe</span></h1>
+                <h1 className="text-4xl font-bold">
+                    Lupa akun <span className="text-cyan">Lakoe</span>
+                </h1>
                 <div className="flex flex-row gap-3">
                     <div className="mt-10 w-96">
-                        <p className="text-base font-medium">If you don't have an account</p>
+                        <p className="text-base font-medium">Kamu tidak ingin melanjutkan?</p>
                         <div className="flex flex-row gap-1 items-center">
-                            <p className="text-base font-medium">You can
-                            </p>
+                            <p className="text-base font-medium">Kamu bisa</p>
                             <Link to="/auth/login">
-                                <span className="text-base font-medium text-cyan">Login here!</span>
+                                <span className="text-base font-medium text-cyan">
+                                    Login di sin!
+                                </span>
                             </Link>
                         </div>
                     </div>
@@ -137,7 +143,7 @@ export default function ForgotPasswordPage() {
                         </div>
                     </div>
                 </form>
-            </div >
-        </div >
+            </div>
+        </div>
     )
 }
