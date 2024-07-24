@@ -21,6 +21,7 @@ const LoginSchema = z.object({
         .string()
         .min(1, { message: "Email harus diisi" })
         .email("Format email tidak valid"),
+
     password: z
         .string()
         .min(4, { message: "Password harus terdiri dari minimal 5 karakter" })

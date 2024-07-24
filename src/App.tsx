@@ -80,7 +80,7 @@ function App() {
                         <Route path="/order/detail/:id" element={<DetailOrderPage />} />
                         <Route path="/store-setting" element={<SettingPage />} />
                         <Route path="/store-shipping" element={<ShippingPage />} />
-                        <Route path="/reset" index element={<ResetPasswordPage />} />
+                        <Route path="/reset/:token" index element={<ResetPasswordPage />} />
                     </Route>
                 </Routes>
             )
@@ -93,7 +93,7 @@ function App() {
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/product/:id" element={<BuyerPage />} />
                         <Route path="/checkout" index element={<CheckoutPage />} />
-                        <Route path="/reset" index element={<ResetPasswordPage />} />
+                        <Route path="/reset/:token" index element={<ResetPasswordPage />} />
                     </Route>
                 </Routes>
             )
@@ -108,6 +108,7 @@ function App() {
                 <Route path="/auth/login" index element={<LoginPage />} />
                 <Route path="/auth/register" index element={<RegisterPage />} />
                 <Route path="/forgot" index element={<ForgotPasswordPage />} />
+                <Route path="/reset/:token" index element={<ResetPasswordPage />} />
             </Route>
         </Routes>
     )

@@ -2,7 +2,12 @@ import axios from "axios";
 import CONFIG from "@/configs/config";
 import { EditProductDto, UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
 import { CreateOrderDto, UpdateOrderDto } from "@/dtos/OrderDto";
-import { loginDto, registerDto } from "@/dtos/AuthDto";
+import {
+  forgotPasswordDto,
+  loginDto,
+  registerDto,
+  resetPasswordDto,
+} from "@/dtos/AuthDto";
 import LOCAL_STORAGE from "@/networks/storage";
 import { CartDto } from "@/dtos/CartDto";
 import { CartItemDto } from "@/dtos/CartItemDto";
@@ -402,6 +407,45 @@ const API = {
         throw error;
       }
     },
+
+    FORGOT: async (data: forgotPasswordDto) => {
+      try {
+        const response = await axios.post(
+          `${CONFIG.BASE_URL}/auth/forgot`,
+          data
+        );
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        }
+        throw error;
+      }
+    },
+
+    RESET: async (data: resetPasswordDto, token: string) => {
+      console.log(data);
+      console.log(token);
+      try {
+        const response = await axios.patch(
+          `${CONFIG.BASE_URL}/auth/reset`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        }
+        throw error;
+      }
+    },
   },
 
   USER: {
@@ -647,11 +691,11 @@ const API = {
         if (axios.isAxiosError(error)) {
           throw error;
         } else {
-          throw new Error('Unexpected error');
+          throw new Error("Unexpected error");
         }
       }
     },
-  }
-}
+  },
+};
 
 export default API;

@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { FaGoogle, FaApple, FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom"
-import { forgotPassword } from "@/dtos/AuthDto"
+import { forgotPasswordDto } from "@/dtos/AuthDto"
 import ValidateInput from "@/components/utils/ValidatedInput";
-import { useCallback } from "react"; import { z } from "zod";
+import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
+import API from "@/networks/api";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from '@/components/utils/Spinner'
 
 const ForgotSchema = z.object({
     email: z
@@ -17,23 +20,47 @@ const ForgotSchema = z.object({
 });
 
 export default function ForgotPasswordPage() {
-    const hookForm = useForm<forgotPassword>({
+    const hookForm = useForm<forgotPasswordDto>({
         resolver: zodResolver(ForgotSchema)
     })
     const { handleSubmit, register, formState: { errors } } = hookForm
 
-    const onSubmit = useCallback((data: forgotPassword) => {
-        console.log(data);
-    }, []);
+    const { toast } = useToast()
 
-    function onSubmitLogin() {
-        handleSubmit(onSubmit)();
+    const onForgot = async (data: forgotPasswordDto) => {
+        toast({
+            title: 'Memvalidasi',
+            description: 'Kami sedang memvalidasi data Anda.',
+            action: <Spinner size={6} />,
+        })
+
+        try {
+            await API.AUTH.FORGOT(data)
+
+            toast({
+                title: 'Permintaan ubah password berhasil!',
+                description: 'Silakan periksa email Anda untuk tautan ubah password',
+                variant: 'success',
+            })
+
+        } catch (error) {
+            toast({
+                title: 'Gagal Mengatur Ulang Kata Sandi!',
+                description: 'Mohon periksa kembali email Anda dan coba lagi.',
+                variant: 'failed',
+            })
+        }
+    };
+
+    function onForgotForgot(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        event.preventDefault();
+        handleSubmit(onForgot)();
     }
 
     function handleKeyDown(event: React.KeyboardEvent<HTMLFormElement>) {
         if (event.key === 'Enter') {
             event.preventDefault();
-            onSubmitLogin();
+            onForgotForgot(event as any);
         }
     }
 
@@ -73,7 +100,7 @@ export default function ForgotPasswordPage() {
                         <button
                             className="bg-cyan hover:bg-transparent hover:text-cyan hover:border-cyan hover:bg-lightCyan border-2 border-gray-200 rounded-md text-white font-medium h-10 pl-2 text-sm w-full"
                             type="submit"
-                            onClick={onSubmitLogin}
+                            onClick={onForgotForgot}
                         >
                             Submit
                         </button>
