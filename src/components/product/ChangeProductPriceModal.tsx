@@ -89,7 +89,6 @@ export default function ChangeProductPriceModal({ productSku }: ChangeProductPri
                               id="price"
                               placeholder="Masukan harga satuan barang"
                               register={register}
-                              leftLabel="RP"
                               name="price"
                               autoFocus={true}
                               error={errors.price}

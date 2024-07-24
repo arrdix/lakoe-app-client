@@ -37,6 +37,7 @@ function ProductPage() {
 
     useEffect(() => {
         setfilteredProducts(products)
+        onTabChange(activeTab)
     }, [products])
 
     return (
