@@ -11,10 +11,40 @@ import { GetStoreInfoDto } from '@/dtos/GetStoreInfoDto';
 import { ToastContainer, toast } from 'react-toastify';
 import { useToast } from '@/components/ui/use-toast'
 import 'react-toastify/dist/ReactToastify.css';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const StoreSchema = z.object({
+    slogan: z
+        .string()
+        .min(4, { message: "Slogan harus memiliki minimal 4 karakter" })
+        .max(100, { message: "Slogan maksimal 100 karakter" }),
+
+    name: z
+        .string()
+        .min(4, { message: "Nama toko harus memiliki minimal 4 karakter" })
+        .max(100, { message: "Nama toko maksimal 100 karakter" }),
+
+    description: z
+        .string()
+        .min(4, { message: "Deskripsi harus memiliki minimal 4 karakter" })
+        .max(3000, { message: "Deskripsi maksimal 3000 karakter" })
+});
 
 function StoreInfo() {
     const [storeData, setStoreData] = useState<GetStoreInfoDto | null>(null);
-    const { register, setValue, formState: { errors }, handleSubmit } = useForm<StoreInfoDto>();
+
+    const hookForm = useForm<StoreInfoDto>({
+        resolver: zodResolver(StoreSchema)
+    });
+
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        setValue
+    } = hookForm;
+
     const { toast } = useToast()
 
     const [imagePreview, setImagePreview] = useState<string | null>(null);

@@ -10,10 +10,10 @@ export type registerDto = {
   password: string;
 };
 
-export type forgotPassword = {
+export type forgotPasswordDto = {
   email: string;
 };
 
-export type resetPassword = {
+export type resetPasswordDto = {
   password: string;
 };
