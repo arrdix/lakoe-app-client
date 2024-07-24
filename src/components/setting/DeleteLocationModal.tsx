@@ -8,29 +8,16 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { BiTrash } from "react-icons/bi";
 import { Button } from "../ui/button";
-import API from "@/networks/api";
-import { useToast } from "../ui/use-toast";
+import useStoreQuery from "@/hooks/useStoreQuery";
 
 export default function DeleteLocationModal() {
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
+  const { deleteLocation } = useStoreQuery();
 
-    async function DELETE_LOCATION() {
-    try {
-      const deleteProducts = await API.STORE.DELETE_STORE_LOCATION();
-      console.log(deleteProducts);
-      toast({
-        title: "Lokasi Berhasil Dihapus!",
-        description: "Kami berhasil menghapus lokasi kamu.",
-        variant: "success",
-      });
-    } catch (error) {
-      toast({
-        title: "Gagal menghapus lokasi",
-        description: "Terjadi kesalahan saat menghapus lokasi kamu.",
-        variant: "failed",
-      });
-    }
+  //   delete location
+  async function deleteLocationHandle() {
+    const { mutateAsync } = deleteLocation;
+    await mutateAsync();
   }
 
   return (
@@ -89,7 +76,7 @@ export default function DeleteLocationModal() {
                   onClick={() => {
                     setOpen(false);
 
-                    DELETE_LOCATION();
+                    deleteLocationHandle();
                   }}
                 >
                   Ya, Hapus

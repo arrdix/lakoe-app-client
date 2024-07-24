@@ -7,9 +7,8 @@ import {
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Button } from "../ui/button";
-import API from "@/networks/api";
-import { useToast } from "../ui/use-toast";
 import { BiTrash } from "react-icons/bi";
+import useProductsQuery from "@/hooks/useProductsQuery";
 
 interface DeleteProductModalProps {
   productSku: string;
@@ -19,23 +18,13 @@ export default function DeleteProductModal({
   productSku,
 }: DeleteProductModalProps) {
   const [open, setOpen] = useState(false);
-  const { toast } = useToast();
-  async function DELETE_BY_SKU() {
-    try {
-      const deleteProducts = await API.PRODUCT.DELETE_BY_SKU(productSku);
-      console.log(deleteProducts);
-      toast({
-        title: "Produk Berhasil Dihapus!",
-        description: "Kami berhasil menghapus produk kamu.",
-        variant: "success",
-      });
-    } catch (error) {
-      toast({
-        title: "Gagal menghapus Produk",
-        description: "Terjadi kesalahan saat menghapus produk kamu.",
-        variant: "failed",
-      });
-    }
+  const { deleteProduct } = useProductsQuery();
+
+  async function deleteProductBySku(sku: string) {
+    const { mutateAsync } = deleteProduct;
+    await mutateAsync({
+      sku: sku,
+    });
   }
 
   return (
@@ -96,7 +85,7 @@ export default function DeleteProductModal({
                   className="bg-cyan text-white px-5 py-0"
                   onClick={() => {
                     setOpen(false);
-                    DELETE_BY_SKU();
+                    deleteProductBySku(productSku);
                   }}
                 >
                   Ya, Hapus

@@ -16,7 +16,7 @@ export type CreateProductDto = {
     isActive?: string
     minimumOrder: string
     storeId: string
-    categoryId: string
+    categoryName: string
     url: string
     variant?: CreateVariantDto
 }

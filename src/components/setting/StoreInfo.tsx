@@ -6,13 +6,14 @@ import { useForm } from 'react-hook-form';
 import ValidatedTextarea from '../utils/ValidatedTextarea';
 import { useState } from 'react';
 import { IoIosClose } from 'react-icons/io';
-import API from '@/networks/api';
+import useStoreQuery from '@/hooks/useStoreQuery';
 
 function StoreInfo() {
     const { register, setValue, formState: { errors }, handleSubmit, reset } = useForm<StoreInfoDto>();
 
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [bannerPreview, setBannerPreview] = useState<string | null>(null);
+    const {createStore} = useStoreQuery()
 
     function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
@@ -55,7 +56,12 @@ function StoreInfo() {
             if (data.banner) formData.append('bannerAttachment', data.banner);
 
             // Kirim data ke server
-            const response = await API.STORE.CREATE(formData);
+            const { mutateAsync } = createStore;
+
+            
+            const response = await mutateAsync({
+                data: formData,
+              });
             console.log('Response:', response);
 
             // Reset form setelah submit berhasil

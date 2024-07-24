@@ -9,16 +9,16 @@ import { Button } from "../ui/button";
 import ValidatedInput from "../utils/ValidatedInput";
 import { UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
 import { useForm } from "react-hook-form";
-import API from "@/networks/api";
-import { useToast } from "../ui/use-toast";
+import useProductsQuery from "@/hooks/useProductsQuery";
+
+interface ChangeProductPriceModalProps {
+  productSku: string;
+}
 
 export default function ChangeProductPriceModal({
-  productName,
   productSku,
-}: {
-  productName: string;
-  productSku: string;
-}) {
+}: ChangeProductPriceModalProps) {
+  const { updateProduct } = useProductsQuery();
   const [open, setOpen] = useState(false);
   const hookForm = useForm<UpdateVariantOptionValueDto>();
   const {
@@ -27,28 +27,14 @@ export default function ChangeProductPriceModal({
     formState: { errors },
   } = hookForm;
 
-  const { toast } = useToast();
+  async function onChangePrice(sku: string, data: UpdateVariantOptionValueDto) {
+    const { mutateAsync } = updateProduct;
 
-  const CHANGEPRICE = async function DELETE_BY_SKU(
-    sku: string,
-    data: UpdateVariantOptionValueDto
-  ) {
-    try {
-      const products = await API.PRODUCT.UPDATE_BY_SKU(sku, data);
-      console.log(products);
-      toast({
-        title: "Produk Berhasil diubah!",
-        description: "Kami berhasil mengubah produk kamu.",
-        variant: "success",
-      });
-    } catch (error) {
-      toast({
-        title: "Gagal mengubah Produk",
-        description: "Terjadi kesalahan saat mengubah produk kamu.",
-        variant: "failed",
-      });
-    }
-  };
+    await mutateAsync({
+      sku: sku,
+      data: data,
+    });
+  }
 
   return (
     <div>
@@ -119,7 +105,7 @@ export default function ChangeProductPriceModal({
                   className="bg-cyan text-white px-5 py-0"
                   onClick={handleSubmit((data) => {
                     setOpen(false);
-                    CHANGEPRICE(productSku, data);
+                    onChangePrice(productSku, data);
                     console.log("data frontend", data);
                   })}
                 >

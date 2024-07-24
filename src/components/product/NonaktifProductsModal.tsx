@@ -8,29 +8,17 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Button } from "../ui/button";
 import { useProductCheckedContext } from "@/context/checkedProductContext";
-import API from "@/networks/api";
-import { useToast } from "../ui/use-toast";
+import useProductsQuery from "@/hooks/useProductsQuery";
 
 export default function NonaktifProductsModal() {
   const [open, setOpen] = useState(false);
   const { sku } = useProductCheckedContext();
-  const { toast } = useToast();
-  async function NONACTIVED_BY_SKU(sku: string[]) {
-    try {
-      const products = await API.PRODUCT.NONACTIVED_MANY_BY_SKU(sku);
-      console.log(products);
-      toast({
-        title: "Produk Berhasil diubah!",
-        description: "Kami berhasil mengubah produk kamu.",
-        variant: "success",
-      });
-    } catch (error) {
-      toast({
-        title: "Gagal mengubah Produk",
-        description: "Terjadi kesalahan saat mengubah produk kamu.",
-        variant: "failed",
-      });
-    }
+  const {nonActivedProducts} = useProductsQuery()
+  async function nonActivedProductsBySku(skus: string[]) {
+    const { mutateAsync } = nonActivedProducts;
+    await mutateAsync({
+      skus
+    });
   }
 
   return (
@@ -89,7 +77,7 @@ export default function NonaktifProductsModal() {
                   className="bg-cyan text-white px-5 py-0"
                   onClick={() => {
                     setOpen(false);
-                    NONACTIVED_BY_SKU(sku);
+                    nonActivedProductsBySku(sku);
                   }}
                 >
                   Ya, Nonaktifkan

@@ -8,7 +8,7 @@ import { CartDto } from "@/dtos/CartDto";
 import { CartItemDto } from "@/dtos/CartItemDto";
 import { CourierDto } from "@/dtos/CourierDto";
 import { GetRatesDto } from "@/dtos/GetRatesDto";
-import { StoreInfoDto } from "@/dtos/StoreInfoDto";
+import { ReqPickupDto } from "@/dtos/ReqPickupDto";
 import { LocationDto } from "@/dtos/LocationDto";
 
 const API = {
@@ -548,7 +548,7 @@ const API = {
     GET_RATES: async (data: GetRatesDto) => {
       try {
         const response = await axios.post(
-          `${CONFIG.BASE_URL}/courier/rateks`,
+          `${CONFIG.BASE_URL}/courier/rates`,
           data,
           {
             headers: {
@@ -556,6 +556,48 @@ const API = {
             },
           }
         );
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        }
+
+        throw error;
+      }
+    },
+
+    REQ_PICKUP: async (data: ReqPickupDto) => {
+      try {
+        const response = await axios.post(
+          `${CONFIG.BASE_URL}/courier/pickup`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        }
+
+        throw error;
+      }
+    },
+  },
+
+  CATEGORIES: {
+    GET_ALL: async () => {
+      try {
+        const response = await axios.get(`${CONFIG.BASE_URL}/categories`, {
+          headers: {
+            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+          },
+        });
 
         return response.data;
       } catch (error) {
@@ -633,8 +675,71 @@ const API = {
       }
     },
   },
-
   STORE: {
+    GET_STORE_LOCATION: async () => {
+      try {
+        const response = await axios.get(
+          `${CONFIG.BASE_URL}/store/myStoreLocation`,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error("Unexpected error");
+        }
+      }
+    },
+    CREATE_LOCATION: async (data: LocationDto) => {
+      if (data.postalCode) {
+        data.postalCode = Number(data.postalCode)
+      }
+      try {
+        const response = await axios.post(
+          `${CONFIG.BASE_URL}/store/create-location`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error("Unexpected error");
+        }
+      }
+    },
+    DELETE_STORE_LOCATION: async () => {
+      try {
+        const response = await axios.delete(
+          `${CONFIG.BASE_URL}/store/myStoreLocation`,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
+
+        return response.data;
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          throw error;
+        } else {
+          throw new Error("Unexpected error");
+        }
+      }
+    },
     CREATE: async (data: FormData) => {
       try {
         const response = await axios.post(`${CONFIG.BASE_URL}/store`, data, {
@@ -653,27 +758,6 @@ const API = {
       }
     },
 
-    CREATE_LOCATION: async (data: LocationDto) => {
-      try {
-        if (data.postalCode) {
-          data.postalCode = Number(data.postalCode);
-        }
-        const response = await axios.post(`${CONFIG.BASE_URL}/store/create-location`, data, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        });
-
-        return response.data;
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          throw error;
-        } else {
-          throw new Error("Unexpected error");
-        }
-      }
-    },
-   
     GET_STORE: async () => {
       try {
         const response = await axios.get(`${CONFIG.BASE_URL}/store/myStore`, {
@@ -692,13 +776,17 @@ const API = {
       }
     },
 
-    GET_STORE_LOCATION: async () => {
+    UPDATE_STORE: async (data: FormData) => {
       try {
-        const response = await axios.get(`${CONFIG.BASE_URL}/store/myStoreLocation`, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        });
+        const response = await axios.patch(
+          `${CONFIG.BASE_URL}/store/myStore`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+            },
+          }
+        );
 
         return response.data;
       } catch (error) {
@@ -709,26 +797,6 @@ const API = {
         }
       }
     },
-
-    DELETE_STORE_LOCATION: async () => {
-      try {
-        const response = await axios.delete(`${CONFIG.BASE_URL}/store/myStoreLocation`, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        });
-
-        return response.data;
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          throw error;
-        } else {
-          throw new Error("Unexpected error");
-        }
-      }
-    },
-
-    
   },
 };
 

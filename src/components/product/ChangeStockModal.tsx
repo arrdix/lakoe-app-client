@@ -8,16 +8,13 @@ import {
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
-import API from "@/networks/api";
 import ValidatedInput from "../utils/ValidatedInput";
-import { useToast } from "../ui/use-toast";
+import useProductsQuery from "@/hooks/useProductsQuery";
 
 export default function ChangeProductStockModal({
-  productName,
   productSku,
 }: {
-  productName: string;
-  productSku: string
+  productSku: string;
 }) {
   const [open, setOpen] = useState(false);
   const hookForm = useForm<UpdateVariantOptionValueDto>();
@@ -26,30 +23,16 @@ export default function ChangeProductStockModal({
     handleSubmit,
     formState: { errors },
   } = hookForm;
+  const { updateProduct } = useProductsQuery();
 
-  const { toast } = useToast();
+  async function onChangeStock(sku: string, data: UpdateVariantOptionValueDto) {
+    const { mutateAsync } = updateProduct;
 
-  const CHANGESTOCK = async function DELETE_BY_SKU(
-    sku: string,
-    data: UpdateVariantOptionValueDto
-  ) {
-    try {
-      const products = await API.PRODUCT.UPDATE_BY_SKU(sku, data);
-      console.log(products);
-      toast({
-        title: "Produk Berhasil diubah!",
-        description: "Kami berhasil mengubah produk kamu.",
-        variant: "success",
-      });
-    } catch (error) {
-      toast({
-        title: "Gagal mengubah Produk",
-        description: "Terjadi kesalahan saat mengubah produk kamu.",
-        variant: "failed",
-      });
-    }
-
-  };
+    await mutateAsync({
+      sku: sku,
+      data: data,
+    });
+  }
 
   return (
     <div>
@@ -89,7 +72,7 @@ export default function ChangeProductStockModal({
                     </DialogTitle>
                     <div className="mt-2 flex flex-col gap-4">
                       <p className="text-sm text-gray-500">
-                        Ubah Stok untuk produk {" "}
+                        Ubah Stok untuk produk{" "}
                         <span className="font-semibold uppercase">
                           {productSku}
                         </span>
@@ -119,7 +102,7 @@ export default function ChangeProductStockModal({
                   className="bg-cyan text-white px-5 py-0"
                   onClick={handleSubmit((data) => {
                     setOpen(false);
-                    CHANGESTOCK(productSku, data);
+                    onChangeStock(productSku, data);
                   })}
                 >
                   Simpan

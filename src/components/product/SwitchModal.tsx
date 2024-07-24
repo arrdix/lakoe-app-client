@@ -8,11 +8,10 @@ import {
 import { Button } from "../ui/button";
 import ValidatedInput from "../utils/ValidatedInput";
 import { useForm } from "react-hook-form";
-import { UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
-import API from "@/networks/api";
+import { EditProductDto, UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
 import { Switch } from "../ui/switch";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { useToast } from "../ui/use-toast";
+import useProductsQuery from "@/hooks/useProductsQuery";
 
 export default function SwitchModal({
   productSku,
@@ -29,29 +28,21 @@ export default function SwitchModal({
     formState: { errors },
   } = hookForm;
 
-  const { toast } = useToast();
+  const { activedProduct, nonActivedProduct } = useProductsQuery();
 
-  async function UPDATE_IS_ACTIVED() {
-    try {
-      const update = await API.PRODUCT.UPDATE_IS_ACTIVE_BY_SKU(productSku);
-      console.log(update);
-      toast({
-        title: "Produk Berhasil diubah!",
-        description: "Kami berhasil mengubah produk kamu.",
-        variant: "success",
-      });
-    } catch (error) {
-      toast({
-        title: "Gagal mengubah Produk",
-        description: "Terjadi kesalahan saat mengubah produk kamu.",
-        variant: "failed",
-      });
-    }
+  async function activedProductBySku(sku: string, data: EditProductDto) {
+    const { mutateAsync } = activedProduct;
+    await mutateAsync({
+      sku: sku,
+      data: data,
+    });
   }
 
-  async function UPDATE_STOK_PRICE(data: UpdateVariantOptionValueDto) {
-    const update = await API.PRODUCT.UPDATE_BY_SKU(productSku, data);
-    console.log(update);
+  async function nonActivedProductBySku(sku: string) {
+    const { mutateAsync } = nonActivedProduct;
+    await mutateAsync({
+      sku: sku,
+    });
   }
 
   return (
@@ -109,7 +100,7 @@ export default function SwitchModal({
                     className="bg-cyan text-white px-5 py-0"
                     onClick={() => {
                       setOpen(false);
-                      UPDATE_IS_ACTIVED();
+                      nonActivedProductBySku(productSku);
                     }}
                   >
                     Ya, Nonaktifkan
@@ -174,8 +165,7 @@ export default function SwitchModal({
                     onClick={handleSubmit((data) => {
                       console.log("ini data mau dikirim", data);
                       setOpen(false);
-                      UPDATE_IS_ACTIVED();
-                      UPDATE_STOK_PRICE(data);
+                      activedProductBySku(productSku, data);
                     })}
                   >
                     Simpan

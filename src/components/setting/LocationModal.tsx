@@ -23,9 +23,7 @@ import API from "@/networks/api";
 import ValidatedInput from "../utils/ValidatedInput";
 import SimpleMap from "../Map";
 import { LatLngExpression } from "leaflet";
-import { StoreDto } from "@/dtos/StoreInfoDto";
-import { useToast } from "../ui/use-toast";
-
+import useStoreQuery from "@/hooks/useStoreQuery";
 
 interface LocationModalProps {
   isOpen: boolean;
@@ -61,9 +59,7 @@ export default function LocationModal({
   } = useForm<LocationDto>();
   const [receiverLocation, setReceiverLocation] =
     useState<LatLngExpression | null>();
-  const { toast } = useToast();
-
- 
+  const { store, createLocation } = useStoreQuery();
 
   function onPositionChange(pos: LatLngExpression | null) {
     setReceiverLocation(pos);
@@ -86,53 +82,36 @@ export default function LocationModal({
     setCity(city);
   }
 
-  // get store
-  async function GET_STORE() {
-    const store = await API.STORE.GET_STORE() as StoreDto;
-    console.log("store", store)
-    setValue("profileId", store.userId)
-    setValue("storeId", store.id)
-    setValue("isMainLocation", true)
-
+  //   create location
+  async function createLocationHandle(data: LocationDto) {
+    const { mutateAsync } = createLocation;
+    await mutateAsync({
+      data,
+    });
   }
 
-    //   create location
-    async function CREATE_LOCATION(data:LocationDto) {
-      
-      try {
-         await API.STORE.CREATE_LOCATION(data);
-        toast({
-          title: "Lokasi berhasil dibuat!",
-          description: "Kami berhasil membuat lokasi baru.",
-          variant: "success",
-        });
-      } catch (error) {
-        toast({
-          title: "Gagal membuat lokasi",
-          description: "Terjadi kesalahan saat membuat lokasi baru.",
-          variant: "failed",
-        });
-      }
-    }
-
   useEffect(() => {
+    console.log("store", store);
+    if(store) {
+      setValue("profileId", store.userId);
+      setValue("storeId", store.id);
+      setValue("isMainLocation", true);
+    }
     GET_PROVINCE();
-    GET_STORE()
     if (receiverLocation) {
-      const location = receiverLocation as LatLngType
-      setValue("latitude", location.lat)
-      setValue("longtitude", location.lng)
+      const location = receiverLocation as LatLngType;
+      setValue("latitude", location.lat);
+      setValue("longtitude", location.lng);
     }
     if (!isModalOpen) {
       onModalClose();
     }
-  }, [isModalOpen,receiverLocation]);
+  }, [isModalOpen, receiverLocation,store]);
 
   const onSubmit = (data: LocationDto) => {
     console.log(data);
-    CREATE_LOCATION(data)
-    setOpen(false)
-
+    createLocationHandle(data);
+    setOpen(false);
   };
 
   return (

@@ -9,30 +9,17 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { BiTrash } from "react-icons/bi";
 import { Button } from "../ui/button";
 import { useProductCheckedContext } from "@/context/checkedProductContext";
-import API from "@/networks/api";
-import { useToast } from "../ui/use-toast";
+import useProductsQuery from "@/hooks/useProductsQuery";
 
 export default function DeleteProductsModal() {
   const [open, setOpen] = useState(false);
   const { sku } = useProductCheckedContext();
-  const { toast } = useToast();
-
-  async function DELETE_BY_SKU() {
-    try {
-      const products = await API.PRODUCT.DELETE_MANY_BY_SKU(sku);
-      console.log(products);
-      toast({
-        title: "Produk Berhasil Dihapus!",
-        description: "Kami berhasil menghapus produk kamu.",
-        variant: "success",
-      });
-    } catch (error) {
-      toast({
-        title: "Gagal menghapus Produk",
-        description: "Terjadi kesalahan saat menghapus produk kamu.",
-        variant: "failed",
-      });
-    }
+  const { deleteProducts } = useProductsQuery();
+  async function deleteProductsBySku(skus: string[]) {
+    const { mutateAsync } = deleteProducts;
+    await mutateAsync({
+      skus,
+    });
   }
 
   return (
@@ -92,7 +79,7 @@ export default function DeleteProductsModal() {
                   onClick={() => {
                     setOpen(false);
 
-                    DELETE_BY_SKU();
+                    deleteProductsBySku(sku);
                   }}
                 >
                   Ya, Hapus
