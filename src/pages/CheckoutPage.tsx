@@ -146,7 +146,6 @@ function CheckoutPage() {
                     }
                 })
 
-                console.log(orderedProducts)
                 return setOrderedProducts(orderedProducts)
             }
         }
@@ -154,10 +153,6 @@ function CheckoutPage() {
         // handle single product checkout
         setStoreId(state.storeId)
         setOrderedProducts(state.orderedProducts)
-
-        // console.log(orderedProducts)
-        // setProductQty(state.orderedProduct.qty)
-        // setProductSKUs(state.orderedProduct.skus)
     }, [])
 
     const { handleSubmit } = hookForm
@@ -185,7 +180,10 @@ function CheckoutPage() {
                 </div>
                 <div className="flex flex-col gap-2 w-2/6 relative top-6">
                     {/* <PaymentSummar2/> */}
-                    <PaymentSummary orderedProducts={orderedProducts} />
+                    <PaymentSummary
+                        orderedProducts={orderedProducts}
+                        selectedCourier={selectedCourier}
+                    />
 
                     <InsertVoucherModal />
                     <Note hookForm={hookForm} />

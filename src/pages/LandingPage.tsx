@@ -90,7 +90,6 @@ export default function LandingPage() {
 
             {/* Our Category */}
             <div id="landing-category">
-                <h1 className="text-4xl font-medium pb-5">Kategori</h1>
                 <div className="mx-auto max-w-screen-xl">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 h-full">
                         <div className="col-span-2 sm:col-span-1 md:col-span-2 bg-gray-50 h-auto md:h-full flex flex-col">
@@ -104,9 +103,6 @@ export default function LandingPage() {
                                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                                    Sepatu
-                                </h3>
                             </a>
                         </div>
                         <div className="col-span-2 sm:col-span-1 md:col-span-2 bg-stone-50">
@@ -120,9 +116,6 @@ export default function LandingPage() {
                                     className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                                <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                                    Musik
-                                </h3>
                             </a>
                             <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-2">
                                 <a
@@ -135,9 +128,6 @@ export default function LandingPage() {
                                         className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                                    <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                                        Kaos
-                                    </h3>
                                 </a>
                                 <a
                                     href=""
@@ -149,9 +139,6 @@ export default function LandingPage() {
                                         className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                                    <h3 className="z-10 text-2xl font-medium text-white absolute top-0 left-0 p-4 xs:text-xl md:text-3xl">
-                                        Kain
-                                    </h3>
                                 </a>
                             </div>
                         </div>
@@ -173,7 +160,7 @@ export default function LandingPage() {
                                 +product.variant.variantOptions[0].variantOptionValue.price
                             if (price) {
                                 return (
-                                    <Link to={`/product/${product.id}`}>
+                                    <Link to={`/product/${product.id}`} key={product.id}>
                                         <CardLanding
                                             attachment={product.attachments[0]}
                                             name={product.name}

@@ -15,6 +15,10 @@ export default function CardLanding({ name, price, attachment }: CardLandingProp
             namePrepared.push(nameSplitted[i])
         }
         namePrepared.push(' ...')
+    } else {
+        for (let i = 0; i < maxChar; i++) {
+            namePrepared.push(nameSplitted[i])
+        }
     }
 
     return (
@@ -25,10 +29,16 @@ export default function CardLanding({ name, price, attachment }: CardLandingProp
                     src={attachment}
                     alt="Black Panther Suit"
                 />
+                {/* <p className="bg-white py-1 px-3 rounded-md border border-black absolute top-3 right-3">
+                    Hola Store
+                </p> */}
             </div>
             <div className="flex flex-col just items-start my-1 py-1">
                 <h3 className="text-lg font-medium">{namePrepared.join('')}</h3>
-                <span className="text-base font-medium">{price && formatToIDR(price)}</span>
+                <div className="flex justify-between items-center w-full">
+                    <span className="text-base font-medium">{price && formatToIDR(price)}</span>
+                    <p className="text-sm">Lakoe Store</p>
+                </div>
             </div>
         </div>
     )
