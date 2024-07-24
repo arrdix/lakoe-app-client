@@ -24,37 +24,31 @@ import { zodResolver } from '@hookform/resolvers/zod'
 const CheckoutSchema = z.object({
     receiverName: z
         .string()
-        .min(4, { message: "Nama penerima minimal 4 karakter" })
-        .max(100, { message: "Nama penerima minimal 100 karakter" }),
+        .min(4, { message: 'Nama penerima minimal 4 karakter' })
+        .max(100, { message: 'Nama penerima minimal 100 karakter' }),
 
     receiverEmail: z
         .string()
-        .min(1, { message: "Email harus diisi" })
-        .email("Format email tidak valid"),
+        .min(1, { message: 'Email harus diisi' })
+        .email('Format email tidak valid'),
 
     receiverPhone: z
         .string()
-        .min(1, { message: "Nomor telepon harus diisi" })
-        .refine(value => /^\d+$/.test(value), {
-            message: "Nomor telepon harus berupa angka",
+        .min(1, { message: 'Nomor telepon harus diisi' })
+        .refine((value) => /^\d+$/.test(value), {
+            message: 'Nomor telepon harus berupa angka',
         }),
 
-    receiverDistrict: z
-        .string()
-        .min(1, { message: "Kecamatan harus dipilih" }),
+    receiverDistrict: z.string().min(1, { message: 'Kecamatan harus dipilih' }),
 
-    receiverVillage: z
-        .string()
-        .min(1, { message: "Kelurahan harus dipilih" }),
+    receiverVillage: z.string().min(1, { message: 'Kelurahan harus dipilih' }),
 
     receiverAddress: z
         .string()
-        .min(4, { message: "Deskripsi harus minimal 4 karakter" })
-        .max(3000, { message: "Deskripsi maksimal 3000 karakter" }),
+        .min(4, { message: 'Deskripsi harus minimal 4 karakter' })
+        .max(3000, { message: 'Deskripsi maksimal 3000 karakter' }),
 
-    notes: z
-        .string()
-        .max(3000, { message: "Deskripsi maksimal 3000 karakter" })
+    notes: z.string().max(3000, { message: 'Deskripsi maksimal 3000 karakter' }),
 })
 
 function CheckoutPage() {
@@ -66,20 +60,22 @@ function CheckoutPage() {
     // const [productQty, setProductQty] = useState<number>(0)
     // const [productSKUs, setProductSKUs] = useState<string[]>([])
 
-    const hookForm = useForm<CreateOrderDto>({
-        resolver: zodResolver(CheckoutSchema)
-    })
+    const hookForm = useForm<CreateOrderDto>()
     const hookForm2 = useForm<CheckoutDto>()
 
     const location = useLocation()
 
     const onCheckout = async (data: CreateOrderDto) => {
+        console.log(data)
         try {
+            // handle single checkout
             if (!targetCart) {
                 const cart: Cart = await API.CART.CREATE({
                     discount: 0,
                     storeId: storeId,
                 })
+
+                console.log(cart)
 
                 setTargetCart(cart)
 
@@ -91,8 +87,26 @@ function CheckoutPage() {
                         storeId: storeId,
                     })
                 }
+
+                if (selectedCourier) {
+                    const courier = await API.COURIER.CREATE({
+                        courierCode: selectedCourier.courierCode,
+                        courierServiceCode: selectedCourier.serviceCode,
+                        courierServiceName: selectedCourier.serviceName,
+                        price: selectedCourier.courierPrice,
+                    })
+                    const transaction = await API.ORDER.CREATE({
+                        ...data,
+                        status: 'Belum Dibayar',
+                        serviceCharge: courier.price,
+                        courierId: courier.id,
+                        cartId: cart.id,
+                    })
+                    return window.snap.pay(transaction.token)
+                }
             }
 
+            // handle multiple checkout
             if (selectedCourier && targetCart) {
                 const courier = await API.COURIER.CREATE({
                     courierCode: selectedCourier.courierCode,

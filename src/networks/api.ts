@@ -84,6 +84,25 @@ const API = {
             }
         },
 
+        CREATE: async (data: FormData) => {
+            try {
+                const response = await axios.post(`${CONFIG.BASE_URL}/product`, data, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
+
         UPDATE: async (id: number, data: EditProductDto) => {
             try {
                 const response = await axios.patch(`${CONFIG.BASE_URL}/product/${id}`, data, {
@@ -542,6 +561,24 @@ const API = {
                 throw error
             }
         },
+
+        GET_ONE: async (id: number) => {
+            try {
+                const response = await axios.get(`${CONFIG.BASE_URL}/courier/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                }
+
+                throw error
+            }
+        },
     },
 
     CATEGORIES: {
@@ -728,6 +765,24 @@ const API = {
         UPDATE_STORE: async (data: FormData) => {
             try {
                 const response = await axios.patch(`${CONFIG.BASE_URL}/store/myStore`, data, {
+                    headers: {
+                        Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
+                    },
+                })
+
+                return response.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw error
+                } else {
+                    throw new Error('Unexpected error')
+                }
+            }
+        },
+
+        FIND_ONE_BY_ID: async (id: number) => {
+            try {
+                const response = await axios.get(`${CONFIG.BASE_URL}/store/${id}`, {
                     headers: {
                         Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
                     },

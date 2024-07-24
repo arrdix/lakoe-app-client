@@ -22,64 +22,53 @@ import { zodResolver } from '@hookform/resolvers/zod'
 const ProductSchema = z.object({
     name: z
         .string()
-        .min(4, { message: "Nama produk harus minimal 4 karakter" })
-        .max(100, { message: "Nama produk maksimal 100 karakter" }),
+        .min(4, { message: 'Nama produk harus minimal 4 karakter' })
+        .max(100, { message: 'Nama produk maksimal 100 karakter' }),
 
-    url: z
-        .string()
-        .url({ message: "URL harus valid" }),
+    url: z.string({ message: 'URL produk harus diisi' }),
 
-    categoryId: z
-        .string({ message: "Kategori harus dipilih" }),
+    categoryId: z.string({ message: 'Kategori harus dipilih' }),
 
     description: z
         .string()
-        .min(4, { message: "Deskripsi harus minimal 4 karakter" })
-        .max(3000, { message: "Deskripsi maksimal 3000 karakter" }),
-
-    attachment: z
-        .string()
-        .min(1, { message: "Foto produk harus ada setidaknya 1 file" })
-        .max(5, { message: "Foto produk maksimal 5 file" }),
+        .min(4, { message: 'Deskripsi harus minimal 4 karakter' })
+        .max(3000, { message: 'Deskripsi maksimal 3000 karakter' }),
 
     variantOptionName: z
         .string()
-        .min(1, { message: "Opsi varian harus minimal 1 karakter" })
-        .max(100, { message: "Opsi varian maksimal 100 karakter" }),
+        .min(1, { message: 'Opsi varian harus minimal 1 karakter' })
+        .max(100, { message: 'Opsi varian maksimal 100 karakter' }),
 
     minimumOrder: z
         .string()
-        .min(1, { message: "Jumlah minimal pembelian adalah 1" })
-        .max(100, { message: "Jumlah maksimal pembelian adalah 100" }),
+        .min(1, { message: 'Jumlah minimal pembelian adalah 1' })
+        .max(100, { message: 'Jumlah maksimal pembelian adalah 100' }),
 
     variant: z.object({
         name: z.string(),
-        isActive: z.boolean(),
         variantOptions: z.array(
             z.object({
-                name: z.string().min(1, { message: "Nama opsi varian harus diisi" }),
+                name: z.string().min(1, { message: 'Nama opsi varian harus diisi' }),
                 variantOptionValue: z.object({
-                    sku: z.string().min(1, { message: "SKU produk harus diisi" }),
-                    weight: z.coerce.number().positive({ message: "Berat produk harus diisi" }),
-                    stock: z.coerce.number().positive({ message: "Stok barang harus diisi" }),
-                    price: z.coerce.number().positive({ message: "Harga barang harus diisi" }),
-                    isActive: z.boolean(),
-                })
+                    sku: z.string().min(1, { message: 'SKU produk harus diisi' }),
+                    weight: z.coerce.number().positive({ message: 'Berat produk harus diisi' }),
+                    stock: z.coerce.number().positive({ message: 'Stok barang harus diisi' }),
+                    price: z.coerce.number().positive({ message: 'Harga barang harus diisi' }),
+                }),
             })
-        )
-    })
-});
+        ),
+    }),
+})
 
 function NewProductPage() {
     const navigate = useNavigate()
     const { toast } = useToast()
-    const hookForm = useForm<CreateProductDto>({
-        resolver: zodResolver(ProductSchema)
-    })
+    const hookForm = useForm<CreateProductDto>()
     const { handleSubmit } = hookForm
 
     function onSubmitNewProduct() {
         handleSubmit(async (data) => {
+            console.log(data)
             toast({
                 title: 'Membuat Produk!',
                 description: 'Kami sedang membuat produk kamu.',
@@ -130,7 +119,8 @@ function NewProductPage() {
             }
 
             try {
-                await API.PRODUCT.CREATE(formData)
+                const x = await API.PRODUCT.CREATE(formData)
+                console.log(x)
                 navigate('/product')
 
                 toast({

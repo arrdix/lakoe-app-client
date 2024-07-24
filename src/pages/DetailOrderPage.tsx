@@ -98,7 +98,8 @@ export default function DetailOrderPage() {
     }
 
     async function onRequestPickup() {
-        if (order) {
+        if (order && order.courierId) {
+            const courier = await API.COURIER.GET_ONE(order.courierId)
             const tracking: Tracking = await API.COURIER.REQ_PICKUP({
                 invoice_id: order?.id,
                 origin_contact_name: 'Amir',
@@ -108,24 +109,24 @@ export default function DetailOrderPage() {
                     latitude: -6.2253114,
                     longitude: 106.7993735,
                 },
-                destination_contact_name: 'John Doe',
-                destination_contact_phone: '08170032123',
-                destination_contact_email: 'jon@test.com',
-                destination_address: 'Lebak Bulus MRT...',
+                destination_contact_name: order.receiverName,
+                destination_contact_phone: `${order.receiverPhone}`,
+                destination_contact_email: order.receiverEmail || '',
+                destination_address: order.receiverAddress,
                 destination_coordinate: {
-                    latitude: -6.28927,
-                    longitude: 106.77492000000007,
+                    latitude: order.receiverLatitude,
+                    longitude: order.receiverLongtitude,
                 },
-                courier_company: 'jne',
-                courier_type: 'reg',
+                courier_company: courier.courierCode,
+                courier_type: courier.courierServiceCode,
                 delivery_type: 'now',
                 items: [
                     {
-                        name: 'Black L',
-                        description: 'White Shirt',
-                        value: 165000,
+                        name: 'Product',
+                        description: 'Ordered Product',
+                        value: 199999,
                         quantity: 1,
-                        weight: 200,
+                        weight: 500,
                     },
                 ],
             })

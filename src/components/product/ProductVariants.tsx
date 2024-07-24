@@ -75,8 +75,6 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
         setVariantOptions((oldVal) => oldVal.filter((val) => val !== variantOption))
     }
 
-    console.log("errosss", errors)
-
     return (
         <div className="w-full bg-white rounded-lg p-8">
             <div className="flex flex-col w-full bg-white rounded-lg">
@@ -97,10 +95,11 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                     isActive: true,
                                 })
                             }}
-                            className={`py-3 px-6 rounded-3xl border border-cyan text-cyan hover:bg-cyan hover:bg-opacity-20 ${activeVariant.name === 'Warna'
-                                ? 'bg-cyan bg-opacity-20'
-                                : 'bg-transparent'
-                                }`}
+                            className={`py-3 px-6 rounded-3xl border border-cyan text-cyan hover:bg-cyan hover:bg-opacity-20 ${
+                                activeVariant.name === 'Warna'
+                                    ? 'bg-cyan bg-opacity-20'
+                                    : 'bg-transparent'
+                            }`}
                         >
                             Warna
                         </Button>
@@ -111,10 +110,11 @@ export default function VariantProduct({ hookForm }: VariantProductProps) {
                                     isActive: true,
                                 })
                             }}
-                            className={`py-3 px-6 rounded-3xl border border-cyan text-cyan hover:bg-cyan hover:bg-opacity-20 ${activeVariant.name === 'Ukuran'
-                                ? 'bg-cyan bg-opacity-20'
-                                : 'bg-transparent'
-                                }`}
+                            className={`py-3 px-6 rounded-3xl border border-cyan text-cyan hover:bg-cyan hover:bg-opacity-20 ${
+                                activeVariant.name === 'Ukuran'
+                                    ? 'bg-cyan bg-opacity-20'
+                                    : 'bg-transparent'
+                            }`}
                         >
                             Ukuran
                         </Button>

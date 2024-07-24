@@ -14,12 +14,18 @@ interface ProductListProps {
     tabOptions: string
 }
 
+interface data {
+    dataInput: string
+    sortFilter: string
+}
+
 export default function ProductList({ productsProps, tabOptions }: ProductListProps) {
     const { sku } = useProductCheckedContext()
     const [isAllChecked, setIsAllChecked] = useState<boolean>(false)
     const [isCheckedChange, setIsCheckedChange] = useState(false)
     const [products, setProducts] = useState<ProductBySku[] | undefined>(productsProps)
     const [name, setName] = useState<string>('')
+    const [sort, setSort] = useState<string>('')
 
     const onCheckedChange = () => {
         setIsCheckedChange(!isCheckedChange)
@@ -42,6 +48,7 @@ export default function ProductList({ productsProps, tabOptions }: ProductListPr
 
         if (name != '' && productsProps) {
             console.log('ini input', name)
+            console.log('ini input sort', sort)
             const fuzzyOptionByProductName = fuzzySkor(namaProduct, name)
             const fuzzyOptionBySku = fuzzySkor(namaSku, name)
             console.log('nilai', productsProps)
@@ -72,10 +79,11 @@ export default function ProductList({ productsProps, tabOptions }: ProductListPr
         } else {
             setProducts(productsProps)
         }
-    }, [name, productsProps])
+    }, [name, sort, productsProps])
 
-    const onChange = (dataInput: string) => {
-        setName(dataInput)
+    const onChange = (dataInput: data) => {
+        setName(dataInput.dataInput)
+        setSort(dataInput.sortFilter)
     }
     return productsProps ? (
         <div>

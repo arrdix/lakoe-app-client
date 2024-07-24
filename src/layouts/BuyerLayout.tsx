@@ -30,7 +30,6 @@ function BuyerLayout() {
     const carts: Cart[] = useLakoeStore((state) => state.carts)
     const setCarts = useLakoeStore((state) => state.setCarts)
 
-    const [cartCount, setCartCount] = useState<number>(0)
     const [atLandingPage, setIsAtLandingPage] = useState<boolean>(true)
     const { pathname } = useLocation()
 
@@ -52,21 +51,10 @@ function BuyerLayout() {
     }, [pathname])
 
     useEffect(() => {
-        async function GET_CART_COUNT() {
-            if (loggedUser) {
-                const cartCount = await API.CART_ITEM.COUNT()
-
-                setCartCount(cartCount)
-            }
-        }
-
-        GET_CART_COUNT()
-    }, [carts])
-
-    useEffect(() => {
         async function GET_CARTS() {
             if (loggedUser) {
                 const carts: Cart[] = await API.CART.FIND_ALL_UNCOMPLETE()
+                console.log(carts)
                 setCarts(carts)
             }
         }
@@ -153,9 +141,6 @@ function BuyerLayout() {
                     <SheetTrigger className="flex flex-start items-center gap-1 fixed bottom-0 right-4 w-60 py-2 px-3 rounded-se-lg rounded-ss-lg bg-cyan border border-cyan shadow-2xl hover:bg-opacity-90">
                         <AiFillShopping className="size-6 text-white" />
                         <p className="text-sm text-white font-bold mt-1 p-0">Keranjang Belanja</p>
-                        <div className="flex justify-center items-center rounded-full w-6 h-6 bg-white border-2 border-cyan absolute -top-3 -right-1">
-                            <p className="text-xs text-cyan font-semibold">{cartCount}</p>
-                        </div>
                     </SheetTrigger>
                     <SheetContent className="overflow-y-auto">
                         <SheetHeader>
