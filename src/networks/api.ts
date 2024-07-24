@@ -12,45 +12,7 @@ import { ReqPickupDto } from "@/dtos/ReqPickupDto";
 import { LocationDto } from "@/dtos/LocationDto";
 
 const API = {
-  PRODUCT: {
-    GET_ALL_BY_ID: async () => {
-      try {
-        const response = await axios.get(`${CONFIG.BASE_URL}/product/id`, {
-          headers: {
-            Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-          },
-        });
-
-        return response.data;
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          throw error;
-        }
-        throw error;
-      }
-    },
-
-    GET_ONE_BY_ID: async (id: number) => {
-      try {
-        const response = await axios.get(
-          `${CONFIG.BASE_URL}/product/id/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
-            },
-          }
-        );
-
-        return response.data;
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          throw error;
-        }
-
-        throw error;
-      }
-    },
-
+    PRODUCT: {
     GET_ALL_BY_SKU: async () => {
       try {
         const response = await axios.get(`${CONFIG.BASE_URL}/product/sku`, {
