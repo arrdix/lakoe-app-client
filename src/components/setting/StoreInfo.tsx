@@ -9,6 +9,7 @@ import { IoIosClose } from 'react-icons/io'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import useStoreQuery from '@/hooks/useStoreQuery'
+import { useToast } from '@/components/ui/use-toast'
 
 function StoreInfo() {
     const {
@@ -17,10 +18,12 @@ function StoreInfo() {
         formState: { errors },
         handleSubmit,
     } = useForm<StoreInfoDto>()
+    const { toast } = useToast()
 
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const [bannerPreview, setBannerPreview] = useState<string | null>(null)
     const { createStore, store, editStore } = useStoreQuery()
+    const [isPending, setIsPending] = useState<boolean>(false)
 
     function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]
@@ -70,7 +73,10 @@ function StoreInfo() {
                 })
             } else {
                 // Buat store baru
-                const { mutateAsync } = createStore
+                console.log('create')
+                const { mutateAsync, isPending } = createStore
+                setIsPending(isPending)
+
                 await mutateAsync({
                     data: formData,
                 })
@@ -82,6 +88,7 @@ function StoreInfo() {
 
     useEffect(() => {
         if (store) {
+            console.log(store)
             setValue('name', store.name)
             setValue('slogan', store.slogan)
             setValue('description', store.description)
@@ -94,6 +101,18 @@ function StoreInfo() {
             }
         }
     }, [store])
+
+    useEffect(() => {
+        console.log('change')
+        if (isPending) {
+            console.log('toast')
+            toast({
+                title: 'TES',
+                description: 'Terjadi kesalahan saat menambahkan lokasi toko kamu.',
+                variant: 'failed',
+            })
+        }
+    }, [isPending])
 
     return (
         <>
