@@ -38,7 +38,7 @@ export default function CardLanding({ name, price, attachment, storeId }: CardLa
 
     return (
         <div className="rounded-lg dark:bg-gray-800 dark:border-gray-700">
-            <div className="overflow-hidden rounded-xl">
+            <div className="overflow-hidden rounded-xl bg-white">
                 <img
                     className="object-cover w-full h-72 transition-transform duration-500 hover:scale-105"
                     src={attachment}

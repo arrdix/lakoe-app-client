@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import useStoreQuery from '@/hooks/useStoreQuery'
 import { useToast } from '@/components/ui/use-toast'
+import Spinner from '@/components/utils/Spinner'
 
 function StoreInfo() {
     const {
@@ -23,7 +24,7 @@ function StoreInfo() {
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const [bannerPreview, setBannerPreview] = useState<string | null>(null)
     const { createStore, store, editStore } = useStoreQuery()
-    const [isPending, setIsPending] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]
@@ -75,12 +76,17 @@ function StoreInfo() {
                 })
             } else {
                 // Buat store baru
-                console.log('create')
-                const { mutateAsync, isPending } = createStore
-                setIsPending(isPending)
+                const { mutateAsync } = createStore
+                setIsLoading(true)
 
                 await mutateAsync({
                     data: formData,
+                })
+
+                toast({
+                    title: 'Membuat toko.',
+                    description: 'Kami sedang membuat toko kamu.',
+                    action: <Spinner size={6} />,
                 })
             }
         } catch (error) {
@@ -90,7 +96,6 @@ function StoreInfo() {
 
     useEffect(() => {
         if (store) {
-            console.log(store)
             setValue('name', store.name)
             setValue('slogan', store.slogan)
             setValue('description', store.description)
@@ -101,19 +106,18 @@ function StoreInfo() {
             if (store.bannerAttachment) {
                 setBannerPreview(store.bannerAttachment)
             }
+
+            if (isLoading) {
+                setIsLoading(false)
+
+                toast({
+                    title: 'Toko dibuat.',
+                    description: 'Toko kamu berhasil dibuat!',
+                    variant: 'success',
+                })
+            }
         }
     }, [store])
-
-    useEffect(() => {
-        console.log('change')
-        if (isPending) {
-            console.log('toast')
-            toast({
-                title: 'Sedang mengatur toko.',
-                description: 'Kami sedang mengatur toko kamu.',
-            })
-        }
-    }, [isPending])
 
     return (
         <>
@@ -131,7 +135,7 @@ function StoreInfo() {
                             register={register}
                             type="text"
                             id="slogan"
-                            placeholder="Slogan Toko"
+                            placeholder="Slogan toko"
                         />
                     </div>
                     <div className="flex flex-col gap-1">
@@ -144,7 +148,7 @@ function StoreInfo() {
                             register={register}
                             type="text"
                             id="name"
-                            placeholder="Toko Dumbways"
+                            placeholder="Nama toko"
                         />
                     </div>
                 </div>
@@ -157,7 +161,7 @@ function StoreInfo() {
                         name="description"
                         id="description"
                         register={register}
-                        placeholder="Toko ini menjual ?"
+                        placeholder="Desrkipsi toko"
                     />
                 </div>
             </div>

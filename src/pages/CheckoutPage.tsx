@@ -79,8 +79,6 @@ function CheckoutPage() {
                     storeId: storeId,
                 })
 
-                console.log(cart)
-
                 setTargetCart(cart)
 
                 for (const orderedProduct of orderedProducts) {
@@ -139,9 +137,11 @@ function CheckoutPage() {
     function onPositionChange(pos: LatLngExpression | null) {
         setReceiverLocation(pos)
 
-        const postion = receiverLocation as LatLngType
-        setValue('receiverLatitude', postion.lat)
-        setValue('receiverLongtitude', postion.lng)
+        const position = pos as LatLngType
+        if (position) {
+            setValue('receiverLatitude', position.lat)
+            setValue('receiverLongtitude', position.lng)
+        }
     }
 
     function onPickCourier(courier: Courier) {

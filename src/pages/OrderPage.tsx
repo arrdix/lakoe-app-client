@@ -6,6 +6,7 @@ import ScrollArea from '@/components/order/ScrollArea'
 import { Order } from '@/types/OrderType'
 import CardOrderList from '@/components/order/CardOrderList'
 import useOrderQuery from '@/hooks/useOrderQuery'
+import { Link } from 'react-router-dom'
 
 // const courierOptions = [
 //     { value: 'GoSend', text: 'GoSend' },
@@ -129,5 +130,13 @@ export default function OrderPage() {
             </div>
         )
     }
-    return null
+
+    return (
+        <div className="w-full bg-white rounded-lg flex flex-col p-8">
+            <p className="text-xl text-black font-semibold">Hmm, kamu belum punya toko.</p>
+            <Link to="/store-setting">
+                <p className="text-cyan">Buat sekarang.</p>
+            </Link>
+        </div>
+    )
 }

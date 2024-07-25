@@ -65,36 +65,39 @@ function ProductPage() {
         GET_LOGGED_USER()
     }, [])
 
-    return (
-        <div className="w-full bg-white rounded-lg p-8">
-            <div className="flex justify-between">
-                <h3 className="font-bold text-xl">Daftar Produk</h3>
-                <Link to="/product/new">
-                    <Button className="p-3 rounded-3xl bg-cyan">
-                        <BiPlus className="mr-1" /> Tambahkan Produk
-                    </Button>
-                </Link>
-            </div>
-            <Tabs
-                firstTab="Semua"
-                secondTab="Aktif"
-                thirdTab="Nonaktif"
-                onTabChange={onTabChange}
-            />
-            {store ? (
+    if (store) {
+        return (
+            <div className="w-full bg-white rounded-lg p-8">
+                <div className="flex justify-between">
+                    <h3 className="font-bold text-xl">Daftar Produk</h3>
+                    <Link to="/product/new">
+                        <Button className="p-3 rounded-3xl bg-cyan">
+                            <BiPlus className="mr-1" /> Tambahkan Produk
+                        </Button>
+                    </Link>
+                </div>
+                <Tabs
+                    firstTab="Semua"
+                    secondTab="Aktif"
+                    thirdTab="Nonaktif"
+                    onTabChange={onTabChange}
+                />
+
                 <ProductList
                     key={activeTab}
                     productsProps={filteredProducts}
                     tabOptions={activeTab}
                 />
-            ) : (
-                <div className="w-full mt-5 border border-lightgray p-5">
-                    <p className="text-black">Hmm, kamu belum punya toko.</p>
-                    <Link to="/store-setting">
-                        <p className="text-cyan">Buat sekarang.</p>
-                    </Link>
-                </div>
-            )}
+            </div>
+        )
+    }
+
+    return (
+        <div className="w-full bg-white rounded-lg flex flex-col p-8">
+            <p className="text-xl text-black font-semibold">Hmm, kamu belum punya toko.</p>
+            <Link to="/store-setting">
+                <p className="text-cyan">Buat sekarang.</p>
+            </Link>
         </div>
     )
 }

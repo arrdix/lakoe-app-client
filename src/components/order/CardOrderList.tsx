@@ -1,6 +1,6 @@
 import CardOrder from './CardOrder'
 import { Order } from '@/types/OrderType'
-import { BiSearchAlt } from 'react-icons/bi'
+import { BiChat } from 'react-icons/bi'
 
 interface CardOrderListProps {
     orders: Order[]
@@ -19,11 +19,13 @@ export default function CardOrderList({ orders, status }: CardOrderListProps) {
             ) : (
                 <div className="flex flex-row items-center justify-center gap-3 py-7">
                     <div>
-                        <BiSearchAlt className="size-12" />
+                        <BiChat className="size-12" />
                     </div>
                     <div className="flex flex-col gap-1">
-                        <p>Oops, pesanan yang kamu cari tidak ditemukan</p>
-                        <p className="text-xs text-gray">Coba bisa cari dengan kata kunci lain</p>
+                        <p>Oops, kamu belum punya pesanan</p>
+                        <p className="text-xs text-gray">
+                            Nantinya kamu akan bisa melihat daftar pesanan kamu di sini.
+                        </p>
                     </div>
                 </div>
             )}
