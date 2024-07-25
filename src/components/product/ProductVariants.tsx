@@ -1,7 +1,5 @@
 import { Button } from '../ui/button'
-import { BiImageAdd, BiPlus } from 'react-icons/bi'
 import { Switch } from '../ui/switch'
-import { GiSettingsKnobs } from 'react-icons/gi'
 import { IoClose } from 'react-icons/io5'
 import React, { useEffect, useState } from 'react'
 import { CreateProductDto } from '@/dtos/ProductDto'

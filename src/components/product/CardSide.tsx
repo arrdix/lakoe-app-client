@@ -1,38 +1,29 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "../ui/switch";
-import { useState } from "react";
-import AktifProductModal from "./AktifProductModal";
-import NonaktifProductModal from "./NonaktifProductModal";
-import { CheckedState } from "@radix-ui/react-checkbox";
-import SwitchModal from "./SwitchModal";
+import { Checkbox } from '@/components/ui/checkbox'
+import { CheckedState } from '@radix-ui/react-checkbox'
+import SwitchModal from './SwitchModal'
 
 interface CardSideProops {
-  isActive: boolean;
-  isChecked: boolean;
-  onCheckedChange: ((checked: CheckedState) => void) | undefined;
-  productName: string;
-  productSku: string;
+    isActive: boolean
+    isChecked: boolean
+    onCheckedChange: ((checked: CheckedState) => void) | undefined
+    productName: string
+    productSku: string
 }
 
 export default function CardSide({
-  isActive,
-  isChecked,
-  onCheckedChange,
-  productName,
-  productSku,
+    isActive,
+    isChecked,
+    onCheckedChange,
+    productSku,
 }: CardSideProops) {
-  const [isAktifModalView, setIsAktifModalView] = useState<boolean>(false);
-  const [isNonaktifModalView, setIsNonaktifModalView] =
-    useState<boolean>(false);
-
-  return (
-    <div className="w-full h-full flex flex-col justify-between items-center">
-      <div className="pt-1">
-        <Checkbox checked={isChecked} onCheckedChange={onCheckedChange} />
-      </div>
-      <div>
-        <div className="flex items-center space-x-2">
-          {/* <Switch
+    return (
+        <div className="w-full h-full flex flex-col justify-between items-center">
+            <div className="pt-1">
+                <Checkbox checked={isChecked} onCheckedChange={onCheckedChange} />
+            </div>
+            <div>
+                <div className="flex items-center space-x-2">
+                    {/* <Switch
             checked={isActive}
             onCheckedChange={() => {
               // setIsToggleChecked(!isToggleChecked);
@@ -62,9 +53,9 @@ export default function CardSide({
             <AktifProductModal productSku={productSku} /> 
            </div>  */}
 
-           <SwitchModal isActive={isActive} productSku={productSku}/>
+                    <SwitchModal isActive={isActive} productSku={productSku} />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    )
 }

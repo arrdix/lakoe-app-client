@@ -1,18 +1,13 @@
 import { LatLngExpression } from 'leaflet'
 import { useEffect, useState } from 'react'
 import { Marker, Popup, useMapEvents } from 'react-leaflet'
-import { UseFormReturn } from 'react-hook-form'
-import { CreateOrderDto } from '@/dtos/OrderDto'
 
 interface LocationMarkerProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    hookForm: UseFormReturn<CreateOrderDto, any, undefined>
     onPositionChange: (pos: LatLngExpression | null) => void
 }
 
-function LocationMarker({ onPositionChange, hookForm }: LocationMarkerProps) {
+function LocationMarker({ onPositionChange }: LocationMarkerProps) {
     const [position, setPosition] = useState<LatLngExpression | null>(null)
-    const { setValue } = hookForm
 
     useEffect(() => {
         onPositionChange(position)
@@ -23,9 +18,6 @@ function LocationMarker({ onPositionChange, hookForm }: LocationMarkerProps) {
             map.flyTo(e.latlng, map.getZoom())
         },
         click(e) {
-            console.log(e.latlng.lng)
-            setValue('receiverLatitude', e.latlng.lat)
-            setValue('receiverLongtitude', e.latlng.lng)
             setPosition(e.latlng)
         },
     })

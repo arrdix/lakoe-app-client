@@ -3,21 +3,20 @@ import { BiSearchAlt } from 'react-icons/bi'
 import FilterOrder from '@/components/order/FilterOrder'
 import { useEffect, useState } from 'react'
 import ScrollArea from '@/components/order/ScrollArea'
-import API from '@/networks/api'
 import { Order } from '@/types/OrderType'
 import CardOrderList from '@/components/order/CardOrderList'
 import useOrderQuery from '@/hooks/useOrderQuery'
 
-const courierOptions = [
-    { value: 'GoSend', text: 'GoSend' },
-    { value: 'GrabExpress', text: 'GrabExpress' },
-    { value: 'AnterAja', text: 'AnterAja' },
-    { value: 'JNE', text: 'JNE' },
-    { value: 'J&T', text: 'J&T' },
-    { value: 'LionParcel', text: 'Lion Parcel' },
-    { value: 'NinjaExpress', text: 'Ninja Express' },
-    { value: 'PosIndonesia', text: 'Pos Indonesia' },
-]
+// const courierOptions = [
+//     { value: 'GoSend', text: 'GoSend' },
+//     { value: 'GrabExpress', text: 'GrabExpress' },
+//     { value: 'AnterAja', text: 'AnterAja' },
+//     { value: 'JNE', text: 'JNE' },
+//     { value: 'J&T', text: 'J&T' },
+//     { value: 'LionParcel', text: 'Lion Parcel' },
+//     { value: 'NinjaExpress', text: 'Ninja Express' },
+//     { value: 'PosIndonesia', text: 'Pos Indonesia' },
+// ]
 
 const sortOptions = [
     { value: 'PalingBaru', text: 'Paling Baru' },

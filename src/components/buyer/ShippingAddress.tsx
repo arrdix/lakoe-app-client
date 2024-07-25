@@ -232,7 +232,7 @@ export default function ShippingAddress({ hookForm, onPositionChange }: Shipping
                         </div>
                     </div>
                     <div className="h-72">
-                        <SimpleMap onPositionChange={onPositionChange} hookForm={hookForm} />
+                        <SimpleMap onPositionChange={onPositionChange} />
                     </div>
                 </div>
             </div>

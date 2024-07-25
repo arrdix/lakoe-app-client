@@ -25,6 +25,7 @@ function formatDate(date: Date): string {
 export default function CardOrder({ order }: CardOrderProps) {
     const [product, setProduct] = useState<Product | null>(null)
     const [variant, setVariant] = useState<VariantTypeBySku | null>(null)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, setVariantOption] = useState<VariantOption | null>(null)
     const [variantOptionValue, setVariantOptionValue] = useState<VariantOptionValue | null>(null)
 

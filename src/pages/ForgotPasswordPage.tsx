@@ -63,6 +63,7 @@ export default function ForgotPasswordPage() {
     function handleKeyDown(event: React.KeyboardEvent<HTMLFormElement>) {
         if (event.key === 'Enter') {
             event.preventDefault()
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onForgotForgot(event as any)
         }
     }

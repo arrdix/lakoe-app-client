@@ -5,7 +5,7 @@ import { FieldError, UseFormSetValue } from 'react-hook-form'
 import { CreateProductDto } from '@/dtos/ProductDto'
 
 interface SelectCategoryProps {
-    setValue: UseFormSetValue<CreateProductDto>,
+    setValue: UseFormSetValue<CreateProductDto>
     error: FieldError | undefined
 }
 
@@ -18,7 +18,7 @@ function SelectCategory({ setValue, error }: SelectCategoryProps) {
     }
 
     function onSelectCategory(id: string) {
-        setValue('categoryId', id)
+        setValue('categoryName', id)
         setSelectedCategory('Pakaian Pria / Atasan / Kaos')
     }
 
@@ -87,9 +87,7 @@ function SelectCategory({ setValue, error }: SelectCategoryProps) {
                     </div>
                 )}
             </button>
-            <div>
-                {error && <span className="text-error">{error.message}</span>}
-            </div>
+            <div>{error && <span className="text-error">{error.message}</span>}</div>
         </>
     )
 }

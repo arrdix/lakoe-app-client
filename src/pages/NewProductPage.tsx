@@ -5,60 +5,10 @@ import VariantProduct from '@/components/product/ProductVariants'
 import MinimumPurchase from '@/components/product/MinimumPurchase'
 import { useForm } from 'react-hook-form'
 import { CreateProductDto } from '@/dtos/ProductDto'
-import { Product } from '@/types/ProductType'
 import API from '@/networks/api'
-
-import Price from '@/components/product/ProductPrice'
-import ProductDevelopment from '@/components/product/ProductDevelopment'
-import WeightAndDelivery from '@/components/product/WeightAndDelivery'
-import ProductSize from '@/components/product/ProductSize'
-import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import Spinner from '@/components/utils/Spinner'
 import { useNavigate } from 'react-router-dom'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-
-const ProductSchema = z.object({
-    name: z
-        .string()
-        .min(4, { message: 'Nama produk harus minimal 4 karakter' })
-        .max(100, { message: 'Nama produk maksimal 100 karakter' }),
-
-    url: z.string({ message: 'URL produk harus diisi' }),
-
-    categoryId: z.string({ message: 'Kategori harus dipilih' }),
-
-    description: z
-        .string()
-        .min(4, { message: 'Deskripsi harus minimal 4 karakter' })
-        .max(3000, { message: 'Deskripsi maksimal 3000 karakter' }),
-
-    variantOptionName: z
-        .string()
-        .min(1, { message: 'Opsi varian harus minimal 1 karakter' })
-        .max(100, { message: 'Opsi varian maksimal 100 karakter' }),
-
-    minimumOrder: z
-        .string()
-        .min(1, { message: 'Jumlah minimal pembelian adalah 1' })
-        .max(100, { message: 'Jumlah maksimal pembelian adalah 100' }),
-
-    variant: z.object({
-        name: z.string(),
-        variantOptions: z.array(
-            z.object({
-                name: z.string().min(1, { message: 'Nama opsi varian harus diisi' }),
-                variantOptionValue: z.object({
-                    sku: z.string().min(1, { message: 'SKU produk harus diisi' }),
-                    weight: z.coerce.number().positive({ message: 'Berat produk harus diisi' }),
-                    stock: z.coerce.number().positive({ message: 'Stok barang harus diisi' }),
-                    price: z.coerce.number().positive({ message: 'Harga barang harus diisi' }),
-                }),
-            })
-        ),
-    }),
-})
 
 function NewProductPage() {
     const navigate = useNavigate()

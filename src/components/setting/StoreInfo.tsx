@@ -36,6 +36,7 @@ function StoreInfo() {
 
     function removeImage() {
         setImagePreview(null)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setValue('logo', null as any)
     }
 
@@ -50,6 +51,7 @@ function StoreInfo() {
 
     function removeBanner() {
         setBannerPreview(null)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setValue('banner', null as any)
     }
 

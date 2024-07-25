@@ -14,7 +14,11 @@ interface MessageTemplateModalProps {
 
 export default function MessageTemplateModal({ isOpen, onModalClose }: MessageTemplateModalProps) {
     const [isModalOpen, setOpen] = useState(isOpen)
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<MessageTemplateDto>()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<MessageTemplateDto>()
 
     useEffect(() => {
         if (!isModalOpen) {
@@ -67,7 +71,10 @@ export default function MessageTemplateModal({ isOpen, onModalClose }: MessageTe
                                                 <IoMdClose />
                                             </Button>
                                         </DialogTitle>
-                                        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full h-full">
+                                        <form
+                                            onSubmit={handleSubmit(onSubmit)}
+                                            className="flex flex-col gap-4 w-full h-full"
+                                        >
                                             <div className="flex flex-col gap-4 w-full h-full">
                                                 <div className="flex flex-col gap-1">
                                                     <label
@@ -138,7 +145,6 @@ export default function MessageTemplateModal({ isOpen, onModalClose }: MessageTe
                                     </div>
                                 </div>
                             </div>
-
                         </DialogPanel>
                     </div>
                 </div>

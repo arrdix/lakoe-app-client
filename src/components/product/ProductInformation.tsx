@@ -1,4 +1,3 @@
-import SelectCategory from '@/components/product/SelectCategory'
 import ValidatedInput from '@/components/utils/ValidatedInput'
 import ValidatedSelect from '@/components/utils/ValidatedSelect'
 import { CreateProductDto } from '@/dtos/ProductDto'
