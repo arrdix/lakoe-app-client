@@ -5,9 +5,13 @@ import { Button } from '../ui/button'
 
 interface NonaktifProductModalProps {
     onModalClose?: () => void
+    productName: string
 }
 
-export default function NonaktifProductModal({ onModalClose }: NonaktifProductModalProps) {
+export default function NonaktifProductModal({
+    onModalClose,
+    productName,
+}: NonaktifProductModalProps) {
     const [open, setOpen] = useState(true)
 
     // edit logic
@@ -20,15 +24,15 @@ export default function NonaktifProductModal({ onModalClose }: NonaktifProductMo
     return (
         <div>
             {/* Background Overlay */}
-            {open && <div className="fixed inset-0 bg-black opacity-50 z-10"></div>}
+            {open && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
 
-            <Dialog open={open} onClose={setOpen} className="relative z-10">
+            <Dialog open={open} onClose={setOpen} className="relative z-50">
                 <DialogBackdrop
                     transition
                     className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
                 />
 
-                <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
                     <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                         <DialogPanel
                             transition
@@ -52,9 +56,8 @@ export default function NonaktifProductModal({ onModalClose }: NonaktifProductMo
                                         <div className="mt-2">
                                             <p className="text-sm text-gray-500">
                                                 Nonaktifkan produk{' '}
-                                                <span className="font-semibold">
-                                                    KAOS BASIC COTTON KENARI - DUSTY ROSE [ COTTON
-                                                    COMBED 30S ]
+                                                <span className="font-semibold uppercase">
+                                                    {productName}
                                                 </span>
                                             </p>
                                         </div>

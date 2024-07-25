@@ -1,106 +1,172 @@
-import { Wallet, Banknote, ShieldAlert, HandCoins, SquareCheckBig } from "lucide-react";
-import { CiCreditCard2, } from "react-icons/ci";
-import { SiContactlesspayment } from "react-icons/si";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
-import { FaMoneyCheckAlt } from "react-icons/fa";
-import { HiCash } from "react-icons/hi";
-import { HiOutlineDownload } from "react-icons/hi";
-import DashboardBox from "@/components/DashboardBox";
-import { FaMapLocationDot } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+'use client'
 
-function DashboardPage() {
-  return (
-    <div className="w-full h-full p-8 bg-lightgray">
-      <div className=" flex justify-between gap-2.5 ">
-        <div className="w-full h-full bg-white w-72 h-28  ">
-          <div className="p-3 ">
-            <div>Current Balance</div>
-            <div className="text-green-700">Rp0</div>
-            <button className="bg-lime-500 w-full h-8 text-white rounded-md ">
-              Tarik Credit
-            </button>
-          </div>
-        </div>
+import { Label, Pie, PieChart } from 'recharts'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card'
+import {
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from '@/components/ui/chart'
+import DashboardCard from '@/components/dashboard/DashboardCard'
+import { useEffect, useState } from 'react'
+import API from '@/networks/api'
+import { Link } from 'react-router-dom'
 
-        <div className="w-full h-full bg-white w-64 h-28">
-          <div className="p-3">
-            <div >
-              <Wallet />
-              <div>Penarikan sedang dalam proses</div>
-            </div>
-            <div className="font-bold text-xl">Rp0</div>
-          </div>
-        </div>
+const chartConfig = {} satisfies ChartConfig
 
-        <div className="w-full h-full bg-white w-60 h-28">
-          <div className="p-3">
-            <Banknote />
-            <div className="flex justify-between">
-              Saldo Tertahan
-              <ShieldAlert />
-              <Link className="text-blue-500 " style={{fontSize:"12px"}} to="">Lihat semua</Link>
-            </div>
-            <div className="font-bold text-xl">Rp0</div>
-          </div>
-        </div>
-
-        <div className="w-full h-full bg-white w-60 h-28 ">
-          <div className="p-3">
-            <HandCoins />
-            <div className="flex justify-between">Tagihan Belum Bayar
-              <Link className="text-blue-500 " style={{fontSize:"12px"}} to="">Lihat semua</Link>
-            </div>
-            <div className="font-bold text-xl text-red-700">Rp0</div>
-          </div>
-        </div>
-
-      </div >
-
-      <div className=" w-full  bg-white mt-5 p-4 ">
-
-
-        <div className="text-black text-xl font-bold p-3" >Reporting Period</div>
-
-        <div className="flex">
-          <DashboardBox text="Penarikan Selesai" value={0} icon={<SquareCheckBig size={"2rem"} />} />
-          <DashboardBox text="Pendapatan COD" value={0} icon={<FaMoneyCheckAlt size={"2rem"} />} />
-          <DashboardBox text="CashBack Pengiriman" value={0} icon={<HiCash size={"2rem"} />} />
-          <DashboardBox text="Pendapatan E-Payment" value={0} icon={<SiContactlesspayment size={"2rem"} />} />
-        </div>
-
-        <div className="flex">
-
-          <DashboardBox text="Refund Biaya Pengiriman" value={0} icon={<FaMoneyBillTransfer size={"2rem"} />} />
-          <DashboardBox text="Kredit Lainnya" value={0} icon={<CiCreditCard2 size={"2rem"} />} />
-          <DashboardBox text="Klaim Pengiriman " value={0} icon={<FaMapLocationDot size={"2rem"} />} />
-          <DashboardBox text="Pembayaran Penagihan" value={0} icon={<HandCoins size={"2rem"} />} />
-        </div>
-
-      </div>
-
-      <div className=" w-full  bg-white mt-5 p-4  ">
-        <div className="flex justify-between  ">
-          <div className="flex gap-2 "> <HiOutlineDownload size={"1.5rem"} />Eksport</div>
-          <div>All Type</div>
-          <div>All Status</div>
-        </div>
-      </div>
-
-
-
-      <div className=" w-full  bg-white mt-5 p-4 flex gap-20 font-bold ">
-        <div >No.</div>
-        <div>Descripsi</div>
-        <div>Nilai</div>
-        <div>Status</div>
-        <div>Tipe</div>
-        <div>Tanggal</div>
-      </div>
-
-
-    </div>
-  );
+interface Summary {
+    belumDibayar: number
+    pesananBaru: number
+    siapDikirim: number
+    dalamPengiriman: number
+    pesananSelesai: number
+    dibatalkan: number
 }
 
-export default DashboardPage
+interface PieCartSummary {
+    title: string
+    value: number
+}
+
+export default function TestDashboardPage() {
+    const [summary, setSummary] = useState<Summary>()
+    const [pieCartSummary, setPieCartSummary] = useState<PieCartSummary[]>()
+
+    useEffect(() => {
+        async function GET_SUMMARY() {
+            const summary: Summary = await API.ORDER.SUMMARY()
+            setSummary(summary)
+
+            const pieCartSummary = [
+                { title: 'Belum Dibayar', value: summary.belumDibayar, fill: '#1E293B' },
+                { title: 'Pesanan Baru', value: summary.pesananBaru, fill: '#0568A0' },
+                { title: 'Siap Dikirim', value: summary.siapDikirim, fill: '#0D766E' },
+                { title: 'Dalam Pengiriman', value: summary.dalamPengiriman, fill: '#EA580B' },
+                { title: 'Pesanan Selesai', value: summary.pesananSelesai, fill: '#16803C' },
+                { title: 'Dibatalkan', value: summary.dibatalkan, fill: '#B91C1B' },
+            ]
+            setPieCartSummary(pieCartSummary)
+        }
+
+        GET_SUMMARY()
+    }, [])
+
+    if (summary && pieCartSummary) {
+        const pieChart = pieCartSummary.reduce((total, item) => total + item.value, 0)
+        return (
+            <div className="w-full bg-white rounded-lg flex flex-col gap-3 p-8">
+                <h1 className="text-xl font-bold text-black">Dashboard</h1>
+
+                {/* Card Dashboard */}
+                <div className="flex flex-row gap-5">
+                    <DashboardCard
+                        title="Belum DIbayar"
+                        value={summary.belumDibayar}
+                        color="bg-slate-800"
+                    />
+                    <DashboardCard
+                        title="Pesanan Baru"
+                        value={summary.pesananBaru}
+                        color="bg-sky-700"
+                    />
+                    <DashboardCard
+                        title="Siap Dikirim"
+                        value={summary.siapDikirim}
+                        color="bg-teal-700"
+                    />
+                </div>
+                <div className="flex flex-row gap-5">
+                    <DashboardCard
+                        title="Dalam Pengiriman"
+                        value={summary.dalamPengiriman}
+                        color="bg-orange-600"
+                    />
+                    <DashboardCard
+                        title="Pesanan Selesai"
+                        value={summary.pesananSelesai}
+                        color="bg-green-700"
+                    />
+                    <DashboardCard
+                        title="Dibatalkan"
+                        value={summary.dibatalkan}
+                        color="bg-red-700"
+                    />
+                </div>
+
+                <div className="w-full flex flex-row gap-5">
+                    {/* Pie Chart */}
+                    <Card className="relative flex flex-col text-white bg-white border-white shadow bg-clip-border rounded-md w-full">
+                        <CardHeader className="items-center pb-0">
+                            <CardDescription>Pie Chart Pesanan</CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex-1 pb-0">
+                            <ChartContainer
+                                config={chartConfig}
+                                className="mx-auto aspect-square max-h-[250px]"
+                            >
+                                <PieChart>
+                                    <ChartTooltip
+                                        cursor={false}
+                                        content={<ChartTooltipContent hideLabel />}
+                                    />
+                                    <Pie
+                                        data={pieCartSummary.slice(0, 6)}
+                                        dataKey="value"
+                                        nameKey="title"
+                                        innerRadius={60}
+                                        strokeWidth={5}
+                                    >
+                                        <Label
+                                            content={({ viewBox }) => {
+                                                if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+                                                    return (
+                                                        <text
+                                                            x={viewBox.cx}
+                                                            y={viewBox.cy}
+                                                            textAnchor="middle"
+                                                            dominantBaseline="middle"
+                                                        >
+                                                            <tspan
+                                                                x={viewBox.cx}
+                                                                y={viewBox.cy}
+                                                                className="fill-foreground text-3xl font-bold"
+                                                            >
+                                                                {pieChart.toLocaleString()}
+                                                            </tspan>
+                                                            <tspan
+                                                                x={viewBox.cx}
+                                                                y={(viewBox.cy || 0) + 24}
+                                                                className="fill-muted-foreground"
+                                                            >
+                                                                Pesanan
+                                                            </tspan>
+                                                        </text>
+                                                    )
+                                                }
+                                            }}
+                                        />
+                                    </Pie>
+                                </PieChart>
+                            </ChartContainer>
+                        </CardContent>
+                        <CardFooter className="flex-col gap-2 text-sm">
+                            <div className="leading-none text-muted-foreground">
+                                Total ringkasan pesanan toko kamu.
+                            </div>
+                        </CardFooter>
+                    </Card>
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div className="w-full bg-white rounded-lg flex flex-col p-8">
+            <p className="text-xl text-black font-semibold">Hmm, kamu belum punya toko.</p>
+            <Link to="/store-setting">
+                <p className="text-cyan">Buat sekarang.</p>
+            </Link>
+        </div>
+    )
+}

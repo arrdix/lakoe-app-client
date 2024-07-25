@@ -7,9 +7,19 @@ import {
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Button } from "../ui/button";
+import { useProductCheckedContext } from "@/context/checkedProductContext";
+import useProductsQuery from "@/hooks/useProductsQuery";
 
 export default function NonaktifProductsModal() {
   const [open, setOpen] = useState(false);
+  const { sku } = useProductCheckedContext();
+  const {nonActivedProducts} = useProductsQuery()
+  async function nonActivedProductsBySku(skus: string[]) {
+    const { mutateAsync } = nonActivedProducts;
+    await mutateAsync({
+      skus
+    });
+  }
 
   return (
     <div>
@@ -23,15 +33,15 @@ export default function NonaktifProductsModal() {
       </button>
 
       {/* Background Overlay */}
-      {open && <div className="fixed inset-0 bg-black opacity-50 z-10"></div>}
+      {open && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
 
-      <Dialog open={open} onClose={setOpen} className="relative z-10">
+      <Dialog open={open} onClose={setOpen} className="relative z-50">
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
         />
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
@@ -50,12 +60,12 @@ export default function NonaktifProductsModal() {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Nonaktifkan 5 Produk
+                      Nonaktifkan {sku.length} Produk
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Produk yang dinonaktifkan tidak akan bisa dilihat oleh calon pembeli. Pastikan
-                        tindakan kamu benar!
+                        Produk yang dinonaktifkan tidak akan bisa dilihat oleh
+                        calon pembeli. Pastikan tindakan kamu benar!
                       </p>
                     </div>
                   </div>
@@ -67,6 +77,7 @@ export default function NonaktifProductsModal() {
                   className="bg-cyan text-white px-5 py-0"
                   onClick={() => {
                     setOpen(false);
+                    nonActivedProductsBySku(sku);
                   }}
                 >
                   Ya, Nonaktifkan

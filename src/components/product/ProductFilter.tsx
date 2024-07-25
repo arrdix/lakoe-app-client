@@ -1,68 +1,79 @@
-import React from "react";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { LuPackageSearch } from "react-icons/lu";
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { LuPackageSearch } from 'react-icons/lu'
+import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
 
-export function InputDemo() {
-  return <Input type="email" placeholder="Email" />;
+interface data {
+    dataInput: string
+    sortFilter: string
 }
 
-export default function ProductFilter() {
-  return (
-    <div className="flex justify-between my-4 gap-2">
-      <form className="w-80">
-        <div className="relative">
-          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <LuPackageSearch className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-          </div>
-          <Input
-            type="search"
-            id="default-search"
-            className="block w-full pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-600"
-            placeholder="Cari Produk"
-            required
-          />
+interface FilterProps {
+    onChange: (data: data) => void
+}
+
+export default function ProductFilter({ onChange }: FilterProps) {
+    const { setValue, getValues } = useForm()
+    const [dataInput, setDataInput] = useState<string>('')
+    const [sortfilter, setSorFilter] = useState<string>('')
+
+    useEffect(() => {
+        const data: data = {
+            dataInput: dataInput,
+            sortFilter: sortfilter,
+        }
+        onChange(data)
+    }, [dataInput, sortfilter])
+
+    return (
+        <div className="flex my-4 justify-between">
+            <form className="w-80">
+                <div className="relative">
+                    <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <LuPackageSearch className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    </div>
+                    <Input
+                        type="search"
+                        id="default-search"
+                        className="block w-full pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-600"
+                        placeholder="Cari Produk"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            const { value } = e.target
+                            setValue('data', value)
+                            const data = getValues()
+                            setDataInput(data.data)
+                        }}
+                    />
+                </div>
+            </form>
+
+            <Select
+                onValueChange={(value) => {
+                    setSorFilter(value)
+                }}
+            >
+                <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Urutkan" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectGroup>
+                        <SelectLabel>Urutkan</SelectLabel>
+                        <SelectItem value="harga terendah">Harga terendah</SelectItem>
+                        <SelectItem value="harga tertinggi">Harga tertinggi</SelectItem>
+                        <SelectItem value="stok tertinggi">Stok tertinggi</SelectItem>
+                        <SelectItem value="stok terendah">Stok terendah</SelectItem>
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
         </div>
-      </form>
-
-      <Select>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Semua Kategori" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectItem value="apple">Semua Kategori</SelectItem>
-            <SelectItem value="banana">kategori 1</SelectItem>
-            <SelectItem value="blueberry">kategori 2</SelectItem>
-            <SelectItem value="grapes">kategori 3</SelectItem>
-            <SelectItem value="pineapple">kategori 4</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
-      <Select>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Urutkan" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Urutkan</SelectLabel>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="banana">Banana</SelectItem>
-            <SelectItem value="blueberry">Blueberry</SelectItem>
-            <SelectItem value="grapes">Grapes</SelectItem>
-            <SelectItem value="pineapple">Pineapple</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </div>
-  );
+    )
 }

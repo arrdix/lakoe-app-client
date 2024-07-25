@@ -8,9 +8,19 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { BiTrash } from "react-icons/bi";
 import { Button } from "../ui/button";
+import { useProductCheckedContext } from "@/context/checkedProductContext";
+import useProductsQuery from "@/hooks/useProductsQuery";
 
 export default function DeleteProductsModal() {
   const [open, setOpen] = useState(false);
+  const { sku } = useProductCheckedContext();
+  const { deleteProducts } = useProductsQuery();
+  async function deleteProductsBySku(skus: string[]) {
+    const { mutateAsync } = deleteProducts;
+    await mutateAsync({
+      skus,
+    });
+  }
 
   return (
     <div>
@@ -20,19 +30,19 @@ export default function DeleteProductsModal() {
         onClick={() => setOpen(true)}
         className="rounded-lg p-1 border border-gray-300"
       >
-        <BiTrash size={13}/>
+        <BiTrash size={13} />
       </button>
 
       {/* Background Overlay */}
-      {open && <div className="fixed inset-0 bg-black opacity-50 z-10"></div>}
+      {open && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
 
-      <Dialog open={open} onClose={setOpen} className="relative z-10">
+      <Dialog open={open} onClose={setOpen} className="relative z-50">
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
         />
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
@@ -51,7 +61,7 @@ export default function DeleteProductsModal() {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Hapus 5 Produk
+                      Hapus {sku.length} Produk
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
@@ -68,6 +78,8 @@ export default function DeleteProductsModal() {
                   className="bg-cyan text-white px-5 py-0"
                   onClick={() => {
                     setOpen(false);
+
+                    deleteProductsBySku(sku);
                   }}
                 >
                   Ya, Hapus

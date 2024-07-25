@@ -6,33 +6,48 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { BiTrash } from "react-icons/bi";
 import { Button } from "../ui/button";
+import { BiTrash } from "react-icons/bi";
+import useProductsQuery from "@/hooks/useProductsQuery";
 
-export default function DeleteProductModal() {
+interface DeleteProductModalProps {
+  productSku: string;
+}
+
+export default function DeleteProductModal({
+  productSku,
+}: DeleteProductModalProps) {
   const [open, setOpen] = useState(false);
+  const { deleteProduct } = useProductsQuery();
+
+  async function deleteProductBySku(sku: string) {
+    const { mutateAsync } = deleteProduct;
+    await mutateAsync({
+      sku: sku,
+    });
+  }
 
   return (
     <div>
       {/* Tombol Pemicu */}
       <Button
-        type="button"
+        variant={"outline"}
+        className="text-xs"
         onClick={() => setOpen(true)}
-        className="rounded-lg p-1 border border-gray-300 text-black bg-white border-none"
       >
-        <BiTrash size={13} className="mr-2 text-black"/> Hapus Produk
+        <BiTrash className="mr-1" />
+        Hapus Produk
       </Button>
-
       {/* Background Overlay */}
-      {open && <div className="fixed inset-0 bg-black opacity-50 z-10"></div>}
+      {open && <div className="fixed inset-0 bg-black opacity-50 z-50"></div>}
 
-      <Dialog open={open} onClose={setOpen} className="relative z-10">
+      <Dialog open={open} onClose={setOpen} className="relative z-50 ">
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
         />
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed inset-0 z-50  w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
@@ -51,12 +66,14 @@ export default function DeleteProductModal() {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Hapus 5 Produk
+                      Hapus Produk
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Produk yang dihapus tidak akan bisa dibatalkan. Pastikan
-                        produk yang dipilih sudah benar!
+                        Hapus produk{" "}
+                        <span className="font-semibold uppercase">
+                          {productSku}
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -68,6 +85,7 @@ export default function DeleteProductModal() {
                   className="bg-cyan text-white px-5 py-0"
                   onClick={() => {
                     setOpen(false);
+                    deleteProductBySku(productSku);
                   }}
                 >
                   Ya, Hapus

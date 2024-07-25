@@ -6,24 +6,38 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { Button } from "../ui/button";
+import ValidatedInput from "../utils/ValidatedInput";
+import { useForm } from "react-hook-form";
+import { UpdateVariantOptionValueDto } from "@/dtos/ProductDto";
+import API from "@/networks/api";
 
-export default function AktifProductModal() {
+export default function AktifProductModal({productSku}:{productSku:string}) {
   const [open, setOpen] = useState(true);
+  const hookForm = useForm<UpdateVariantOptionValueDto>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = hookForm;
 
+  async function UPDATE_IS_ACTIVED() {
+    const update = await API.PRODUCT.UPDATE_IS_ACTIVE_BY_SKU(productSku);
+    console.log(update);
+  }
   return (
     <div>
       {open && (
         // Overlay Latar Belakang
-        <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
+        <div className="fixed inset-0 bg-black opacity-50 z-50"></div>
       )}
 
-      <Dialog open={open} onClose={setOpen} className="relative z-10">
+      <Dialog open={open} onClose={setOpen} className="relative z-50">
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
         />
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
@@ -43,93 +57,38 @@ export default function AktifProductModal() {
                         Pastikan stok tersedia untuk mengaktifkan produk
                       </p>
 
-                      <div>
-                        <p className="text-sm font-semibold mb-2">Sage-S</p>
-                        <div className="flex gap-2">
-                          <form className="flex flex-col gap-1 w-full">
-                            <label htmlFor="productName" className="text-sm">
-                              Deskripsi <span className="text-red-500">*</span>
-                            </label>
-                            <div className="flex">
-                              <div
-                                data-dropdown-toggle="dropdown"
-                                className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
-                              >
-                                RP
-                              </div>
-                              <div className="relative w-full">
-                                <input
-                                  type="search"
-                                  id="search-dropdown"
-                                  className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                                  placeholder="Masukan harga"
-                                  required
-                                />
-                              </div>
-                            </div>
-                          </form>
+                      <div className="flex gap-2">
+                        {/* input harga */}
+                        <div className="flex flex-col gap-1 w-full">
+                          <label className="text-sm">
+                            Harga <span className="text-red-500">*</span>
+                          </label>
 
-                          <form className="flex flex-col gap-1 w-full">
-                            <label htmlFor="productName" className="text-sm">
-                              Stok Produk <span className="text-red-500">*</span>
-                            </label>
-                            <div className="flex">
-                              <div className="relative w-full">
-                                <input
-                                  type="search"
-                                  id="search-dropdown"
-                                  className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                                  placeholder="Masukan stok barang"
-                                  required
-                                />
-                              </div>
-                            </div>
-                          </form>
+                          <ValidatedInput
+                            error={errors.price}
+                            name="price"
+                            placeholder="masukan harga"
+                            register={register}
+                            type="text"
+                            id="price"
+                            leftLabel="RP"
+                          />
                         </div>
-                      </div>
 
-                      <div>
-                        <p className="text-sm font-semibold mb-2">Sage-S</p>
-                        <div className="flex gap-2">
-                          <form className="flex flex-col gap-1 w-full">
-                            <label htmlFor="productName" className="text-sm">
-                              Deskripsi <span className="text-red-500">*</span>
-                            </label>
-                            <div className="flex">
-                              <div
-                                data-dropdown-toggle="dropdown"
-                                className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
-                              >
-                                RP
-                              </div>
-                              <div className="relative w-full">
-                                <input
-                                  type="search"
-                                  id="search-dropdown"
-                                  className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                                  placeholder="Masukan harga"
-                                  required
-                                />
-                              </div>
-                            </div>
-                          </form>
+                        {/* input stok */}
+                        <div className="flex flex-col gap-1 w-full">
+                          <label className="text-sm">
+                            stok <span className="text-red-500">*</span>
+                          </label>
 
-                          <form className="flex flex-col gap-1 w-full">
-                            <label htmlFor="productName" className="text-sm">
-                              Stok Produk <span className="text-red-500">*</span>
-                            </label>
-                            <div className="flex">
-                              <div className="relative w-full">
-                                <input
-                                  type="search"
-                                  id="search-dropdown"
-                                  className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                                  placeholder="Masukan stok barang"
-                                  required
-                                />
-                              </div>
-                            </div>
-                          </form>
+                          <ValidatedInput
+                            error={errors.stock}
+                            name="price"
+                            placeholder="masukan stok"
+                            register={register}
+                            type="text"
+                            id="stok"
+                          />
                         </div>
                       </div>
                     </div>
@@ -140,9 +99,15 @@ export default function AktifProductModal() {
                 <Button
                   variant="outline"
                   className="bg-cyan text-white px-5 py-0"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
+                //   onClick={() => {
+                //     setOpen(false);
+                //     UPDATE_IS_ACTIVED()
+                //   }}
+                onClick={handleSubmit((data)=>{
+                    console.log(data)
+                    setOpen(false)
+                    UPDATE_IS_ACTIVED()
+                })}
                 >
                   Simpan
                 </Button>
