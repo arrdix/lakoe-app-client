@@ -107,9 +107,8 @@ function StoreInfo() {
         if (isPending) {
             console.log('toast')
             toast({
-                title: 'TES',
-                description: 'Terjadi kesalahan saat menambahkan lokasi toko kamu.',
-                variant: 'failed',
+                title: 'Sedang mengatur toko.',
+                description: 'Kami sedang mengatur toko kamu.',
             })
         }
     }, [isPending])
