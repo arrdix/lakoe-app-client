@@ -782,7 +782,7 @@ const API = {
 
         FIND_ONE_BY_ID: async (id: number) => {
             try {
-                const response = await axios.get(`${CONFIG.BASE_URL}/store/${id}`, {
+                const response = await axios.get(`${CONFIG.BASE_URL}/store/find/${id}`, {
                     headers: {
                         Authorization: `Bearer ${LOCAL_STORAGE.GET()}`,
                     },

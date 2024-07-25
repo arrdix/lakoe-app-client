@@ -68,7 +68,7 @@ export default function OrderPage() {
         return orders.filter((order) => order.status === status)
     }
 
-    if (realtimeOrders && realtimeOrders.length) {
+    if (realtimeOrders) {
         const filteredOrders = filterOrdersByStatus(realtimeOrders, activeTab)
         const sortedOrders = sortOrders(filteredOrders, sortOption)
 

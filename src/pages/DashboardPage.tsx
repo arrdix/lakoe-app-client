@@ -18,6 +18,7 @@ import {
 import DashboardCard from '@/components/dashboard/DashboardCard'
 import { useEffect, useState } from 'react'
 import API from '@/networks/api'
+import { Link } from 'react-router-dom'
 
 const chartConfig = {} satisfies ChartConfig
 
@@ -166,4 +167,13 @@ export default function TestDashboardPage() {
             </div>
         )
     }
+
+    return (
+        <div className="w-full bg-white rounded-lg flex flex-col p-8">
+            <p className="text-xl text-black font-semibold">Hmm, kamu belum punya toko.</p>
+            <Link to="/store-setting">
+                <p className="text-cyan">Buat sekarang.</p>
+            </Link>
+        </div>
+    )
 }

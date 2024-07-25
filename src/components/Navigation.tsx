@@ -9,6 +9,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useLakoeStore } from '@/store/store'
 import LOCAL_STORAGE from '@/networks/storage'
 import { useEffect, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 function Navigation() {
     const [activePath, setActivePath] = useState<string>('')
@@ -29,9 +30,12 @@ function Navigation() {
         setActivePath(activePath)
     }, [pathname])
 
+    const queryClient = useQueryClient()
+
     function onLogout() {
         LOCAL_STORAGE.REMOVE()
         setLoggedUser(null)
+        queryClient.removeQueries({ queryKey: ['store'] })
     }
 
     return (
